@@ -68,15 +68,6 @@ export default function About() {
               </p>
             ))}
 
-            {/* Resume download */}
-            <a
-              href="/resume.pdf"
-              download
-              className="arrow-btn"
-              style={{ marginTop: 8, width: 'fit-content' }}
-            >
-              Скачать резюме (PDF) <span aria-hidden="true">→</span>
-            </a>
           </div>
 
           {/* Right — Timeline */}
