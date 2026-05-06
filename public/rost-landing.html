@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Клуб «Рост» — Системный личностный рост | Юневерсум</title>
+<meta name="description" content="Клуб «Рост» — конвертируем хаос мыслей в системный порядок. Тренинги, зарядки, дыхательные практики, стратегические сессии с поддержкой ведущих.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS — LIGHT PURPLE-BLUE THEME
+═══════════════════════════════════════════ */
+:root {
+  --bg:      #f8f7ff;
+  --bg2:     #ffffff;
+  --bg3:     #f0ecff;
+  --card:    #ffffff;
+  --border:  #ddd6f7;
+  --border2: #c4b5f4;
+
+  --accent:  #6c3fe8;
+  --accent2: #3a8fd9;
+  --accent3: #00b4aa;
+  --warn:    #f59e0b;
+  --danger:  #e05252;
+
+  --text:    #18123a;
+  --text2:   #5a527a;
+  --text3:   #9289b8;
+
+  --grad: linear-gradient(135deg, var(--accent), var(--accent2));
+  --grad3: linear-gradient(135deg, var(--accent), var(--accent2), #00c9c1);
+  --grad-light: linear-gradient(135deg, #ede8ff, #dbeeff);
+
+  --shadow-sm: 0 2px 12px rgba(108,63,232,0.08);
+  --shadow:    0 4px 24px rgba(108,63,232,0.12);
+  --shadow-lg: 0 8px 48px rgba(108,63,232,0.18);
+
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ═══════════════════════════════════════════
+   SCROLL PROGRESS
+═══════════════════════════════════════════ */
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
+  background: var(--grad); width: 0; transition: width 0.1s;
+}
+
+/* ═══════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════ */
+.navbar {
+  position: fixed; top: 3px; left: 0; right: 0; z-index: 999;
+  padding: 0 24px;
+  transition: all 0.3s;
+}
+.navbar.scrolled {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 1px 0 rgba(108,63,232,0.1), var(--shadow-sm);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px;
+}
+.nav-logo {
+  font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--text2);
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-cta {
+  background: var(--grad); color: #fff; font-weight: 600; font-size: 14px;
+  padding: 10px 22px; border-radius: var(--radius-sm); border: none;
+  cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+  text-decoration: none;
+}
+.nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+
+/* ═══════════════════════════════════════════
+   HERO SECTION
+═══════════════════════════════════════════ */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 120px 24px 80px;
+  position: relative; overflow: hidden;
+  background: var(--bg2);
+}
+.hero-blobs {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.blob {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18;
+}
+.blob-1 { width: 600px; height: 600px; background: #a78bfa; top: -200px; right: -100px; }
+.blob-2 { width: 400px; height: 400px; background: #38bdf8; bottom: -100px; left: -50px; }
+.blob-3 { width: 300px; height: 300px; background: #818cf8; top: 40%; left: 30%; }
+
+.hero-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  position: relative; z-index: 1;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--grad-light); border: 1px solid var(--border2);
+  color: var(--accent); font-size: 13px; font-weight: 600;
+  padding: 6px 14px; border-radius: 100px; margin-bottom: 24px;
+}
+.pulse-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent3);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.hero-h1 {
+  font-size: clamp(36px, 5vw, 58px); font-weight: 900;
+  line-height: 1.15; letter-spacing: -1.5px;
+  margin-bottom: 20px;
+}
+.grad-text {
+  background: var(--grad3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 17px; color: var(--text2); line-height: 1.7;
+  margin-bottom: 36px; max-width: 500px;
+}
+.hero-cta-group { display: flex; flex-direction: column; gap: 16px; }
+.hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--grad); color: #fff; font-weight: 700; font-size: 16px;
+  padding: 16px 32px; border-radius: var(--radius-sm); border: none;
+  cursor: pointer; transition: all 0.25s; text-decoration: none;
+  position: relative; overflow: hidden;
+}
+.btn-primary::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+  transform: translateX(-100%); transition: transform 0.5s;
+}
+.btn-primary:hover::after { transform: translateX(100%); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--accent); font-weight: 600; font-size: 16px;
+  padding: 15px 28px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border2); cursor: pointer; transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-ghost:hover { background: var(--grad-light); border-color: var(--accent); }
+.hero-trust {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  font-size: 13px; color: var(--text3);
+}
+.hero-trust span { display: flex; align-items: center; gap: 5px; }
+
+/* Hero visual */
+.hero-visual { position: relative; }
+.hero-card-main {
+  background: var(--card); border-radius: 20px;
+  box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+  padding: 28px; overflow: hidden; position: relative;
+}
+.hero-card-main::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--grad3);
+}
+.hcm-head { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.hcm-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--grad); display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 14px;
+}
+.hcm-info p { font-size: 14px; font-weight: 600; color: var(--text); }
+.hcm-info span { font-size: 12px; color: var(--text3); }
+.hcm-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.hcm-metric {
+  background: var(--bg3); border-radius: 10px; padding: 12px;
+  text-align: center;
+}
+.hcm-metric .val { font-size: 22px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hcm-metric .lbl { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.hcm-prog-label { font-size: 12px; color: var(--text2); margin-bottom: 8px; display: flex; justify-content: space-between; }
+.hcm-prog-bar { height: 8px; background: var(--bg3); border-radius: 100px; overflow: hidden; margin-bottom: 6px; }
+.hcm-prog-fill { height: 100%; border-radius: 100px; background: var(--grad); }
+.hcm-tags { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+.hcm-tag {
+  font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 100px;
+  background: var(--grad-light); color: var(--accent); border: 1px solid var(--border2);
+}
+
+.float-badge {
+  position: absolute; background: var(--card);
+  border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow);
+  border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+}
+.float-badge.top { top: -20px; right: -20px; }
+.float-badge.bottom { bottom: -20px; left: -20px; }
+.fb-icon { font-size: 18px; }
+.fb-sub { font-size: 11px; color: var(--text3); font-weight: 400; }
+
+/* ═══════════════════════════════════════════
+   SOCIAL PROOF BAR
+═══════════════════════════════════════════ */
+.proof-bar {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 28px 24px;
+}
+.proof-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex-wrap: wrap;
+}
+.proof-item {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 0 36px; text-align: center;
+}
+.proof-item:not(:last-child) {
+  border-right: 1px solid var(--border);
+}
+.proof-num {
+  font-size: 30px; font-weight: 800;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+.proof-lbl { font-size: 13px; color: var(--text3); font-weight: 500; }
+
+/* ═══════════════════════════════════════════
+   SHARED SECTION STYLES
+═══════════════════════════════════════════ */
+.section { padding: 96px 24px; }
+.section-alt { background: var(--bg3); }
+.section-white { background: var(--bg2); }
+.container { max-width: 1100px; margin: 0 auto; }
+.section-label {
+  display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+}
+.section-h2 {
+  font-size: clamp(28px, 4vw, 44px); font-weight: 800;
+  letter-spacing: -1px; line-height: 1.2;
+  margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 17px; color: var(--text2); max-width: 600px; line-height: 1.7;
+  margin-bottom: 52px;
+}
+
+/* Fade-in animation */
+.fade-up {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════════════════════════════
+   FOR WHOM
+═══════════════════════════════════════════ */
+.for-whom-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+}
+.for-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 32px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.for-card-title {
+  font-size: 16px; font-weight: 700; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.for-card-title.yes { color: var(--accent3); }
+.for-card-title.no { color: var(--danger); }
+.for-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 14px; font-size: 15px; color: var(--text2);
+}
+.for-item:last-child { margin-bottom: 0; }
+.for-icon {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; margin-top: 2px;
+}
+.for-icon.yes { background: #e6faf7; color: var(--accent3); }
+.for-icon.no { background: #fdeaea; color: var(--danger); }
+
+/* ═══════════════════════════════════════════
+   PROBLEM
+═══════════════════════════════════════════ */
+.problem-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+  margin-bottom: 48px;
+}
+.problem-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 28px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--warn);
+}
+.problem-icon { font-size: 28px; margin-bottom: 12px; }
+.problem-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.problem-text { font-size: 14px; color: var(--text2); line-height: 1.6; }
+.problem-quote {
+  background: var(--grad); border-radius: var(--radius);
+  padding: 36px; text-align: center; color: white;
+}
+.problem-quote p {
+  font-size: clamp(18px, 2.5vw, 24px); font-weight: 700;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════
+   SOLUTION
+═══════════════════════════════════════════ */
+.solution-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.solution-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 28px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.solution-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.solution-card::before {
+  content: ''; display: block; height: 3px; border-radius: 3px;
+  margin-bottom: 20px;
+}
+.sc-1::before { background: linear-gradient(90deg, #6c3fe8, #9c6fee); }
+.sc-2::before { background: linear-gradient(90deg, #3a8fd9, #60b3f0); }
+.sc-3::before { background: linear-gradient(90deg, #00b4aa, #34d3c8); }
+.sc-4::before { background: linear-gradient(90deg, #f59e0b, #fcd34d); }
+.sc-5::before { background: linear-gradient(90deg, #e05252, #f87171); }
+.sc-6::before { background: linear-gradient(90deg, #818cf8, #a5b4fc); }
+.sc-num { font-size: 12px; font-weight: 700; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+.sc-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.sc-text { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+/* ═══════════════════════════════════════════
+   HOW IT WORKS
+═══════════════════════════════════════════ */
+.steps-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  position: relative;
+}
+.steps-row::before {
+  content: ''; position: absolute; top: 32px; left: 10%; right: 10%; height: 2px;
+  background: var(--border2); z-index: 0;
+}
+.step { padding: 0 20px; text-align: center; position: relative; z-index: 1; }
+.step-num {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--grad); color: white;
+  font-size: 22px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px; box-shadow: var(--shadow);
+}
+.step-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.step-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* ═══════════════════════════════════════════
+   ACTIVITIES
+═══════════════════════════════════════════ */
+.activities-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+}
+.activity-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 22px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm); display: flex; gap: 14px; align-items: flex-start;
+}
+.act-icon {
+  width: 44px; height: 44px; flex-shrink: 0; border-radius: 10px;
+  background: var(--grad-light); display: flex; align-items: center;
+  justify-content: center; font-size: 20px;
+}
+.act-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.act-freq { font-size: 12px; color: var(--accent3); font-weight: 600; }
+
+/* ═══════════════════════════════════════════
+   RESOURCES / WHAT'S INSIDE
+═══════════════════════════════════════════ */
+.resources-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+}
+.resource-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 24px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm); display: flex; gap: 14px; align-items: flex-start;
+}
+.res-icon {
+  width: 48px; height: 48px; flex-shrink: 0; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; background: var(--grad-light);
+}
+.res-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.res-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+/* ═══════════════════════════════════════════
+   CHANNELS MODEL
+═══════════════════════════════════════════ */
+.channels-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.channel-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 24px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm); text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.channel-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.ch-num {
+  font-size: 36px; font-weight: 900; line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+.ch-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.ch-sub { font-size: 12px; color: var(--text3); }
+.ch-mgmt {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 100px;
+  background: var(--grad-light); color: var(--accent);
+  border: 1px solid var(--border2); margin-top: 10px;
+}
+
+/* ═══════════════════════════════════════════
+   PRICING
+═══════════════════════════════════════════ */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  align-items: start;
+}
+.pricing-card {
+  background: var(--card); border-radius: var(--radius);
+  border: 1.5px solid var(--border); padding: 28px;
+  box-shadow: var(--shadow-sm); transition: transform 0.2s;
+}
+.pricing-card:hover { transform: translateY(-4px); }
+.pricing-card.featured {
+  border-color: var(--accent); box-shadow: var(--shadow-lg);
+  transform: scale(1.02); position: relative;
+}
+.featured-badge {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: var(--grad); color: white; font-size: 11px; font-weight: 700;
+  padding: 4px 16px; border-radius: 100px; white-space: nowrap;
+}
+.pc-period { font-size: 13px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.pc-price { font-size: 34px; font-weight: 900; letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
+.pc-price .currency { font-size: 18px; font-weight: 600; vertical-align: top; margin-top: 6px; display: inline-block; }
+.pc-per { font-size: 13px; color: var(--text3); margin-bottom: 6px; }
+.save-badge {
+  display: inline-block; font-size: 12px; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px;
+  margin-bottom: 20px;
+}
+.save-green { background: #e6faf7; color: var(--accent3); }
+.save-warn { background: #fef3c7; color: #d97706; }
+.pc-divider { height: 1px; background: var(--border); margin: 16px 0; }
+.pc-features { list-style: none; margin-bottom: 24px; }
+.pc-features li {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: 13.5px; color: var(--text2); padding: 5px 0;
+}
+.pc-features li::before {
+  content: '✓'; color: var(--accent3); font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.pc-cta {
+  display: block; text-align: center; padding: 14px;
+  border-radius: var(--radius-sm); font-weight: 700; font-size: 15px;
+  cursor: pointer; transition: all 0.2s; text-decoration: none;
+}
+.pc-cta.primary { background: var(--grad); color: white; }
+.pc-cta.ghost { border: 1.5px solid var(--border2); color: var(--accent); }
+.pc-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+.pc-note { font-size: 12px; color: var(--text3); text-align: center; margin-top: 10px; }
+
+.pricing-footer {
+  text-align: center; margin-top: 32px;
+  padding: 20px; background: var(--bg3);
+  border-radius: var(--radius); border: 1px solid var(--border);
+}
+.pricing-footer p { font-size: 14px; color: var(--text2); }
+.pricing-footer strong { color: var(--text); }
+
+/* ═══════════════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════════════ */
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  margin-bottom: 20px;
+}
+.testimonial-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 28px; border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.tc-stars { color: #f59e0b; font-size: 15px; margin-bottom: 14px; }
+.tc-quote { font-size: 14.5px; color: var(--text2); line-height: 1.7; margin-bottom: 18px; font-style: italic; }
+.tc-author { display: flex; align-items: center; gap: 10px; }
+.tc-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 14px; flex-shrink: 0;
+}
+.tc-name { font-size: 13px; font-weight: 700; }
+.tc-meta { font-size: 12px; color: var(--text3); }
+
+/* ═══════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════ */
+.faq-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.faq-item {
+  background: var(--card); border-radius: var(--radius-sm);
+  border: 1px solid var(--border); overflow: hidden;
+}
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px; cursor: pointer; font-size: 15px; font-weight: 600;
+  transition: background 0.2s; gap: 12px;
+}
+.faq-q:hover { background: var(--bg3); }
+.faq-chevron {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  background: var(--grad-light); display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s;
+}
+.faq-chevron svg { width: 12px; height: 12px; stroke: var(--accent); fill: none; stroke-width: 2.5; }
+.faq-item.open .faq-chevron { transform: rotate(180deg); }
+.faq-a {
+  max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s;
+  font-size: 14px; color: var(--text2); line-height: 1.7;
+  padding: 0 22px;
+}
+.faq-item.open .faq-a { max-height: 300px; padding: 0 22px 18px; }
+
+/* ═══════════════════════════════════════════
+   FINAL CTA
+═══════════════════════════════════════════ */
+.final-cta {
+  background: var(--grad); padding: 96px 24px; text-align: center; position: relative; overflow: hidden;
+}
+.final-cta::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.final-cta-inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
+.final-cta h2 { font-size: clamp(28px, 4vw, 46px); font-weight: 900; color: white; margin-bottom: 16px; letter-spacing: -1px; }
+.final-cta p { font-size: 17px; color: rgba(255,255,255,0.85); margin-bottom: 32px; }
+.final-cta-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; text-align: left; display: inline-block; }
+.final-cta-list li { color: rgba(255,255,255,0.9); font-size: 15px; display: flex; align-items: center; gap: 10px; }
+.final-cta-list li::before { content: '✓'; font-weight: 700; color: #7fffd4; font-size: 14px; }
+.btn-white {
+  display: inline-block; background: white; color: var(--accent);
+  font-weight: 800; font-size: 17px; padding: 18px 44px;
+  border-radius: var(--radius-sm); text-decoration: none;
+  transition: all 0.2s; box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+.final-sub { color: rgba(255,255,255,0.65); font-size: 13px; margin-top: 16px; }
+.urgency {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+  color: white; font-size: 13px; font-weight: 600;
+  padding: 6px 16px; border-radius: 100px; margin-bottom: 28px;
+}
+.urgency-dot { width: 8px; height: 8px; background: #ff6b6b; border-radius: 50%; animation: pulse 1.5s infinite; }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  background: #18123a; color: rgba(255,255,255,0.75);
+  padding: 64px 24px 32px;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+  margin-bottom: 48px;
+}
+.footer-logo {
+  font-size: 22px; font-weight: 800;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+.footer-desc { font-size: 14px; line-height: 1.6; margin-bottom: 20px; color: rgba(255,255,255,0.55); }
+.footer-h { font-size: 14px; font-weight: 700; color: white; margin-bottom: 16px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 14px; color: rgba(255,255,255,0.6); transition: color 0.2s; }
+.footer-links a:hover { color: white; }
+.footer-contact { display: flex; flex-direction: column; gap: 8px; }
+.footer-contact a { font-size: 14px; color: rgba(255,255,255,0.6); transition: color 0.2s; }
+.footer-contact a:hover { color: white; }
+.footer-divider { height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 24px; }
+.footer-bottom {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: gap;
+  font-size: 12px; color: rgba(255,255,255,0.4); gap: 16px; flex-wrap: wrap;
+}
+.footer-legal { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-legal a { color: rgba(255,255,255,0.4); transition: color 0.2s; }
+.footer-legal a:hover { color: rgba(255,255,255,0.7); }
+
+/* ═══════════════════════════════════════════
+   BACK TO TOP
+═══════════════════════════════════════════ */
+#back-top {
+  position: fixed; bottom: 28px; right: 28px; width: 48px; height: 48px;
+  border-radius: 50%; background: var(--grad); color: white;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: var(--shadow); z-index: 100;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.3s, transform 0.3s;
+  border: none;
+}
+#back-top.visible { opacity: 1; transform: translateY(0); }
+#back-top svg { width: 20px; height: 20px; stroke: white; fill: none; stroke-width: 2.5; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .hero-visual { order: -1; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: fixed; top: 68px; left: 0; right: 0;
+    background: white; padding: 24px; gap: 20px;
+    border-bottom: 1px solid var(--border); box-shadow: var(--shadow);
+  }
+  .proof-item { padding: 12px 20px; }
+  .channels-grid { grid-template-columns: repeat(2, 1fr); }
+  .solution-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-card.featured { transform: none; }
+  .steps-row { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .steps-row::before { display: none; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .faq-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .activities-grid { grid-template-columns: 1fr 1fr; }
+  .resources-grid { grid-template-columns: 1fr; }
+  .for-whom-grid { grid-template-columns: 1fr; }
+  .problem-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .hero { padding: 100px 16px 60px; }
+  .section { padding: 64px 16px; }
+  .hero-buttons { flex-direction: column; }
+  .channels-grid { grid-template-columns: 1fr 1fr; }
+  .solution-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .activities-grid { grid-template-columns: 1fr; }
+  .steps-row { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .proof-inner { flex-direction: column; gap: 12px; }
+  .proof-item { border-right: none; border-bottom: 1px solid var(--border); padding: 12px 0; }
+  .proof-item:last-child { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div id="progress-bar"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">РОСТ ✦</div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">О клубе</a></li>
+      <li><a href="#channels">Методология</a></li>
+      <li><a href="#activities">Активности</a></li>
+      <li><a href="#pricing">Тарифы</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="https://school.uneversum.com/growth" class="nav-cta" target="_blank">Вступить →</a>
+    <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="hero-inner container">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        Открыт набор · Апрель 2026
+      </div>
+      <h1 class="hero-h1">
+        Конвертируем<br>
+        <span class="grad-text">хаос мыслей</span><br>
+        в системный рост
+      </h1>
+      <p class="hero-sub">
+        Тренинги, зарядки, дыхательные практики, стратегические сессии —
+        всё в одном закрытом клубе с живыми ведущими и кураторами.
+        Выбираешь направление — получаешь маршрут.
+      </p>
+      <div class="hero-cta-group">
+        <div class="hero-buttons">
+          <a href="https://school.uneversum.com/growth" class="btn-primary" target="_blank">
+            Вступить в клуб →
+          </a>
+          <a href="#about" class="btn-ghost">Узнать больше</a>
+        </div>
+        <div class="hero-trust">
+          <span>🔒 Закрытый клуб</span>
+          <span>💎 Лимит 150 мест</span>
+          <span>⚡ от 6 900 ₽/мес</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual fade-up">
+      <div class="float-badge top">
+        <span class="fb-icon">🎯</span>
+        <div>
+          <div>Моя метрика</div>
+          <div class="fb-sub">Лёгкость общения</div>
+        </div>
+      </div>
+      <div class="hero-card-main">
+        <div class="hcm-head">
+          <div class="hcm-avatar">АЮ</div>
+          <div class="hcm-info">
+            <p>Личный кабинет</p>
+            <span>Клуб «Рост» · Юневерсум</span>
+          </div>
+        </div>
+        <div class="hcm-metrics">
+          <div class="hcm-metric">
+            <div class="val">4</div>
+            <div class="lbl">канала роста</div>
+          </div>
+          <div class="hcm-metric">
+            <div class="val">10</div>
+            <div class="lbl">метрик</div>
+          </div>
+          <div class="hcm-metric">
+            <div class="val">∞</div>
+            <div class="lbl">тренингов</div>
+          </div>
+        </div>
+        <div class="hcm-prog-label">
+          <span>Прогресс по метрике</span><span>68%</span>
+        </div>
+        <div class="hcm-prog-bar"><div class="hcm-prog-fill" style="width:68%"></div></div>
+        <div class="hcm-prog-label">
+          <span>Ежемесячные активности</span><span>3/7</span>
+        </div>
+        <div class="hcm-prog-bar"><div class="hcm-prog-fill" style="width:43%"></div></div>
+        <div class="hcm-tags">
+          <span class="hcm-tag">Самооценка</span>
+          <span class="hcm-tag">Энергия</span>
+          <span class="hcm-tag">Отношения</span>
+          <span class="hcm-tag">Карьера</span>
+        </div>
+      </div>
+      <div class="float-badge bottom">
+        <span class="fb-icon">✅</span>
+        <div>
+          <div>ДЗ проверено</div>
+          <div class="fb-sub">Куратор оставил отзыв</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SOCIAL PROOF BAR ═══ -->
+<div class="proof-bar">
+  <div class="proof-inner">
+    <div class="proof-item fade-up">
+      <div class="proof-num" data-target="150">0</div>
+      <div class="proof-lbl">мест на старте</div>
+    </div>
+    <div class="proof-item fade-up" style="transition-delay:0.1s">
+      <div class="proof-num" data-target="4">0</div>
+      <div class="proof-lbl">канала развития</div>
+    </div>
+    <div class="proof-item fade-up" style="transition-delay:0.2s">
+      <div class="proof-num" data-target="10">0</div>
+      <div class="proof-lbl">метрик роста</div>
+    </div>
+    <div class="proof-item fade-up" style="transition-delay:0.3s">
+      <div class="proof-num">7+</div>
+      <div class="proof-lbl">активностей в месяц</div>
+    </div>
+    <div class="proof-item fade-up" style="transition-delay:0.4s">
+      <div class="proof-num">−55%</div>
+      <div class="proof-lbl">экономия на год</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOR WHOM ═══ -->
+<section class="section section-white" id="about">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">ДЛЯ КОГО</div>
+      <h2 class="section-h2">Это клуб точно для вас, если…</h2>
+      <p class="section-sub">Честно — не для всех. Читайте внимательно.</p>
+    </div>
+    <div class="for-whom-grid">
+      <div class="for-card fade-up">
+        <div class="for-card-title yes">✓ Клуб «Рост» — для вас</div>
+        <div class="for-item">
+          <div class="for-icon yes">✓</div>
+          <span>Хотите расти системно, а не хаотично — читать одну книгу в месяц и видеть конкретный прогресс</span>
+        </div>
+        <div class="for-item">
+          <div class="for-icon yes">✓</div>
+          <span>Устали проходить тренинги методом перебора — нужен маршрут под конкретную метрику жизни</span>
+        </div>
+        <div class="for-item">
+          <div class="for-icon yes">✓</div>
+          <span>Хотите поддержку: чат с единомышленниками, живые встречи с ведущими, проверку заданий куратором</span>
+        </div>
+        <div class="for-item">
+          <div class="for-icon yes">✓</div>
+          <span>Готовы выполнять домашние задания — во всех тренингах они обязательны</span>
+        </div>
+        <div class="for-item">
+          <div class="for-icon yes">✓</div>
+          <span>Вам близка идея: тело, эмоции, цели и смыслы — все 4 уровня работают вместе</span>
+        </div>
+      </div>
+      <div class="for-card fade-up" style="transition-delay:0.15s">
+        <div class="for-card-title no">✗ Клуб — не для вас</div>
+        <div class="for-item">
+          <div class="for-icon no">✗</div>
+          <span>Хотите пассивно потреблять контент без практики — клуб требует реального участия</span>
+        </div>
+        <div class="for-item">
+          <div class="for-icon no">✗</div>
+          <span>Ищете быстрый результат «за 21 день без усилий» — здесь работа на глубину, не на скорость</span>
+        </div>
+        <div class="for-item">
+          <div class="for-icon no">✗</div>
+          <span>Нужна глубокая проработка жизненного сценария на уровне ствола — это задача мастер-групп «Энергия» и «Вторая Юность»</span>
+        </div>
+        <div class="for-item">
+          <div class="for-icon no">✗</div>
+          <span>Хотите доступ ко всем материалам сразу — доступ открывается последовательно, по вашему темпу</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROBLEM ═══ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">ПРОБЛЕМА</div>
+      <h2 class="section-h2">Почему личный рост часто не работает</h2>
+      <p class="section-sub">Не потому что вы недостаточно стараетесь. А потому что нет системы.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card fade-up">
+        <div class="problem-icon">📚</div>
+        <div class="problem-title">Хаос без структуры</div>
+        <div class="problem-text">Проходите тренинги методом перебора — то, что попалось на глаза, то, что посоветовали. Нет понимания, куда двигаться и что выбрать под вашу конкретную задачу.</div>
+      </div>
+      <div class="problem-card fade-up" style="transition-delay:0.1s">
+        <div class="problem-icon">🔁</div>
+        <div class="problem-title">Знания не превращаются в изменения</div>
+        <div class="problem-text">Слушаете, смотрите, читаете — а через месяц всё забыто. Нет домашних заданий, нет проверки, нет среды, которая держит в тонусе.</div>
+      </div>
+      <div class="problem-card fade-up" style="transition-delay:0.2s">
+        <div class="problem-icon">🧩</div>
+        <div class="problem-title">Нет замера прогресса</div>
+        <div class="problem-text">Непонятно, выросли ли вы на самом деле. Субъективное ощущение — не метрика. Без замера сложно понять, куда двигаться дальше.</div>
+      </div>
+      <div class="problem-card fade-up" style="transition-delay:0.3s">
+        <div class="problem-icon">🏝️</div>
+        <div class="problem-title">Одиночество на пути</div>
+        <div class="problem-text">Личный рост — задача не для одного. Без поддержки единомышленников, ведущих и кураторов мотивация гаснет, а фокус размывается.</div>
+      </div>
+    </div>
+    <div class="problem-quote fade-up" style="margin-top:24px">
+      <p>Дело не в недостатке информации.<br>Дело в отсутствии системы и среды,<br>которая превращает знания в результат.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHANNELS MODEL ═══ -->
+<section class="section section-white" id="channels">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">МЕТОДОЛОГИЯ</div>
+      <h2 class="section-h2">4 канала развития человека</h2>
+      <p class="section-sub">В основе клуба — авторская модель Юневерсума. Все тренинги построены на освоении и настройке четырёх уровней. Здоровый человек — тот, у кого все 4 работают эффективно.</p>
+    </div>
+    <div class="channels-grid">
+      <div class="channel-card fade-up">
+        <div class="ch-num">1</div>
+        <div class="ch-title">Тело физическое</div>
+        <div class="ch-sub">Палитра ощущений</div>
+        <div class="ch-mgmt">Управляется инстинктом</div>
+      </div>
+      <div class="channel-card fade-up" style="transition-delay:0.1s">
+        <div class="ch-num">2</div>
+        <div class="ch-title">Тело психическое</div>
+        <div class="ch-sub">Палитра чувств и эмоций</div>
+        <div class="ch-mgmt">Управляется подсознанием</div>
+      </div>
+      <div class="channel-card fade-up" style="transition-delay:0.2s">
+        <div class="ch-num">3</div>
+        <div class="ch-title">Хищник</div>
+        <div class="ch-sub">Достигатор целей</div>
+        <div class="ch-mgmt">Управляем сознанием</div>
+      </div>
+      <div class="channel-card fade-up" style="transition-delay:0.3s">
+        <div class="ch-num">4</div>
+        <div class="ch-title">Творец</div>
+        <div class="ch-sub">Ум-формирователь смыслов</div>
+        <div class="ch-mgmt">Управляем надсознанием</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SOLUTION — КАК РАБОТАЕТ КЛУБ ═══ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">КАК РАБОТАЕТ КЛУБ</div>
+      <h2 class="section-h2">6 элементов системы роста</h2>
+      <p class="section-sub">Клуб — это не просто база знаний и не просто тренажерный зал. Это система из шести взаимосвязанных элементов.</p>
+    </div>
+    <div class="solution-grid">
+      <div class="solution-card sc-1 fade-up">
+        <div class="sc-num">01</div>
+        <div class="sc-title">10 метрик роста</div>
+        <div class="sc-text">Мы выявили 10 главных направлений внутреннего роста. На входе выбираете метрику — замеряете уровень — получаете маршрут из тренингов.</div>
+      </div>
+      <div class="solution-card sc-2 fade-up" style="transition-delay:0.1s">
+        <div class="sc-num">02</div>
+        <div class="sc-title">База тренингов</div>
+        <div class="sc-text">Большинство тренингов старше 3-х лет автоматически попадают в базу. Каждый отсортирован по метрике, уровню сложности и глубине проработки.</div>
+      </div>
+      <div class="solution-card sc-3 fade-up" style="transition-delay:0.2s">
+        <div class="sc-num">03</div>
+        <div class="sc-title">Последовательный доступ</div>
+        <div class="sc-text">Доступ открывается не сразу, а по одному. Каждый следующий месяц — плюс один тренинг по вашей метрике. Это держит фокус.</div>
+      </div>
+      <div class="solution-card sc-4 fade-up" style="transition-delay:0.1s">
+        <div class="sc-num">04</div>
+        <div class="sc-title">Регулярные активности</div>
+        <div class="sc-text">7+ мероприятий каждый месяц: зарядки, дыхательные практики, разборы тренингов с ведущими, стратегические сессии и подкаст.</div>
+      </div>
+      <div class="solution-card sc-5 fade-up" style="transition-delay:0.2s">
+        <div class="sc-num">05</div>
+        <div class="sc-title">Ведущие и кураторы</div>
+        <div class="sc-text">Андрей и Вячеслав ведут живые встречи каждый месяц. Куратор проверяет домашние задания — во всех тренингах они обязательны.</div>
+      </div>
+      <div class="solution-card sc-6 fade-up" style="transition-delay:0.3s">
+        <div class="sc-num">06</div>
+        <div class="sc-title">Сообщество и чат</div>
+        <div class="sc-text">Закрытый чат в Телеграм с единомышленниками. Среда, которая удерживает внимание на росте и облегчает прохождение пути.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="section section-white">
+  <div class="container">
+    <div class="fade-up" style="text-align:center; max-width:600px; margin:0 auto 56px;">
+      <div class="section-label">КАК ЭТО РАБОТАЕТ</div>
+      <h2 class="section-h2">Ваш путь в клубе</h2>
+      <p class="section-sub" style="margin-bottom:0">Просто и по шагам</p>
+    </div>
+    <div class="steps-row fade-up">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Выбираете метрику</div>
+        <div class="step-text">Из 10 направлений выбираете то, которое хотите прокачать: самооценка, энергия, отношения, карьера, здоровье и другие</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">Замеряете уровень</div>
+        <div class="step-text">Фиксируете стартовую точку по выбранной метрике. Это важно — без замера не увидите прогресс</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Проходите тренинги</div>
+        <div class="step-text">Получаете доступ к подобранным тренингам по вашей метрике. Делаете ДЗ — куратор проверяет. Каждый месяц открывается новый тренинг</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title">Замеряете прогресс</div>
+        <div class="step-text">Раз в месяц — замер метрики. Видите реальную динамику, корректируете путь, остаётесь в тонусе благодаря активностям</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ACTIVITIES ═══ -->
+<section class="section section-alt" id="activities">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">ЕЖЕМЕСЯЧНЫЕ АКТИВНОСТИ</div>
+      <h2 class="section-h2">Что происходит каждый месяц</h2>
+      <p class="section-sub">7+ регулярных мероприятий — именно они удерживают вас в энергии изменений. Расписание на сайте.</p>
+    </div>
+    <div class="activities-grid">
+      <div class="activity-card fade-up">
+        <div class="act-icon">📖</div>
+        <div>
+          <div class="act-title">Разбор тренинга с Вячеславом</div>
+          <div class="act-freq">1 раз в месяц</div>
+        </div>
+      </div>
+      <div class="activity-card fade-up" style="transition-delay:0.05s">
+        <div class="act-icon">🎙️</div>
+        <div>
+          <div class="act-title">Разбор тренинга с Андреем</div>
+          <div class="act-freq">1 раз в месяц</div>
+        </div>
+      </div>
+      <div class="activity-card fade-up" style="transition-delay:0.1s">
+        <div class="act-icon">🎬</div>
+        <div>
+          <div class="act-title">Разбор фильмов</div>
+          <div class="act-freq">1 раз в месяц</div>
+        </div>
+      </div>
+      <div class="activity-card fade-up" style="transition-delay:0.15s">
+        <div class="act-icon">🫁</div>
+        <div>
+          <div class="act-title">День голодания + зарядка тела + дыхательные практики с Андреем</div>
+          <div class="act-freq">1 раз в месяц</div>
+        </div>
+      </div>
+      <div class="activity-card fade-up" style="transition-delay:0.2s">
+        <div class="act-icon">🗓️</div>
+        <div>
+          <div class="act-title">Планирование распорядка дня / недели / месяца с Андреем</div>
+          <div class="act-freq">1 раз в месяц</div>
+        </div>
+      </div>
+      <div class="activity-card fade-up" style="transition-delay:0.25s">
+        <div class="act-icon">🎯</div>
+        <div>
+          <div class="act-title">Стратегическая сессия «Подведение итогов года»</div>
+          <div class="act-freq">2 раза в год</div>
+        </div>
+      </div>
+      <div class="activity-card fade-up" style="transition-delay:0.3s">
+        <div class="act-icon">🎧</div>
+        <div>
+          <div class="act-title">Подкаст «Подсознательные игры» с Андреем Ясным</div>
+          <div class="act-freq">1 раз в месяц</div>
+        </div>
+      </div>
+      <div class="activity-card fade-up" style="transition-delay:0.35s; background: var(--grad-light); border-color: var(--border2);">
+        <div class="act-icon">🎁</div>
+        <div>
+          <div class="act-title">Список активностей может быть изменён и дополнен</div>
+          <div class="act-freq" style="color: var(--text3)">Следите за обновлениями</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESOURCES ═══ -->
+<section class="section section-white">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">ЧТО ВНУТРИ</div>
+      <h2 class="section-h2">Материалы, доступные участнику</h2>
+      <p class="section-sub">Сразу при вступлении вы получаете доступ к стартовым материалам. Новые открываются последовательно.</p>
+    </div>
+    <div class="resources-grid">
+      <div class="resource-card fade-up">
+        <div class="res-icon">🎯</div>
+        <div>
+          <div class="res-title">Марафон по созданию Целевого Образа (ЦО)</div>
+          <div class="res-text">Записи марафона — для тех, кто хочет сформировать чёткий образ желаемого будущего. Доступны сразу.</div>
+        </div>
+      </div>
+      <div class="resource-card fade-up" style="transition-delay:0.1s">
+        <div class="res-icon">📋</div>
+        <div>
+          <div class="res-title">Трансляции «Подведение итогов» за все годы</div>
+          <div class="res-text">Записи стратегических сессий — разбор прошлого года и проектирование следующего. Ценный архив.</div>
+        </div>
+      </div>
+      <div class="resource-card fade-up" style="transition-delay:0.05s">
+        <div class="res-icon">📗</div>
+        <div>
+          <div class="res-title">Книга «30 пазлов мозаики жизни»</div>
+          <div class="res-text">Электронная книга об основах построения внутренней и внешней Вселенной человека. Авторская методология.</div>
+        </div>
+      </div>
+      <div class="resource-card fade-up" style="transition-delay:0.15s">
+        <div class="res-icon">🤖</div>
+        <div>
+          <div class="res-title">Курс «ИИ для своих»</div>
+          <div class="res-text">Полный курс по основам нейросетей и искусственного интеллекта. Для тех, кто хочет использовать ИИ в жизни и работе.</div>
+        </div>
+      </div>
+      <div class="resource-card fade-up" style="transition-delay:0.1s">
+        <div class="res-icon">💬</div>
+        <div>
+          <div class="res-title">Закрытый чат в Телеграм</div>
+          <div class="res-text">Общение с единомышленниками, поддержка на пути, обсуждение тренингов и активностей.</div>
+        </div>
+      </div>
+      <div class="resource-card fade-up" style="transition-delay:0.2s">
+        <div class="res-icon">✍️</div>
+        <div>
+          <div class="res-title">Проверка ДЗ куратором</div>
+          <div class="res-text">Во всех тренингах обязательные домашние задания. Куратор проверяет и даёт обратную связь — это ключевой элемент системы.</div>
+        </div>
+      </div>
+      <div class="resource-card fade-up" style="transition-delay:0.15s">
+        <div class="res-icon">🔒</div>
+        <div>
+          <div class="res-title">Практикумы — 2 занятия каждые 3 месяца</div>
+          <div class="res-text">Отдельные практически-ориентированные занятия открываются каждые 3 месяца непрерывного участия в клубе.</div>
+        </div>
+      </div>
+      <div class="resource-card fade-up" style="transition-delay:0.25s">
+        <div class="res-icon">🎞️</div>
+        <div>
+          <div class="res-title">Записи предыдущих мероприятий</div>
+          <div class="res-text">Все прошедшие активности клуба доступны в записи — не пропустите ничего важного.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<section class="section section-alt" id="pricing">
+  <div class="container">
+    <div class="fade-up" style="text-align:center; max-width:600px; margin:0 auto 52px;">
+      <div class="section-label">ТАРИФЫ</div>
+      <h2 class="section-h2">Выберите период участия</h2>
+      <p class="section-sub" style="margin:0 auto">Одни и те же материалы и активности — разная длина пути и экономия.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-up">
+        <div class="pc-period">1 месяц</div>
+        <div class="pc-price"><span class="currency">₽</span> 6 900</div>
+        <div class="pc-per">6 900 ₽/месяц</div>
+        <div class="pc-divider"></div>
+        <ul class="pc-features">
+          <li>Доступ к тренингам по выбранной метрике</li>
+          <li>Все ежемесячные активности</li>
+          <li>Закрытый чат Телеграм</li>
+          <li>Проверка ДЗ куратором</li>
+          <li>Стартовые материалы</li>
+        </ul>
+        <a href="https://school.uneversum.com/growth" class="pc-cta ghost" target="_blank">Подписаться</a>
+        <div class="pc-note">Отмена в любой момент</div>
+      </div>
+
+      <div class="pricing-card fade-up" style="transition-delay:0.1s">
+        <div class="pc-period">3 месяца</div>
+        <div class="pc-price"><span class="currency">₽</span> 16 500</div>
+        <div class="pc-per">5 500 ₽/месяц</div>
+        <div class="save-badge save-warn">Экономия 20%</div>
+        <div class="pc-divider"></div>
+        <ul class="pc-features">
+          <li>Всё из тарифа «1 месяц»</li>
+          <li>Экономия 1 400 ₽</li>
+          <li>Время пройти 3 тренинга по метрике</li>
+          <li>Первые практикумы через 3 месяца</li>
+        </ul>
+        <a href="https://school.uneversum.com/growth" class="pc-cta ghost" target="_blank">Оформить подписку</a>
+        <div class="pc-note">Фиксированная цена сохраняется</div>
+      </div>
+
+      <div class="pricing-card featured fade-up" style="transition-delay:0.2s">
+        <div class="featured-badge">✦ Самый выгодный</div>
+        <div class="pc-period">6 месяцев</div>
+        <div class="pc-price"><span class="currency">₽</span> 27 900</div>
+        <div class="pc-per">4 650 ₽/месяц</div>
+        <div class="save-badge save-green">Экономия 33%</div>
+        <div class="pc-divider"></div>
+        <ul class="pc-features">
+          <li>Всё из предыдущих тарифов</li>
+          <li>Экономия 13 500 ₽</li>
+          <li>2 сессии практикумов (каждые 3 мес.)</li>
+          <li>6 тренингов по выбранной метрике</li>
+          <li>Скидка на другие мероприятия Юневерсума</li>
+        </ul>
+        <a href="https://school.uneversum.com/growth" class="pc-cta primary" target="_blank">Оформить подписку</a>
+        <div class="pc-note">Фиксированная цена сохраняется</div>
+      </div>
+
+      <div class="pricing-card fade-up" style="transition-delay:0.3s">
+        <div class="pc-period">12 месяцев</div>
+        <div class="pc-price"><span class="currency">₽</span> 36 900</div>
+        <div class="pc-per">3 075 ₽/месяц</div>
+        <div class="save-badge save-green">Экономия 55%</div>
+        <div class="pc-divider"></div>
+        <ul class="pc-features">
+          <li>Максимальная экономия</li>
+          <li>Экономия 45 900 ₽</li>
+          <li>4 сессии практикумов</li>
+          <li>12 тренингов по метрике</li>
+          <li>Полная стратегическая сессия года</li>
+          <li>Скидка на все мероприятия Юневерсума</li>
+        </ul>
+        <a href="https://school.uneversum.com/growth" class="pc-cta ghost" target="_blank">Оформить подписку</a>
+        <div class="pc-note">Фиксированная цена сохраняется</div>
+      </div>
+    </div>
+    <div class="pricing-footer fade-up">
+      <p>❄️ <strong>Заморозка:</strong> 1 раз в год на 1 месяц. В период заморозки оплата не списывается, доступ приостанавливается. После — рекуррентные списания продолжаются по прежней цене. При отмене подписки — фиксированная цена теряется.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="section section-white">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">УЧАСТНИКИ</div>
+      <h2 class="section-h2">Что говорят в клубе</h2>
+      <p class="section-sub">Реальные голоса тех, кто уже внутри.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-up">
+        <div class="tc-stars">★★★★★</div>
+        <div class="tc-quote">«Наконец-то понял, почему раньше ничего не менялось. Я проходил тренинги хаотично. Здесь выбрал метрику — самооценку — и увидел конкретный маршрут. Через 2 месяца замерил — +4 балла. Первый раз вижу прогресс в цифрах.»</div>
+        <div class="tc-author">
+          <div class="tc-avatar" style="background: linear-gradient(135deg, #6c3fe8, #3a8fd9)">АС</div>
+          <div>
+            <div class="tc-name">Алексей С.</div>
+            <div class="tc-meta">В клубе 3 месяца</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up" style="transition-delay:0.1s">
+        <div class="tc-stars">★★★★★</div>
+        <div class="tc-quote">«Подкаст "Подсознательные игры" и ежемесячные разборы с Андреем — это отдельная ценность. После каждой встречи что-то щёлкает и видишь жизнь по-другому. Уже продлила на 6 месяцев.»</div>
+        <div class="tc-author">
+          <div class="tc-avatar" style="background: linear-gradient(135deg, #00b4aa, #3a8fd9)">МК</div>
+          <div>
+            <div class="tc-name">Мария К.</div>
+            <div class="tc-meta">В клубе 5 месяцев</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up" style="transition-delay:0.2s">
+        <div class="tc-stars">★★★★★</div>
+        <div class="tc-quote">«Домашние задания с проверкой куратора — это то, чего мне не хватало во всех других проектах. Когда знаешь, что кто-то прочитает — делаешь иначе. Глубже. Честнее с собой.»</div>
+        <div class="tc-author">
+          <div class="tc-avatar" style="background: linear-gradient(135deg, #f59e0b, #e05252)">ДН</div>
+          <div>
+            <div class="tc-name">Дмитрий Н.</div>
+            <div class="tc-meta">В клубе 2 месяца</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="section section-alt" id="faq">
+  <div class="container">
+    <div class="fade-up" style="text-align:center; max-width:600px; margin:0 auto 48px;">
+      <div class="section-label">ВОПРОСЫ И ОТВЕТЫ</div>
+      <h2 class="section-h2">Часто спрашивают</h2>
+    </div>
+    <div class="faq-grid fade-up">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Сколько времени нужно в день?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a">Клуб создан для встраивания в реальную жизнь. Ежемесячные активности — раз в месяц по 1–2 часа. Тренинги проходите в своём темпе. Ключевое — делать домашние задания после каждого блока.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Что если пропущу несколько недель?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a">Все записи мероприятий сохраняются и доступны участнику. Тренинги не пропадают. Если нужна пауза — можно воспользоваться заморозкой (1 раз в год на 1 месяц).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Можно ли заморозить подписку?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a">Да. Заморозка доступна 1 раз в год на 1 месяц. В период заморозки оплата не списывается, доступ к материалам приостанавливается. После окончания — рекуррентные списания возобновляются по прежней цене.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Что получаю с первого дня?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a">Сразу доступны: стартовые материалы (марафон ЦО, книга «30 пазлов», трансляции «Подведение итогов», курс «ИИ для своих»), тренинг текущего месяца для всех участников, закрытый чат в Телеграм и выбранный вами тренинг по метрике.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Чем клуб отличается от мастер-групп?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a">Мастер-группы «Энергия» и «Вторая Юность» — это глубокая проработка жизненного сценария (ствол дерева). Клуб «Рост» — работа на уровне конкретных навыков и метрик (листья и ветки). Оба формата дополняют друг друга.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Есть ли ограничение на вход?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a">Да. На старте мы принимаем не более 150 участников — это техническое ограничение, которое будем снимать со временем. Если набор открыт, вступайте сейчас — цена фиксируется за вами навсегда.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Как происходит оплата?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a">Оплата через платформу school.uneversum.com. После оформления подписки рекуррентные списания происходят автоматически. При отмене — фиксированная цена теряется, при следующем вступлении будет актуальная стоимость.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Сколько тренингов доступно?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-a">В базу клуба автоматически попадает большинство тренингов Юневерсума старше 3 лет. Это десятки программ, отсортированных по 10 метрикам и уровням сложности. Доступ открывается последовательно — по одному в месяц.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <div class="urgency">
+      <span class="urgency-dot"></span>
+      Ограниченный набор · Лимит 150 мест
+    </div>
+    <h2>Начните системный рост сегодня</h2>
+    <p>Присоединяйтесь к закрытому клубу, где хаос мыслей превращается в конкретные результаты</p>
+    <ul class="final-cta-list">
+      <li>Выберите метрику — получите готовый маршрут</li>
+      <li>Живые встречи с Андреем и Вячеславом каждый месяц</li>
+      <li>Цена фиксируется за вами навсегда</li>
+    </ul>
+    <a href="https://school.uneversum.com/growth" class="btn-white" target="_blank">Вступить в клуб →</a>
+    <div class="final-sub">от 6 900 ₽/мес · Заморозка включена · school.uneversum.com</div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">РОСТ ✦</div>
+      <div class="footer-desc">Закрытый клуб личностного роста Юневерсум. Конвертируем хаос мыслей в системный порядок через тренинги, практики и живые встречи.</div>
+      <div style="font-size:13px; color: rgba(255,255,255,0.4)">
+        ИП ЮНЕВ А.А.<br>
+        ОГРНИП 318784700040422<br>
+        ИНН 782615331089
+      </div>
+    </div>
+    <div>
+      <div class="footer-h">Клуб</div>
+      <ul class="footer-links">
+        <li><a href="#about">О клубе</a></li>
+        <li><a href="#channels">Методология</a></li>
+        <li><a href="#activities">Активности</a></li>
+        <li><a href="#pricing">Тарифы</a></li>
+        <li><a href="https://uneversum.ru/raspisanie-klub-rost" target="_blank">Расписание</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-h">Поддержка</div>
+      <ul class="footer-links">
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="https://uneversum.com/soglasie/" target="_blank">Согласие на обработку данных</a></li>
+        <li><a href="https://uneversum.com/privacy_policy/" target="_blank">Политика конфиденциальности</a></li>
+        <li><a href="https://uneversum.com/oferta_club/" target="_blank">Договор оферты</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-h">Связаться</div>
+      <div class="footer-contact">
+        <a href="tel:+78124674504">8 (812) 467-45-4</a>
+        <a href="mailto:info@uneversum.com">info@uneversum.com</a>
+        <a href="https://uneversum.com" target="_blank">uneversum.com</a>
+        <a href="https://school.uneversum.com/growth" target="_blank" style="margin-top:12px; display:inline-flex; align-items:center; gap:6px; background: var(--grad); padding:10px 18px; border-radius:8px; color:white; font-weight:600; font-size:13px;">Вступить в клуб →</a>
+      </div>
+    </div>
+  </div>
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <div>© 2026 Клуб «Рост» · Юневерсум</div>
+      <div class="footer-legal">
+        <a href="https://uneversum.com/privacy_policy/" target="_blank">Политика конфиденциальности</a>
+        <a href="https://uneversum.com/oferta_club/" target="_blank">Договор оферты</a>
+        <a href="https://uneversum.com/soglasie/" target="_blank">Согласие на данные</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+/* ── Progress bar ── */
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = el.scrollTop / (el.scrollHeight - el.clientHeight) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('navbar').classList.toggle('scrolled', el.scrollTop > 60);
+  document.getElementById('back-top').classList.toggle('visible', el.scrollTop > 400);
+});
+
+/* ── Mobile menu ── */
+function toggleMenu() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
+/* ── Counter animation ── */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  if (!target) return;
+  let start = 0;
+  const duration = 1400;
+  const step = timestamp => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    el.textContent = Math.round(progress * target);
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/* ── IntersectionObserver ── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      const counters = e.target.querySelectorAll('[data-target]');
+      counters.forEach(animateCounter);
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+/* ── FAQ accordion ── */
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+/* ── Active nav highlight ── */
+const sections = document.querySelectorAll('section[id], div[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + e.target.id ? 'var(--accent)' : '';
+      });
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => sectionObserver.observe(s));
+</script>
+</body>
+</html>
