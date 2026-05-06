@@ -5,25 +5,31 @@ import { Project } from '@/types/project'
 export default function ProjectFeatured({ project }: { project: Project }) {
   return (
     <article style={{
-      background: 'var(--color-text)',
+      background: 'var(--color-bg2)',
+      border: '1px solid var(--color-border)',
       borderRadius: 'var(--radius-lg)',
       overflow: 'hidden',
-      boxShadow: 'var(--shadow-xl)',
+      boxShadow: 'var(--shadow-lg)',
       display: 'grid',
-      gridTemplateColumns: '1fr 280px',
+      gridTemplateColumns: '1fr 260px',
       minHeight: 320,
-      transition: 'transform 0.22s ease',
+      transition: 'transform 0.22s ease, box-shadow 0.22s ease',
     }}
-      onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-3px)')}
-      onMouseLeave={e => (e.currentTarget.style.transform = 'translateY(0)')}
+      onMouseEnter={e => {
+        e.currentTarget.style.transform = 'translateY(-3px)'
+        e.currentTarget.style.boxShadow = 'var(--shadow-xl)'
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.transform = 'translateY(0)'
+        e.currentTarget.style.boxShadow = 'var(--shadow-lg)'
+      }}
       className="featured-layout"
     >
-      {/* Main content */}
+      {/* Основной контент */}
       <div style={{
         padding: 'clamp(28px, 4vw, 48px)',
         display: 'flex', flexDirection: 'column', gap: 20,
       }}>
-        {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
           <span style={{ fontSize: '1.75rem', lineHeight: 1 }}>{project.icon}</span>
           <div>
@@ -36,28 +42,26 @@ export default function ProjectFeatured({ project }: { project: Project }) {
               fontFamily: 'var(--font-display)', fontWeight: 800,
               fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)',
               lineHeight: 1.05, letterSpacing: '-0.03em',
-              color: 'oklch(0.95 0.010 80)', margin: 0,
+              color: 'var(--color-text)', margin: 0,
             }}>{project.title}</h3>
           </div>
           <span style={{
             marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.7rem',
             letterSpacing: '0.04em', padding: '4px 10px', borderRadius: 100,
-            background: 'oklch(0.93 0.06 145 / 0.12)', color: 'oklch(0.72 0.17 145)',
+            background: 'oklch(0.93 0.06 145 / 0.15)', color: 'oklch(0.40 0.15 145)',
             display: 'inline-flex', alignItems: 'center', gap: 5,
           }}>
             <span className="dot-live" /> live
           </span>
         </div>
 
-        {/* Description */}
         <p style={{
           fontFamily: 'var(--font-body)', fontSize: '0.95rem',
-          lineHeight: 1.7, color: 'oklch(0.75 0.012 80)', maxWidth: '65ch', margin: 0,
+          lineHeight: 1.7, color: 'var(--color-text2)', maxWidth: '65ch', margin: 0,
         }}>
           {project.description}
         </p>
 
-        {/* Features */}
         <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
           {project.features.map((f, i) => {
             const isLast = i === project.features.length - 1
@@ -69,20 +73,19 @@ export default function ProjectFeatured({ project }: { project: Project }) {
                 }}>{isLast ? '└─' : '├─'}</span>
                 <span style={{
                   fontFamily: 'var(--font-body)', fontSize: '0.875rem',
-                  lineHeight: 1.55, color: 'oklch(0.72 0.012 258)',
+                  lineHeight: 1.55, color: 'var(--color-text3)',
                 }}>{f}</span>
               </li>
             )
           })}
         </ul>
 
-        {/* Actions */}
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center', marginTop: 4 }}>
           {project.link && (
             <a href={project.link} target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '0.875rem',
-              color: 'var(--color-text)', background: 'var(--color-accent)',
+              color: 'oklch(0.15 0.015 258)', background: 'var(--color-accent)',
               padding: '10px 22px', borderRadius: 100, textDecoration: 'none',
               transition: 'opacity 0.18s',
             }}
@@ -95,11 +98,10 @@ export default function ProjectFeatured({ project }: { project: Project }) {
           {project.demoLink && (
             <a href={project.demoLink} target="_blank" rel="noopener noreferrer" style={{
               fontFamily: 'var(--font-body)', fontSize: '0.875rem', fontWeight: 500,
-              color: 'oklch(0.55 0.012 258)', textDecoration: 'none',
-              transition: 'color 0.18s',
+              color: 'var(--color-text3)', textDecoration: 'none', transition: 'color 0.18s',
             }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'oklch(0.72 0.012 258)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'oklch(0.55 0.012 258)')}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-accent)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text3)')}
             >
               {project.demoLabel ?? 'Демо'} ↗
             </a>
@@ -107,24 +109,23 @@ export default function ProjectFeatured({ project }: { project: Project }) {
         </div>
       </div>
 
-      {/* Right accent panel */}
+      {/* Правая amber-панель */}
       <div style={{
         background: 'var(--color-accent)',
         padding: '40px 32px',
-        display: 'flex', flexDirection: 'column', gap: 16,
-        justifyContent: 'center',
+        display: 'flex', flexDirection: 'column', gap: 16, justifyContent: 'center',
       }}>
         <p style={{
           fontFamily: 'var(--font-mono)', fontSize: '0.68rem',
           letterSpacing: '0.1em', textTransform: 'uppercase',
-          color: 'oklch(0.40 0.10 68)', margin: 0,
+          color: 'oklch(0.28 0.10 68)', margin: 0,
         }}>Стек технологий</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {project.stack.map(tech => (
             <span key={tech} style={{
               fontFamily: 'var(--font-mono)', fontSize: '0.82rem',
-              fontWeight: 500, color: 'var(--color-text)',
-              background: 'oklch(0.45 0.14 68 / 0.25)',
+              fontWeight: 500, color: 'oklch(0.22 0.08 68)',
+              background: 'oklch(0.48 0.16 68 / 0.25)',
               borderRadius: 'var(--radius-sm)', padding: '6px 12px',
               letterSpacing: '0.02em',
             }}>

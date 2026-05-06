@@ -26,8 +26,8 @@ export default function Footer() {
 
   return (
     <footer id="contact" style={{
-      background: 'var(--color-bg-dark)',
-      borderTop: '1px solid oklch(0.22 0.015 258)',
+      background: 'var(--color-bg2)',
+      borderTop: '1px solid var(--color-border)',
       paddingTop: 'clamp(56px, 7vw, 88px)',
       paddingBottom: 'clamp(32px, 4vw, 48px)',
     }}>
@@ -48,7 +48,7 @@ export default function Footer() {
               fontFamily: 'var(--font-display)', fontWeight: 700,
               fontSize: 'clamp(1.75rem, 4vw, 3rem)',
               lineHeight: 1.1, letterSpacing: '-0.025em',
-              color: 'var(--color-text-inv)', margin: 0,
+              color: 'var(--color-text)', margin: 0,
             }}>
               Есть задача?<br />
               <span style={{ color: 'var(--color-accent)' }}>Давайте обсудим.</span>
@@ -57,42 +57,38 @@ export default function Footer() {
           <a href="mailto:andrewyunev@gmail.com" style={{
             display: 'inline-flex', alignItems: 'center', gap: 10,
             fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.95rem',
-            color: 'var(--color-text)', background: 'var(--color-accent)',
+            color: 'oklch(0.15 0.015 258)', background: 'var(--color-accent)',
             padding: '14px 28px', borderRadius: 100, textDecoration: 'none',
             transition: 'opacity 0.18s, transform 0.18s', whiteSpace: 'nowrap',
           }}
-            onMouseEnter={e => {
-              e.currentTarget.style.opacity = '0.88'
-              e.currentTarget.style.transform = 'translateY(-2px)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.opacity = '1'
-              e.currentTarget.style.transform = 'translateY(0)'
-            }}
+            onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)' }}
           >
             Написать на email →
           </a>
         </div>
 
-        {/* Email big */}
+        {/* Email */}
         <div className="reveal" style={{
-          padding: '28px 0', borderTop: '1px solid oklch(0.22 0.015 258)',
-          borderBottom: '1px solid oklch(0.22 0.015 258)', marginBottom: 40,
+          padding: '28px 0',
+          borderTop: '1px solid var(--color-border)',
+          borderBottom: '1px solid var(--color-border)',
+          marginBottom: 40,
         }}>
           <a href="mailto:andrewyunev@gmail.com" style={{
             fontFamily: 'var(--font-display)', fontWeight: 700,
             fontSize: 'clamp(1.25rem, 3vw, 2rem)',
-            letterSpacing: '-0.02em', color: 'var(--color-text-inv2)',
+            letterSpacing: '-0.02em', color: 'var(--color-text2)',
             textDecoration: 'none', transition: 'color 0.18s',
           }}
             onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-accent)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-inv2)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text2)')}
           >
             andrewyunev@gmail.com
           </a>
         </div>
 
-        {/* Bottom row */}
+        {/* Bottom */}
         <div className="reveal" style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           flexWrap: 'wrap', gap: 20,
@@ -104,18 +100,18 @@ export default function Footer() {
                 style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                   width: 40, height: 40, borderRadius: 10,
-                  border: '1px solid oklch(0.28 0.015 258)',
-                  color: 'oklch(0.55 0.012 258)', textDecoration: 'none',
+                  border: '1px solid var(--color-border)',
+                  color: 'var(--color-text3)', textDecoration: 'none',
                   transition: 'color 0.18s, border-color 0.18s, background 0.18s',
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.color = 'var(--color-accent)'
-                  e.currentTarget.style.borderColor = 'var(--color-border-accent)'
+                  e.currentTarget.style.borderColor = 'var(--color-accent)'
                   e.currentTarget.style.background = 'var(--color-accent-bg)'
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.color = 'oklch(0.55 0.012 258)'
-                  e.currentTarget.style.borderColor = 'oklch(0.28 0.015 258)'
+                  e.currentTarget.style.color = 'var(--color-text3)'
+                  e.currentTarget.style.borderColor = 'var(--color-border)'
                   e.currentTarget.style.background = 'transparent'
                 }}
               >
@@ -126,7 +122,7 @@ export default function Footer() {
 
           <p style={{
             fontFamily: 'var(--font-mono)', fontSize: '0.72rem',
-            color: 'oklch(0.40 0.012 258)', letterSpacing: '0.04em',
+            color: 'var(--color-text3)', letterSpacing: '0.04em',
           }}>
             © {year} Андрей Юнев · Сделано с вайбкодингом · Next.js + Claude Code
           </p>
@@ -135,9 +131,7 @@ export default function Footer() {
 
       <style>{`
         .footer-top { grid-template-columns: 1fr auto !important; }
-        @media (max-width: 640px) {
-          .footer-top { grid-template-columns: 1fr !important; }
-        }
+        @media (max-width: 640px) { .footer-top { grid-template-columns: 1fr !important; } }
       `}</style>
     </footer>
   )

@@ -29,76 +29,58 @@ export default function Hero() {
   return (
     <section style={{ background: 'var(--color-bg)', overflow: 'hidden' }}>
 
-      {/* Label bar */}
+      {/* Тонкая amber-полоска с тегами */}
       <div style={{
-        background: 'var(--color-text)',
-        padding: '10px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 32,
-        overflow: 'hidden',
+        background: 'var(--color-accent)',
+        padding: '8px 24px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 28, overflow: 'hidden',
       }}>
         {['Архитектор AI-систем', '·', 'Москва', '·', 'Автоматизация', '·', 'Вайбкодинг', '·', 'Multi-agent', '·', 'Открыт к проектам'].map((t, i) => (
           <span key={i} style={{
             fontFamily: i % 2 === 1 ? 'var(--font-body)' : 'var(--font-mono)',
-            fontSize: '0.7rem',
+            fontSize: '0.68rem',
             letterSpacing: i % 2 === 1 ? 0 : '0.1em',
             textTransform: i % 2 === 1 ? 'none' : 'uppercase',
-            color: i % 2 === 1 ? 'oklch(0.45 0.015 258)' : 'oklch(0.75 0.012 80)',
+            color: i % 2 === 1 ? 'oklch(0.38 0.12 68)' : 'oklch(0.20 0.08 68)',
             whiteSpace: 'nowrap',
           }}>{t}</span>
         ))}
       </div>
 
-      {/* Main hero */}
+      {/* Main */}
       <div style={{
         maxWidth: 1100, margin: '0 auto', padding: '0 24px',
-        display: 'grid',
-        gridTemplateColumns: '1fr 340px',
-        gap: 0,
+        display: 'grid', gridTemplateColumns: '1fr 340px', gap: 0,
         minHeight: 'clamp(480px, 60vh, 640px)',
       }} className="hero-main">
 
-        {/* Left — content */}
+        {/* Left */}
         <div style={{
           display: 'flex', flexDirection: 'column', justifyContent: 'center',
           padding: 'clamp(40px, 6vw, 80px) 0',
-          paddingRight: 'clamp(24px, 4vw, 64px)',
-          gap: 28,
+          paddingRight: 'clamp(24px, 4vw, 64px)', gap: 28,
         }}>
-          {/* Name */}
           <div>
             <h1 style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              fontSize: 'var(--text-display)',
-              lineHeight: 'var(--lh-display)',
-              letterSpacing: 'var(--ls-display)',
-              color: 'var(--color-text)',
-              margin: 0,
+              fontFamily: 'var(--font-display)', fontWeight: 800,
+              fontSize: 'var(--text-display)', lineHeight: 'var(--lh-display)',
+              letterSpacing: 'var(--ls-display)', color: 'var(--color-text)', margin: 0,
             }}>
               Андрей<br />Юнев
             </h1>
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 12, marginTop: 16,
-            }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 16 }}>
               <span style={{
                 display: 'block', height: 2, width: 32,
                 background: 'var(--color-accent)', borderRadius: 2, flexShrink: 0,
               }} />
               <p style={{
                 fontFamily: 'var(--font-display)', fontWeight: 600,
-                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-                letterSpacing: '-0.01em',
+                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', letterSpacing: '-0.01em',
                 color: 'var(--color-accent)', margin: 0,
-              }}>
-                Архитектор AI-систем
-              </p>
+              }}>Архитектор AI-систем</p>
             </div>
           </div>
 
-          {/* Bio */}
           <p style={{
             fontFamily: 'var(--font-body)', fontSize: 'var(--text-body)',
             lineHeight: 1.7, color: 'var(--color-text2)', maxWidth: '52ch', margin: 0,
@@ -107,8 +89,7 @@ export default function Hero() {
             Убираю операционный хаос, внедряю AI‑пайплайны, сокращаю время типовых задач в&nbsp;5–20 раз.
           </p>
 
-          {/* Contacts */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
             {[
               { href: 'mailto:andrewyunev@gmail.com', label: 'andrewyunev@gmail.com', icon: null },
               { href: 'https://t.me/Andrewyunev', label: 'Telegram', icon: <TelegramIcon /> },
@@ -120,91 +101,76 @@ export default function Hero() {
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                   fontFamily: 'var(--font-body)', fontSize: '0.825rem', fontWeight: 500,
                   color: 'var(--color-text3)',
-                  background: 'var(--color-bg3)', border: '1px solid var(--color-border)',
+                  background: 'var(--color-bg2)', border: '1px solid var(--color-border)',
                   borderRadius: 100, padding: '6px 14px', textDecoration: 'none',
                   transition: 'color 0.18s, border-color 0.18s, background 0.18s',
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.color = 'var(--color-accent)'
-                  e.currentTarget.style.borderColor = 'var(--color-border-accent)'
+                  e.currentTarget.style.borderColor = 'var(--color-accent)'
                   e.currentTarget.style.background = 'var(--color-accent-bg)'
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.color = 'var(--color-text3)'
                   e.currentTarget.style.borderColor = 'var(--color-border)'
-                  e.currentTarget.style.background = 'var(--color-bg3)'
+                  e.currentTarget.style.background = 'var(--color-bg2)'
                 }}
-              >
-                {icon}{label}
-              </a>
+              >{icon}{label}</a>
             ))}
           </div>
 
-          {/* CTA */}
           <div>
             <a href="#projects" style={{
               display: 'inline-flex', alignItems: 'center', gap: 10,
               fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.95rem',
-              color: 'var(--color-bg2)',
-              background: 'var(--color-text)',
+              color: 'oklch(0.15 0.015 258)',
+              background: 'var(--color-accent)',
               padding: '14px 28px', borderRadius: 100, textDecoration: 'none',
-              transition: 'background 0.2s ease, transform 0.2s ease',
+              transition: 'opacity 0.2s ease, transform 0.2s ease',
             }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = 'var(--color-accent)'
-                e.currentTarget.style.transform = 'translateY(-1px)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = 'var(--color-text)'
-                e.currentTarget.style.transform = 'translateY(0)'
-              }}
+              onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+              onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)' }}
             >
-              Смотреть проекты
-              <span style={{ fontSize: '1.1em' }}>→</span>
+              Смотреть проекты <span style={{ fontSize: '1.1em' }}>→</span>
             </a>
           </div>
         </div>
 
         {/* Right — amber panel */}
         <div style={{
-          background: 'var(--color-text)',
+          background: 'var(--color-accent)',
           padding: 'clamp(32px, 4vw, 52px) clamp(24px, 3vw, 40px)',
           display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 24,
           position: 'relative', overflow: 'hidden',
         }} className="hero-panel">
-          {/* Decorative large number */}
+          {/* Декоративный текст */}
           <span style={{
             position: 'absolute', right: -8, top: -16,
             fontFamily: 'var(--font-display)', fontWeight: 800,
             fontSize: '9rem', lineHeight: 1, letterSpacing: '-0.05em',
-            color: 'oklch(0.20 0.015 258)', userSelect: 'none', pointerEvents: 'none',
+            color: 'oklch(0.48 0.16 68 / 0.25)', userSelect: 'none', pointerEvents: 'none',
           }} aria-hidden="true">AI</span>
 
           <p style={{
             fontFamily: 'var(--font-mono)', fontSize: '0.68rem',
             letterSpacing: '0.12em', textTransform: 'uppercase',
-            color: 'var(--color-accent)', margin: 0, position: 'relative',
+            color: 'oklch(0.28 0.10 68)', margin: 0, position: 'relative',
           }}>Могу помочь с</p>
 
           <ul style={{
             listStyle: 'none', margin: 0, padding: 0,
-            display: 'flex', flexDirection: 'column', gap: 14,
-            position: 'relative',
+            display: 'flex', flexDirection: 'column', gap: 14, position: 'relative',
           }}>
             {capabilities.map((cap, i) => (
-              <li key={i} style={{
-                display: 'flex', alignItems: 'flex-start', gap: 10,
-              }}>
+              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                 <span style={{
-                  width: 5, height: 5, borderRadius: '50%', background: 'var(--color-accent)',
-                  flexShrink: 0, marginTop: 7,
+                  width: 5, height: 5, borderRadius: '50%',
+                  background: 'oklch(0.30 0.10 68)', flexShrink: 0, marginTop: 7,
                 }} />
                 <span style={{
                   fontFamily: 'var(--font-body)', fontSize: '0.875rem',
-                  lineHeight: 1.55, color: 'oklch(0.75 0.012 80)',
-                }}>
-                  {cap}
-                </span>
+                  lineHeight: 1.55, color: 'oklch(0.22 0.08 68)',
+                }}>{cap}</span>
               </li>
             ))}
           </ul>
@@ -212,12 +178,13 @@ export default function Hero() {
           <a href="https://t.me/Andrewyunev" target="_blank" rel="noopener noreferrer"
             style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '0.875rem',
-              color: 'var(--color-text)', background: 'var(--color-accent)',
+              fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.875rem',
+              color: 'oklch(0.97 0.006 80)',
+              background: 'oklch(0.35 0.10 68)',
               padding: '12px 20px', borderRadius: 'var(--radius)', textDecoration: 'none',
               transition: 'opacity 0.18s', position: 'relative', marginTop: 8,
             }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.88')}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
           >
             <TelegramIcon /> Написать в Telegram
@@ -225,11 +192,9 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Stats strip */}
+      {/* Stats */}
       <div style={{
-        borderTop: '1px solid var(--color-border)',
-        background: 'var(--color-bg2)',
-        maxWidth: '100%', overflow: 'hidden',
+        borderTop: '1px solid var(--color-border)', background: 'var(--color-bg2)',
       }}>
         <div style={{
           maxWidth: 1100, margin: '0 auto', padding: '0 24px',
@@ -248,8 +213,7 @@ export default function Hero() {
               }}>{s.number}</span>
               <span style={{
                 fontFamily: 'var(--font-body)', fontSize: '0.8rem',
-                lineHeight: 1.4, color: 'var(--color-text3)',
-                whiteSpace: 'pre-line',
+                lineHeight: 1.4, color: 'var(--color-text3)', whiteSpace: 'pre-line',
               }}>{s.label}</span>
             </div>
           ))}
@@ -260,7 +224,6 @@ export default function Hero() {
         @media (max-width: 768px) {
           .hero-main { grid-template-columns: 1fr !important; }
           .hero-panel { display: none !important; }
-          .stats-grid { grid-template-columns: repeat(3, 1fr) !important; }
         }
         @media (max-width: 480px) {
           .stats-grid { grid-template-columns: 1fr !important; }
