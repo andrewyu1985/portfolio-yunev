@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
 const CAPS = [
@@ -62,7 +63,13 @@ export default function Hero() {
         <div style={{
           paddingTop: 'clamp(64px, 9vw, 112px)',
           paddingBottom: 'clamp(48px, 7vw, 80px)',
-        }}>
+          display: 'grid',
+          gridTemplateColumns: '1fr auto',
+          gap: 'clamp(32px, 6vw, 80px)',
+          alignItems: 'center',
+        }} className="hero-grid">
+
+          <div>
 
           {/* Status badge */}
           <div style={{
@@ -197,7 +204,39 @@ export default function Hero() {
               }}
             >Telegram ↗</a>
           </div>
-        </div>
+
+          </div>{/* end left col */}
+
+          {/* Photo */}
+          <div className="hero-photo" style={{
+            position: 'relative', flexShrink: 0,
+            width: 'clamp(200px, 22vw, 300px)',
+            height: 'clamp(200px, 22vw, 300px)',
+            animation: 'hero-in 0.9s 0.3s cubic-bezier(0.16,1,0.3,1) both',
+          }}>
+            {/* Decorative ring */}
+            <div aria-hidden style={{
+              position: 'absolute', inset: -10,
+              borderRadius: '50%',
+              border: '1px solid var(--color-border-accent)',
+              animation: 'float 6s ease-in-out infinite',
+            }} />
+            <div aria-hidden style={{
+              position: 'absolute', inset: -22,
+              borderRadius: '50%',
+              border: '1px solid oklch(0.50 0.26 265 / 0.10)',
+            }} />
+            <Image
+              src="/photo.jpg"
+              alt="Андрей Юнев"
+              fill
+              sizes="(max-width: 640px) 0px, clamp(200px, 22vw, 300px)"
+              style={{ objectFit: 'cover', borderRadius: '50%' }}
+              priority
+            />
+          </div>
+
+        </div>{/* end hero-grid */}
 
         {/* Stats — animated count-up */}
         <div ref={statsRef} style={{
@@ -231,6 +270,10 @@ export default function Hero() {
       </div>
 
       <style>{`
+        @media (max-width: 640px) {
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-photo { display: none !important; }
+        }
         @media (max-width: 480px) {
           .stats-grid { grid-template-columns: 1fr !important; }
           .stats-grid > div { border-right: none !important; border-bottom: 1px solid var(--color-border); }

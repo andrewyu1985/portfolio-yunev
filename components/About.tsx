@@ -2,14 +2,14 @@ const timeline = [
   { year: '2013', text: 'Операционное управление коммерческой недвижимостью' },
   { year: '2015', text: 'Роботрек — клуб робототехники, 150+ учеников/мес, 1 место на всероссийских соревнованиях' },
   { year: '2017', text: 'Юневерсум — образовательный проект, аудитория 20 000+ человек' },
-  { year: '2023', text: 'Первые AI-агенты и автоматизированные пайплайны' },
-  { year: '2025', text: 'Hermes System — платформа AI-оркестрации из 18 агентов' },
+  { year: '2025', text: 'Первые AI-агенты и автоматизированные пайплайны' },
+  { year: '2026', text: 'Hermes System — платформа AI-оркестрации из 18 агентов' },
 ]
 
 const paragraphs = [
   'Архитектор автоматизации и AI-решений с 17+ годами в операционном управлении. Специализируюсь на перестройке бизнес-процессов: убираю ручные операции, внедряю воспроизводимые системы, сокращаю время типовых задач в 5–20 раз.',
-  'Не точечная оптимизация — пересборка процесса. Строю решения на пересечении управления и AI: контентные конвейеры, клиентские сценарии, операционная инфраструктура. Снижение затрат на подрядчиков на 70–100%, устойчивая работа без зависимости от человеческого фактора.',
-  'Основатель «Юневерсум» и «ВектораВсем» с аудиторией 20 000+ человек. Ранее — основатель «Роботрека» (150+ учеников в месяц, 1 место на всероссийских соревнованиях).',
+  'Не точечная оптимизация — пересборка процесса. Строю решения на пересечении управления и AI: контентные конвейеры, клиентские сценарии, операционная инфраструктура. Снижение затрат на подрядчиков на 70–100%.',
+  'Руководитель проектов «Юневерсум» и «ВектораВсем» с аудиторией 20 000+ человек. Ранее — руководитель клуба робототехники «Роботрек» (150+ учеников в месяц, 1 место на всероссийских соревнованиях).',
 ]
 
 export default function About() {
@@ -42,15 +42,50 @@ export default function About() {
           gap: 'clamp(40px, 6vw, 80px)', alignItems: 'start',
         }} className="about-grid reveal">
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+          {/* Текст */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {paragraphs.map((text, i) => (
               <p key={i} style={{
                 fontFamily: 'var(--font-body)', fontSize: 'var(--text-body)',
                 lineHeight: 1.75, color: 'var(--color-text2)', margin: 0,
               }}>{text}</p>
             ))}
+
+            {/* Сертификат */}
+            <div style={{
+              marginTop: 8,
+              background: 'var(--color-bg2)',
+              border: '1px solid var(--color-border-accent)',
+              borderRadius: 'var(--radius)',
+              padding: '16px 20px',
+              display: 'flex', gap: 16, alignItems: 'flex-start',
+            }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: 10, flexShrink: 0,
+                background: 'var(--color-accent-bg)',
+                border: '1px solid var(--color-border-accent)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '1.2rem',
+              }}>🏆</div>
+              <div>
+                <p style={{
+                  fontFamily: 'var(--font-mono)', fontSize: '0.65rem',
+                  letterSpacing: '0.08em', textTransform: 'uppercase',
+                  color: 'var(--color-accent)', margin: '0 0 3px',
+                }}>Сертификат</p>
+                <p style={{
+                  fontFamily: 'var(--font-body)', fontWeight: 700,
+                  fontSize: '0.9rem', color: 'var(--color-text)', margin: '0 0 2px',
+                }}>P3P-2026 · P3.express Practitioner</p>
+                <p style={{
+                  fontFamily: 'var(--font-body)', fontSize: '0.78rem',
+                  color: 'var(--color-text3)', margin: 0,
+                }}>certN · OMIMO · Effective from 2026-05-05, valid for life</p>
+              </div>
+            </div>
           </div>
 
+          {/* Timeline */}
           <div style={{ position: 'relative', paddingLeft: 28 }}>
             <div style={{
               position: 'absolute', left: 0, top: 6, bottom: 6,

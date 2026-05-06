@@ -53,17 +53,51 @@ export default function Footer() {
               <span style={{ color: 'var(--color-accent)' }}>Давайте обсудим.</span>
             </h2>
           </div>
-          <a href="mailto:andrewyunev@gmail.com" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 10,
-            fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.95rem',
-            color: 'var(--color-text-inv)', background: 'var(--color-accent)',
-            padding: '14px 28px', borderRadius: 100, textDecoration: 'none',
-            transition: 'opacity 0.18s, transform 0.18s', whiteSpace: 'nowrap',
-            boxShadow: '0 4px 20px oklch(0.50 0.26 265 / 0.25)',
-          }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)' }}
-          >Написать на email →</a>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-end' }} className="cta-group">
+            <a href="mailto:andrewyunev@gmail.com" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.95rem',
+              color: 'var(--color-text-inv)', background: 'var(--color-accent)',
+              padding: '14px 28px', borderRadius: 100, textDecoration: 'none',
+              transition: 'opacity 0.18s, transform 0.18s', whiteSpace: 'nowrap',
+              boxShadow: '0 4px 20px oklch(0.50 0.26 265 / 0.25)',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+              onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)' }}
+            >Написать на email →</a>
+            <div style={{ display: 'flex', gap: 10 }}>
+              {[
+                { href: 'https://t.me/Andrewyunev', label: 'Telegram', Icon: TelegramIcon },
+                { href: 'https://vk.com/andrewyunev', label: 'VK', Icon: VKIcon },
+                { href: 'https://max.ru/u/f9LHodD0cOLmKFCjGeOvUu6BhkT33DqLdWe3fGZqFr3lk_svf2Z7s2MHHmU', label: 'MAX', Icon: MaxIcon },
+              ].map(({ href, label, Icon }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '0.85rem',
+                    color: 'var(--color-accent)',
+                    background: 'var(--color-accent-bg)',
+                    border: '1px solid var(--color-border-accent)',
+                    padding: '10px 18px', borderRadius: 100, textDecoration: 'none',
+                    transition: 'background 0.18s, transform 0.18s, box-shadow 0.18s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = 'var(--color-accent)'
+                    e.currentTarget.style.color = 'var(--color-text-inv)'
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                    e.currentTarget.style.boxShadow = '0 4px 16px oklch(0.50 0.26 265 / 0.22)'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'var(--color-accent-bg)'
+                    e.currentTarget.style.color = 'var(--color-accent)'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
+                ><Icon />{label}</a>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="reveal" style={{
@@ -122,7 +156,11 @@ export default function Footer() {
       </div>
       <style>{`
         .footer-top { grid-template-columns: 1fr auto !important; }
-        @media (max-width: 640px) { .footer-top { grid-template-columns: 1fr !important; } }
+        @media (max-width: 640px) {
+          .footer-top { grid-template-columns: 1fr !important; }
+          .cta-group { align-items: flex-start !important; }
+          .cta-group > div { flex-wrap: wrap; }
+        }
       `}</style>
     </footer>
   )
