@@ -61,8 +61,8 @@ export default function Hero() {
 
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px', position: 'relative' }}>
         <div style={{
-          paddingTop: 'clamp(64px, 9vw, 112px)',
-          paddingBottom: 'clamp(48px, 7vw, 80px)',
+          paddingTop: 'clamp(32px, 5vw, 64px)',
+          paddingBottom: 'clamp(32px, 5vw, 64px)',
           display: 'grid',
           gridTemplateColumns: '1fr auto',
           gap: 'clamp(32px, 6vw, 80px)',
@@ -231,7 +231,7 @@ export default function Hero() {
               alt="Андрей Юнев"
               fill
               sizes="(max-width: 640px) 0px, clamp(200px, 22vw, 300px)"
-              style={{ objectFit: 'cover', borderRadius: '50%' }}
+              style={{ objectFit: 'cover', objectPosition: '50% 25%', borderRadius: '50%' }}
               priority
             />
           </div>
