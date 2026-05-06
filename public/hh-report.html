@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HH Parser — 20260325_011311</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f5f5; color: #333; }
+  .header { background: #d6001c; color: white; padding: 16px 24px; }
+  .header h1 { font-size: 1.4rem; }
+  .header .meta { font-size: 0.85rem; opacity: 0.85; margin-top: 4px; }
+  .controls { background: white; padding: 12px 24px; border-bottom: 1px solid #e0e0e0; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .controls label { font-size: 0.875rem; color: #666; }
+  .controls select { padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.875rem; }
+  .counter { margin-left: auto; font-size: 0.875rem; color: #666; }
+  .cards { padding: 16px 24px; display: grid; gap: 12px; }
+  .card { background: white; border-radius: 8px; padding: 16px; border: 1px solid #e0e0e0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .card-title { flex: 1; }
+  .card-title a { font-size: 1rem; font-weight: 600; color: #d6001c; text-decoration: none; }
+  .card-title a:hover { text-decoration: underline; }
+  .card-employer { color: #666; font-size: 0.875rem; margin-top: 2px; }
+  .badge { padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+  .badge-high { background: #fde8e8; color: #c0392b; }
+  .badge-medium { background: #fef9e7; color: #d4ac0d; }
+  .badge-low { background: #f0f0f0; color: #888; }
+  .card-meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.8rem; color: #666; margin-bottom: 10px; }
+  .card-meta span::before { content: "• "; }
+  .card-meta span:first-child::before { content: ""; }
+  .keywords { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .kw { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
+  .kw-pos { background: #e8f5e9; color: #2e7d32; }
+  .kw-neg { background: #fde8e8; color: #c0392b; }
+  .card-action { font-size: 0.8rem; color: #555; margin-bottom: 10px; }
+  .accordion-btn { background: none; border: 1px solid #ddd; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; color: #555; }
+  .accordion-btn:hover { background: #f5f5f5; }
+  .accordion-content { display: none; margin-top: 10px; font-size: 0.85rem; color: #444; line-height: 1.6; border-top: 1px solid #eee; padding-top: 10px; white-space: pre-wrap; }
+  .score-badge { font-size: 0.75rem; background: #eef; color: #336; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>HH Parser — Результаты поиска</h1>
+  <div class="meta">
+    Запуск: 20260325_011311 &nbsp;|&nbsp; Сгенерировано: 2026-03-25 01:15:17 &nbsp;|&nbsp;
+    Найдено: 150 вакансий &nbsp;|&nbsp; В отчёте: 30
+  </div>
+</div>
+
+<div class="controls">
+  <label>Приоритет:</label>
+  <select id="filter-priority" onchange="applyFilters()">
+    <option value="">Все</option>
+    <option value="high">High</option>
+    <option value="medium">Medium</option>
+    <option value="low">Low</option>
+  </select>
+  <label>Сортировка:</label>
+  <select id="sort-by" onchange="applyFilters()">
+    <option value="score">По баллу</option>
+    <option value="date">По дате</option>
+    <option value="salary">По зарплате</option>
+  </select>
+  <span class="counter" id="counter">Показано 30 из 30</span>
+</div>
+
+<div class="cards" id="cards-container">
+
+<div class="card"
+  data-priority="high"
+  data-score="32"
+  data-date="2026-03-05T17:33:44+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131011677" target="_blank">Технический специалист / Вайб-кодер</a>
+      <div class="card-employer">UpSound</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">32 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-05</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+make</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+telegram</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+no-code</span><span class="kw kw-pos">+low-code</span><span class="kw kw-pos">+chatgpt</span><span class="kw kw-pos">+автоматизацию</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Привет!   Музыкальное маркетинговое  агентство и лейбл UpSound   ищет  ищет технического специалиста нового типа — вайб-кодера, который решает технические задачи через AI-инструменты (Claude Code, Cursor), а не через традиционное программирование. Более 10 лет мы продвигаем известных и начинающих артистов, их треки, клипы, концерты, социальные сети. Пишем статьи, снимаем видосы, обучаем музыкальному маркетингу и менеджменту.   Что нужно делать:     автоматизировать рутинные процессы агентства через AI-инструменты   создавать Telegram-ботов и интеграции с внешними сервисами   работать с API музыкальных платформ и мессенджеров   быстро прототипировать решения и итерировать   работать в паре с IT-руководителем над задачами разной сложности         Ты наш кандидат, если:     активно используешь Claude Code, Cursor или аналогичные AI-инструменты для разработки (не просто ChatGPT для текстов!)   умеешь формулировать промпты так, чтобы получать рабочий результат с минимумом итераций   можешь прочитать код на Python/JavaScript и понять, что он делает   не боишься терминала и знаешь базовые команды Git   при любой рутинной задаче думаешь «как это автоматизировать?»   готов быстро пробовать, ошибаться и исправлять         Будет плюсом:     опыт работы с Make/n8n   базовое знание Python   опыт работы с API (Telegram, музыкальные платформы)   понимание SQL и баз данных   опыт с Supabase или Firebase         Что предлагаем взамен:     интересную работу на стыке музыки и технологий   полностью удалённый формат — работай откуда удобно (есть 2 офиса в Мск и Спб)   зп: оклад по результатам собеседования + возможность роста при результатах   полную занятость (пн-пт 11:00-19:00 по мск)   работу с современным AI-стеком — будешь в авангарде технологий   прямое влияние на автоматизацию процессов компании   а еще: кайфовые корпоративы, награды за достижения и проходки на мероприятия артистов!     Узнал(а) себя? Тогда в сопроводительном письме:   Напиши, какими AI-инструментами для разрабо…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="29"
+  data-date="2026-03-06T10:53:00+0300"
+  data-salary="60000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131023901" target="_blank">AI-автоматизатор/инженер (Make/n8n)</a>
+      <div class="card-employer">GORA</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">29 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 60 000 до 120 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-06</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+make</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+telegram</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+no-code</span><span class="kw kw-pos">+chatgpt</span><span class="kw kw-pos">+openai</span><span class="kw kw-pos">+сопроводительное</span><span class="kw kw-pos">+коммуникации</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Прежде чем откликаться, ПРОЧИТАЙТЕ ВАКАНСИЮ ДО КОНЦА, пожалуйста!   Вакансия предполагает совмещение с другим проектом! Все как Вы любите)))   Мы — академия GORA ACADEMY с лицензией и репутацией наивысшего качества (ср. NPS 9,4), 1500+ учеников флагманских продуктов по всему миру, 110k+ на YouTube и 17k+ в Telegram. Мы не теоретики: у нас есть собственное агентство по ИИ-автоматизациям, откуда в обучение попадают самые актуальные практики.   Кратко о должности:   Мы ищем практикующего AI-автоматизатора с опытом от 2х лет в Make/n8n, который может и хочет наставлять других начинающих специалистов во время их обучения в нашем образовательном продукте. Подробнее о должности ниже👇   Что вы получите:   💸 Высокий доход. От 60 до 120+ тыс ₽ в месяц при неполном рабочем дне, обсуждается индивидуально в зависимости от вклада.   🚀 Постоянные обучение в сфере ИИ-автоматизаций и вайб-кодинга.   🎓 Постоянные обучение в сфере ИИ-автоматизаций и вайб-кодинга: доступ к экосистеме GORA, внутренние тренинги, база знаний, методисты, команда.   🌍 Гибкость. Работа полностью удалённо, свободный график, фокус на результате, а не часах.   🔥 Влияние. Сможете положительно влиять на жизни людей и получать благодарности.   👥 Поддержку от директора и команды во время всего периода работы. Корпоратив в Анапе раз в год за наш счет.   Задача роли &#34;Наставник&#34; (ЦКП):  ученики проходят курс до конца и становятся «кейсами» (реальные трудоустройства и оплаченные проекты).   Чем вы будете заниматься:     Проверка практических заданий учеников: по чек-листам + короткая запись экрана с голосом.   Личная поддержка учеников в Telegram (рабочий аккаунт): ответы по делу, направляющая обратная связь, мотивация.   Помощь в решении прикладных задач по Make/n8n, LLM, API, вебхуки, интеграции, вайкодинг.   Поддержание стандартов качества и сроков (работа по регламентам и стандартам качества, минимум неопределенности).     Как измеряем результат:   NPS по вашим проверкам и личной коммуникации, % возвратов, % «кейс-…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="25"
+  data-date="2026-03-24T22:43:23+0300"
+  data-salary="70000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131058366" target="_blank">Разработчик AI-агентов / Инженер автоматизации бизнес-процессов (OpenClaw, AI)</a>
+      <div class="card-employer">Трастан</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">25 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 70 000 до 200 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-24</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+make</span><span class="kw kw-pos">+zapier</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+telegram</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+openai</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+руководителя</span>
+    <span class="kw kw-neg">-java</span>
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Мы — бренд одежды, работающий на маркетплейсах (Wildberries, Ozon). Наша цель — построить систему AI-автоматизации бизнеса: отчёты, аналитика, контроль рекламы, прогноз остатков и управление ассортиментом.   Ищем специалиста, который имеет опыт создания AI-агентов и автоматизации процессов с использованием современных AI-инструментов.       Чем предстоит заниматься:   Разработка и настройка AI-агентов: -настройка AI-агентов на базе OpenClaw или аналогичных систем -интеграция AI-моделей (OpenAI / Claude / Gemini) -создание сценариев автоматизации бизнес-процессов   Интеграции и автоматизация:   -интеграция с API маркетплейсов (Wildberries / Ozon) -автоматизация отчётов по продажам -автоматизация аналитики рекламы -мониторинг цен и конкурентов   Разработка уведомлений и интерфейсов:   -Telegram-боты для управления системой -автоматические уведомления по KPI -отчёты и аналитика для руководителя       Требования   Обязательный опыт:   -разработка автоматизаций или AI-агентов -работа с LLM API (OpenAI / Anthropic / Gemini) -опыт интеграций через API Будет плюсом: -опыт работы с OpenClaw -опыт работы с маркетплейсами -опыт создания Telegram-ботов -опыт работы с n8n / Make / Zapier   Технический стек (желательно):   -Python или JavaScript -REST API -Docker / серверы / VPS   В отклике просим указать:   1) Какие автоматизации вы реализовывали   2) Работали ли с AI-агентами   3) Пример самого интересного проекта       Условия: -удалённая работа -гибкий график -интересные задачи на стыке бизнеса и AI -долгосрочное сотрудничество</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="25"
+  data-date="2026-03-24T12:52:56+0300"
+  data-salary="250000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131054472" target="_blank">FullStack-разработчик (мобильные приложения) реализации через AI</a>
+      <div class="card-employer">Телишева Мария Сергеевна</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">25 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 250 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-24</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+make</span><span class="kw kw-pos">+zapier</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+no-code</span><span class="kw kw-pos">+low-code</span><span class="kw kw-pos">+chatgpt</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+использовать</span><span class="kw kw-pos">+пользоваться</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">FullStack-разработчик (мобильные приложения) реализации через AI (No-Code/Low-Code, AI-first)   Привет! Благодарим за просмотр нашей вакансии и возможный отклик!   О нас:   Наша компания Soft Space занимается разработкой мобильных приложений под ключ.   Наша команда ценит инновации, чистый код и профессиональный рост. Присоединяйтесь, чтобы создавать решения, которыми будут пользоваться миллионы!   Мы ищем FullStack-разработчика нового поколения — специалиста, который реализует проекты полностью через искусственный интеллект, не пишет код руками, а использует современные AI-инструменты (ChatGPT, Copilot, Claude, Gemini, сборщики low-code/no-code, автогенераторы UI/UX, и т.д.).   Если ты умеешь превращать идеи в готовые цифровые продукты, используя исключительно AI — мы ждем тебя!   Что нужно будет делать:   * Получать и анализировать требования по проектам (мобильные приложения).   * Формировать архитектуру решений: выбор AI-инструментов, интеграций, сервисов, сборка MVP и запуск финальных продуктов.   * Генерировать, собирать и деплоить проекты на любых стэках с помощью AI (фронт, бэк, базы данных, интеграции, пайплайны CI/CD и т.д.).   * Использовать лучшие практики FullStack и современные подходы к автоматизации через искусственный интеллект.   * Вести коммуникацию по проекту, фиксировать процесс, показывать промежуточные результаты.   * Работать полностью через AI   Ожидания от кандидата:   * Практический опыт полного цикла разработки через AI: от идеи до запуска, минимум 2-3 реализованных проектов, где код писался исключительно/максимально через искусственный интеллект.   * Понимание и опыт использования современных AI-инструментов разработки: ChatGPT, GitHub Copilot, Claude, Gemini, Codeium, Cursor, phind, интеграторы типа Make.com/Zapier, low-code платформы (Retool, Bubble, Webflow, Tilda, Softr и др.).   * FullStack-бэкграунд: понимаешь, как работает фронт и бэк, умеешь собирать архитектуру, деплоить, делать интеграции, работать с API.   * Умеешь находить оп…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="24"
+  data-date="2026-03-23T12:09:16+0300"
+  data-salary="150000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131463047" target="_blank">Инженер по автоматизации (n8n, API, ИИ) / EdTech Интегратор</a>
+      <div class="card-employer">Интеллект здоровья</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">24 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 150 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-23</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+внедрение</span><span class="kw kw-pos">+openai</span><span class="kw kw-pos">+инфраструктуру</span><span class="kw kw-pos">+инфраструктура</span><span class="kw kw-pos">+автоматизации</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">О проекте:  Health Intelligence Academy (lhq.academy) — образовательный проект в сфере медицины долголетия. Наша цель — построение инфраструктуры с подходом AI-first. Ищем инженера по автоматизации для настройки базовых систем и последующего внедрения ИИ во все бизнес-процессы компании.   Ищем человека именно в команду, а не фрилансера или подрядчика.   Ключевые задачи (Инфраструктура):       Интеграция и администрирование LMS (сейчас используем Prodamus, при этом готовы рассматривать другие lms в рамках развития проекта).       Настройка Bitrix24: воронки, автоматизация бизнес-процессов, маршрутизация лидов.       Подключение эквайринга и онлайн-касс.       Построение сквозной аналитики (UTM, Client ID).       Ключевые задачи (AI-first внедрение):       Разработка автоматизированных связок (n8n или аналоги) с использованием OpenAI API / Anthropic API/Gemini.       Маркетинг: внедрение ИИ для автоматической генерации, рерайта и дистрибуции контента, парсинга конкурентов, скоринга лидов, дополнительной аналитики       Поддержка и продажи: создание AI-ассистентов для обработки типовых запросов, квалификации лидов и саммаризации диалогов в CRM.       Продукт: автоматизация проверки домашних заданий, генерация тестов и персонализация образовательных треков с помощью LLM.       Требования:       Опыт настройки связок «Лендинг -&gt; Оплата -&gt; LMS -&gt; CRM».       Продвинутое владение инструментами автоматизации (n8n и аналоги).       Практический опыт интеграции LLM (OpenAI, Claude, Gemini) через API в бизнес-процессы.       Понимание ограничений ИИ (галлюцинации, контекстное окно) и умение их обходить (RAG, prompting).       Базовое знание Python для написания кастомных скриптов обработки данных.       Условия:       Удаленная работа.       Бюджет на API и инфраструктуру.         Фикс + kpi  </div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="22"
+  data-date="2026-03-13T21:08:57+0300"
+  data-salary="150000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131218516" target="_blank">FullStack AI Developer</a>
+      <div class="card-employer">Cookies.Games</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">22 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 150 000 до 250 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-13</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+workflow</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+openai</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+использовать</span>
+    <span class="kw kw-neg">-frontend</span>
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Мы - высокотехнологическая компания, создающая AI-агентов и цифровые решения для автоматизации процессов. Наша цель — помогать бизнесу повышать эффективность за счёт интеллектуальных систем. Проект сфокусирован на разработке программных продуктов с помощью AI-агентов и AI-систем. Мы создаём AI-решения, чат-сервисы, автоматизации, закрытые контуры обработки данных и RAG-системы для внутренних и клиентских задач. Нам нужен специалист, который сможет проектировать и запускать рабочие AI-продукты — от интерфейса и логики агентов до интеграций, поиска по знаниям и production-деплоя. Задачи Разрабатывать AI-агентов и чат-сервисы на Next.js в связке с TypeScript. Интегрировать AI SDK (OpenAI, LangChain, MCP) и подключать внешние API. Использовать n8n для построения автоматизаций и workflow-пайплайнов. Реализовывать RAG-поиск, обработку данных и создание закрытого контура с RAG-системой. Разрабатывать программные продукты с помощью AI-агентов и AI-систем под конкретные бизнес-задачи. Настраивать streaming-ответы, асинхронную обработку, MIME-типы, base64 и оптимизировать производительность решений. Обязательные требования Отличное знание TypeScript и Next.js (App Router). Опыт практической работы с AI SDK / OpenAI API / LangChain / MCP SDK. Понимание принципов Retrieval-Augmented Generation (RAG) и опыт построения AI-решений на его основе. Умение работать с n8n: создание workflow, интеграции, автоматизация процессов. Навыки проектирования streaming API и построения стабильной асинхронной логики. Опыт деплоя и оптимизации проектов на Vercel. Будет большим плюсом Опыт работы с Supabase, Redis, KV Store, Vector DB. Опыт построения AI-чатов и ассистентов с памятью, инструментами и multi-step логикой. Опыт создания закрытых контуров обработки данных и изолированных AI/RAG-решений. Опыт настройки DevOps-пайплайнов: Docker, CI/CD, Vercel builds. Навыки frontend-рендеринга и разработки кастомных UI-компонентов на Next.js / Tailwind. Знание английского языка на уровне B2-C1. Примеры …</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="22"
+  data-date="2026-03-04T17:03:56+0300"
+  data-salary="300000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/130976210" target="_blank">Инженер по автоматизации и интеграциям (n8n) / Integration Engineer</a>
+      <div class="card-employer">Петренко Виктор Павлович</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">22 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 300 000 до 300 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-04</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+telegram</span><span class="kw kw-pos">+workflow</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+инфраструктуру</span><span class="kw kw-pos">+инфраструктура</span><span class="kw kw-pos">+пользователей</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+стабильность</span>
+    <span class="kw kw-neg">-backend</span>
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">О компании   Мы — небольшая продуктовая команда, строим сервис с высокой долей интеграций и автоматизаций.   Наша цель — надёжная оркестрация процессов и интеграций “как в проде”, а не набор разрозненных сценариев.       Обязанности:     Развернуть и настроить n8n self-hosted в облаке (Docker / при росте — Kubernetes), обеспечить безопасный доступ и обновления.   Настроить инфраструктуру и данные: PostgreSQL, Redis (queue mode/воркеры), резервное копирование, миграции, схема данных.     Спроектировать и реализовать набор workflow:   * приём событий через webhooks, * маршрутизация, ветвления, очереди, расписания, * retries/backoff, обработка ошибок, идемпотентность/дедупликация, * планирование по часовым поясам пользователей.       Интеграции с внешними сервисами по REST API (HTTP nodes): авторизация, лимиты, стабильность.       По мере этапов: интеграции с платежными уведомлениями (webhooks), календарными API (OAuth2), AI/LLM API (structured outputs / JSON schema).       Организация DevOps-минимума: dev/stage/prod, секреты, мониторинг/алерты, логирование/трейсинг.       Документация: схема архитектуры, runbook “как поднять/обновлять”, шаблоны workflow.       Требования:     Реальный коммерческий опыт с n8n в продакшене: self-hosted, обновления, миграции, поддержка под нагрузкой.   Понимание архитектуры workflow/orchestration: очереди, ретраи, идемпотентность, rate limiting, обработка отказов.   Уверенное владение PostgreSQL (схемы, индексы, транзакции, оптимизация запросов).   Практический опыт с Redis и очередями (queue mode n8n / Bull / аналоги).   Опыт интеграций по REST API, webhooks (включая обработку подписанных уведомлений).   Понимание OAuth2 (authorization code flow, refresh token, безопасное хранение).   Практики безопасности: изоляция n8n, basic auth, ограничение доступа, управление секретами.     Будет плюсом:   * Kubernetes/Helm, autoscaling, инфраструктура в облаке. * Observability: Sentry, Prometheus/Grafana, Loki/ELK и т.п. * Опыт построения тонкого …</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="21"
+  data-date="2026-03-23T10:43:35+0300"
+  data-salary="100000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131455624" target="_blank">Outreach Infrastructure &amp; Automation Specialist (Part-time)</a>
+      <div class="card-employer">Boost.Express</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">21 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 100 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-23</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+workflow</span><span class="kw kw-pos">+no-code</span><span class="kw kw-pos">+low-code</span><span class="kw kw-pos">+инфраструктуру</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+стабильность</span><span class="kw kw-pos">+операционных</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Boost.Express -  платформа совместной рекламы для ивент-индустрии. Мы запускаем новый продукт в EventTech, ориентируемся на рынки Европы и Северной Америки, и ищем специалиста, который поможет нам развивать и масштабировать outreach-инфраструктуру.   Это AI-first команда: мы не делаем процессы вручную - мы их автоматизируем, масштабируем и превращаем в системы.   Что предстоит делать:       Поддерживать и развивать outreach-инфраструктуру (email-домены, inbox’ы, LinkedIn-аккаунты)       Настраивать и оптимизировать outreach-цепочки (email + LinkedIn)       Следить за deliverability (spam rate, прогрев, стабильность отправки)       Работать с инструментами рассылок и автоматизации       Настраивать автоматические действия (например, LinkedIn-комментарии)       Интегрировать инфраструктуру с CRM, Notion, Grafana, PostHog       Мониторить перформанс и готовить отчёты по кампаниям       Анализировать результаты и предлагать улучшения       Масштабировать инфраструктуру под рост компании       Автоматизировать процессы и снижать ручной труд       Идеальный кандидат:       Имеет опыт работы с outreach (email + LinkedIn)       Понимает deliverability и anti-spam практики       Работал с CRM и инструментами автоматизации       Умеет работать с метриками и аналитикой       Мыслит системно и любит оптимизировать процессы       Не делает руками то, что можно автоматизировать       Английский - не ниже C1 (письменный и разговорный)       Будет плюсом:       Опыт работы с AI-инструментами в операционных задачах       Опыт создания автоматизаций, workflow, агентов       Опыт в growth / outbound командах       Опыт работы с no-code / low-code инструментами       Почему это интересно:       AI-first команда - автоматизация не &#34;опция&#34;, а основа работы       Влияние на ключевую часть growth-системы компании       Работа с международными рынками (EU / US)       Гибкий график, удалённая команда       Возможность вырасти в Operations Manager       Долгосрочное сотрудничество (part-time …</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="20"
+  data-date="2026-02-26T09:25:48+0300"
+  data-salary="150000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/130779735" target="_blank">Prompt Engineer / AI Engineer (LLM, B2B)</a>
+      <div class="card-employer">Мыздриков Андрей Андреевич</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">20 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 150 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-02-26</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+workflow</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+воспроизводимые</span><span class="kw kw-pos">+пользователей</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+стабильность</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Кто мы   Мы развиваем ObuChat AI — B2B-платформу для автоматизации коммуникаций, контроля качества и аналитики работы менеджеров на базе AI.   Наши ключевые продукты:     Речевая аналитика (ОКК) — система анализа звонков и переписок менеджеров, которая оценивает качество коммуникаций, выполнение скриптов, причины успешных и неуспешных диалогов и формирует управленческую аналитику для руководителей.   AI-боты для бизнеса — чат- и email-боты, интегрированные с CRM и внутренними системами клиента, которые отвечают клиентам на основе обучаемых баз знаний, соблюдают tone of voice компании и автоматизируют первую и вторую линии поддержки.     Контекст и стадия компании   Продукты уже работают у клиентов и обрабатывают реальные данные: звонки, переписки, базы знаний, CRM и API внутренних систем. Сейчас мы усиливаем инженерную часть AI-ядра и ищем специалиста, который поможет масштабировать решения без потери качества и управляемости.   Почему мы ищем Prompt Engineer   Мы ищем инженера с опытом  от 2–3 лет в prompt engineering  или AI-инженерии, который уже  работал с production-системами на базе LLM в B2B-среде .   Роль предполагает не только разработку промптов, но и:       участие в архитектуре решений,       оптимизацию под нагрузку,       работу с асинхронными пайплайнами,       интеграции с enterprise-системами.       Продукт роли (ожидаемый результат)   После вашего выхода:       Логика работы LLM в речевой аналитике и AI-ботах становится устойчивой и масштабируемой.       Многошаговые AI-сценарии корректно работают под нагрузкой и в реальных бизнес-кейсах.       Есть воспроизводимые подходы к тестированию, оценке и улучшению качества ответов моделей.       Команда понимает ограничения решений и может управляемо их развивать.       Что нужно будет делать   1) Проектировать и реализовывать LLM-сценарии   Вы будете:     разрабатывать системные и пользовательские промты для: - анализа звонков и переписок, - классификации диалогов и обращений, - формирования резюме и рек…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="19"
+  data-date="2026-03-24T17:13:05+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131517738" target="_blank">Инженер</a>
+      <div class="card-employer">Райт Скан</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">19 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-24</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+chatgpt</span><span class="kw kw-pos">+openai</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+использовать</span><span class="kw kw-pos">+коммуникации</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">RightScan  – твой надежный партнер в мире технологий! Более 15 лет мы успешно работаем на рынке, предлагая решения для автоматизации бизнеса. Являясь официальным дистрибьютором складского и торгового оборудования, помогаем компаниям оптимизировать их работу и достигать новых высот. Среди наших довольных клиентов такие гиганты рынка, как  X5 Retail Group, WILDBERRIES, ВкусВилл, Сбербанк, Мираторг, Кари, АШАН Ритейл Россия, LADA (АВТОВАЗ), Бетховен  и многие другие.   Кого мы ищем Специалистов на проекты внедрения роботов на производственные площадки. Эта вакансия для тех, кто имеет навыки разработки (в идеале, python), разбирается в интеграциях (API, SQL) и не боится работать с AI-инструментами, но хочет сместить фокус с чистого программирования на управление проектами, командами и перспективным продуктом. Опыт управления проектами не обязателен — мы готовы обучать, если вы обладаете нужным техническим фундаментом и проектным складом ума.   Чем предстоит заниматься:     Участвовать в ведении проектов по внедрению роботизированных систем на складах заказчиков: от сбора требований до приёмки. Формировать технические задания (или участвовать в их формировании), готовить проектную документацию, управлять командой. Работать с API роботов, WMS (систем управления складом) и внутренними сервисами: проверять интеграции, помогать в отладке обмена данными. Писать небольшие скрипты на Python для автоматизации рутинных задач (парсинг логов, тестирование API, формирование отчётов).   Использовать AI-инструменты (Cursor, OpenAI API, ChatGPT) для ускорения аналитики, генерации документации, прототипирования решений.   Участвовать в коммуникации с заказчиком: готовить статус-отчёты, протоколировать встречи, отслеживать риски и сроки.   Помогать в планировании ресурсов команды (разработчики, инженеры-интеграторы, тестировщики).     Что для нас важно:     Высшее техническое образование (информатика, автоматизация, робототехника, прикладная математика или смежное) либо равноценный практ…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="19"
+  data-date="2026-03-24T15:19:41+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131512657" target="_blank">AI наставник (Москва)</a>
+      <div class="card-employer">evrone.ru</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">19 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-24</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+telegram</span><span class="kw kw-pos">+workflow</span><span class="kw kw-pos">+внедрение</span><span class="kw kw-pos">+инфраструктуру</span><span class="kw kw-pos">+автоматически</span><span class="kw kw-pos">+автоматизации</span>
+    <span class="kw kw-neg">-backend</span>
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Команда  Evrone  занимается продуктовой разработкой стартапов и помогает в цифровой трансформации бизнеса в России, США и Европе.   Мы занимаемся технически сложными, высоконагруженными, наукоёмкими проектами, проектами с большой бизнес логикой или большой серверной инфраструктурой. Нам доверяют: аналитику, проектирование интерфейсов и дизайн, разработку, инфраструктуру и эксплуатацию. Мы становимся технической командой проекта целиком или консультируем и расширяем возможности существующих команд наших клиентов.   Мы делаем особенный акцент на развитии сообщества, обучении и саморазвитии наших сотрудников. Поэтому сейчас мы в поиске  наставника, играющего тренера  к нам в команду.   Главная задача  — это  помочь Junior-разработчикам достичь уровня middle и стать успешными специалистами в мире AI/ML .Также, работа над коммерческими проектами компаниями (готовы обсудить обязанности).   Если подробнее:     Быть &#34; играющим тренером &#34;. Для нас важно, чтобы человек не был только &#34;теоретиком&#34;, но и помогал компании в различных, инженерных задачах;   Работать со стажёрами: помогать подопечным выстраивать стратегию для достижения цели, давать задания и качественную обратную связь, полное и конструктивное ревью кода;   Курировать работу стажёров в коммерческих проектах, помогать ребятам доставлять фичи и отвечать за их перформанс;   Разрабатывать программу обучения, включая создание плана развития, учебные материалы, задания и т.д.   Разрабатывать систему оценок и мотиваций;   Отслеживать прогресс стажёров и создавать отчеты для руководства об их успехах;     Этапы интервью:   - HR   - Tech interview   - C-level Meeting   Что для нас важно:     У вас фокус на AI/ML, автоматизации, чатботах;   Экспертный уровень владения Python, JavaScript, LangChain/Langflow, n8n, GigaChat LLM, RAG, Telegram-API, FAISS/SQLite;   В опыте хотелось бы видеть: разработку и внедрение ботов/агентов, оптимизацию процессов, внедрение NLP-решений;   Готовы работать в нашем Воронежском офисе.   Помогае…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="19"
+  data-date="2026-03-20T10:01:44+0300"
+  data-salary="1900">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131072015" target="_blank">Операционный ассистент (Business Operations Assistant)</a>
+      <div class="card-employer">Топассистент</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">19 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 1 900 USD</span>
+    <span>Москва</span>
+    <span>2026-03-20</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+make</span><span class="kw kw-pos">+zapier</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+использовать</span><span class="kw kw-pos">+операционный</span><span class="kw kw-pos">+руководителя</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">В международную компанию, развивающую продукты на базе искусственного интеллекта, требуется  Business Operations Assistant/Операционный ассистент , который будет работать напрямую с фаундером и помогать поддерживать структуру, фокус и контроль исполнения задач в быстрорастущем IT-стартапе.   Компания развивает несколько проектов на рынках США, Европы и MENA, создавая AI-решения, которые помогают бизнесу автоматизировать процессы и внедрять AI технологии.   Работа  полностью удалённая , с графиком, ориентированным на часовой пояс Москва / Дубай.   Что предстоит делать:   — Декомпозировать задачи фаундера, определять Definition of Done и обеспечивать контроль их исполнения. — Поддерживать фаундера в управлении операционными задачами и помогать удерживать фокус на ключевых приоритетах. — Готовить executive summary по встречам и обсуждениям, фиксировать решения и дальнейшие действия. — Поддерживать one source of truth компании (Notion / Linear / Google Docs), чтобы процессы, задачи и решения были прозрачны для команды. — Готовить презентации, аналитические материалы, таблицы и другие рабочие документы, структурируя информацию для принятия решений. — Использовать AI-инструменты (GPT, Claude, Perplexity) для ресерча, подготовки материалов и автоматизации рабочих процессов. — Настраивать и использовать простые интеграции и автоматизации (Make / Zapier / n8n). — Координировать процессы доступа, подписок и документооборота.   Кого мы ищем:   — Специалиста с опытом 3+ года в ролях Operations / Business Assistant / Project в стартапах или продуктовых IT-компаниях. — Человека с сильным структурным мышлением: умением работать с планами, дедлайнами, рисками и трекингом задач. — Уверенного пользователя Google Workspace. — С опытом работы в Notion и/или Linear. — С пониманием AI-инструментов (GPT / Claude / Perplexity) и их применения в рабочих процессах. — С базовым пониманием автоматизации через Make / Zapier / n8n. — С развитой письменной и устной коммуникацией: умением четко фо…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="19"
+  data-date="2026-03-18T14:07:55+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131345607" target="_blank">Специалист по автоматизации бизнеса</a>
+      <div class="card-employer">Хайлер</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">19 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-18</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+make</span><span class="kw kw-pos">+zapier</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+telegram</span><span class="kw kw-pos">+автоматизацию</span><span class="kw kw-pos">+автоматизации</span>
+    <span class="kw kw-neg">-1С</span>
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Кто мы   Мы — Hayler Group, крупный дистрибьютор международных брендов декоративной косметики TopFace и Miss Tais. Наша продукция представлена в крупнейших федеральных сетях &#34;Золотое яблоко&#34;, &#34;Рив Гош&#34;, &#34;Летуаль&#34;, &#34;Магнит косметик&#34;. В 2026 году мы не просто продаем косметику через маркетплейсы и офлайн, мы строим медиа-систему вокруг брендов. Наши цели на год: запуск серийного бьюти-шоу, создание ИИ-фабрики контента, развитие Telegram-комьюнити и масштабный гастрольный тур по 15 городам.     ~ 1 млрд ₽ оборот   50+ сотрудников   e-commerce, маркетплейсы, b2b, розница     Мы активно автоматизируем бизнес и внедряем AI в процессы.   Нам нужен человек, который станет мозгом этой трансформации.       Кого мы ищем   Специалиста с опытом автоматизации бизнес-процессов от 2 лет:     Обязательный опыт работы в автоматизации e-commerce   любит автоматизацию   умеет мыслить алгоритмами   быстро разбирается в новых инструментах   понимает, как AI можно встроить в реальный бизнес   не боится делать руками     Не управленца. Не администратора. А человека, который умеет  думать и делать .       Твои первые задачи   1️ .  В первый месяц:     Построить логику автоматизации закупок   Запустить MVP внутреннего AI-ассистента   Навести порядок в текущих IT-процессах     2️ .  В течение года:     Внедрить n8n / Make и автоматизировать ключевые процессы   Интегрировать 1С, CRM, маркетплейсы   Встроить AI в маркетинг, финансы, закупки   Уменьшить ручной труд     Что нужно уметь     Работать с AI (GPT, агенты, автоматизация, API)   Понимать бизнес-процессы   Писать грамотные ТЗ   Работать с 1С / CRM / таблицами   Быстро учиться и доводить задачи до результата     Плюс, если работал с:     n8n / Make / Zapier   Python / скриптами   BI   маркетплейсами     Как мы работаем     Нет бюрократии   Быстрые решения   Много свободы   Прямая коммуникация     Задача — не “поддерживать”, а  ускорять бизнес .       Условия       Заработную плату: оклад + KPI.       График: 5/2 (пятидневная рабочая недел…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="18"
+  data-date="2026-03-16T15:22:46+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131067579" target="_blank">Специалист по внедрению ИИ</a>
+      <div class="card-employer">ПрофХолод</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">18 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-16</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+no-code</span><span class="kw kw-pos">+low-code</span><span class="kw kw-pos">+инфраструктуру</span><span class="kw kw-pos">+пользователей</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+производство</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">« ПрофХолод»,  компания с 20-летним опытом, – один из крупнейших производителей сэндвич-панелей и промышленных дверей.   Основные задачи специалиста:     Анализ  бизнес-процессов и поиск точек для внедрения ИИ.   Интеграция  готовых AI-инструментов и платформ.   Настройка и адаптация  моделей под нужды заказчика (например, настройка промптов для генеративных моделей).   Обучение сотрудников  работе с новыми ИИ-системами.   Разработка MVP  (минимально жизнеспособного продукта) с помощью no-code/low-code.   Консультирование  и поддержка пользователей.         Требования:     Высшее образование в области Data Science, прикладной математики, информационных технологий, автоматизации или смежных направлений.   Опыт работы не менее 2–3 лет в сфере внедрения ИИ/ML-решений в промышленность, производство- приветствуется.   Понимание принципов работы IoT, промышленных систем управления (SCADA, MES), опыт работы с промышленными данными (временные ряды, сенсоры, PLC).   Умение работать с большими объёмами данных, проводить их очистку, агрегацию и анализ.   Навыки проектирования архитектуры ИИ-решений и их интеграции в существующую ИТ-инфраструктуру.  Ключевые навыки:     Понимание принципов работы ИИ и машинного обучения.   Коммуникативные и организационные навыки.   Работа с платформами и готовыми AI-сервисами.   Базовое знание языков программирования (Python) и структур данных (желательно, но не всегда обязательно).     Условия: ​​​​​​​    Возможность построить новое направление в компании с нуля   Корпоративные мероприятия, повышения квалификации за счет работодателя   ДМС   Корпоративный транспорт  </div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="17"
+  data-date="2026-03-24T15:23:56+0300"
+  data-salary="150000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131174775" target="_blank">Старший performance–маркетолог</a>
+      <div class="card-employer">IT-Agency</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">17 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 150 000 до 150 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-24</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+no-code</span><span class="kw kw-pos">+low-code</span><span class="kw kw-pos">+пользователей</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+операционные</span><span class="kw kw-pos">+операционных</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Меня зовут Константин, я руковожу командой перформанс-маркетологов и аналитиков в IT-Agency.   Ищу в команду интернет-маркетолога, который будет совмещать две роли: управлять рекламными проектами и создавать внутренние AI-инструменты для маркетинга.   Примерно половину времени вы будете заниматься рекламными проектами (контекстная, мобильная, медийная реклама), а вторую половину — создавать AI-инструменты: автоматизировать аналитику, строить AI-агентов и сокращать ручную работу команды.   Эта позиция — гибрид перформанс-маркетолога и создателя внутренних AI-инструментов. Мы активно внедряем AI в рабочие процессы и ищем человека, который сможет системно развивать это направление внутри команды.   Работать можно удалённо из любой страны мира.   Об агентстве   IT-Agency — рекламно-консалтинговое агентство с продуктовым подходом. Агентство существует 20 лет, сейчас в команде 130 человек.   Мы ставим целью кратно увеличить доход и прибыль нашим клиентам. Под каждый проект мы собираем кросс-функциональные команды. Работаем короткими итерациями: формулируем гипотезы, реализуем, собираем данные, делаем выводы.   На каждом проекте строим сквозную отчётность и оцифровываем результаты своей работы до реальных денег, которые зарабатывает наш клиент.   Среди наших клиентов — стартапы и крупные компании: S7 Airlines, Тинькофф, Miro, Яндекс, Аквафор, ВкусВилл, ГК ПИК, УБРиР.   Примеры задач, которые вы будете решать   Привлечь 4 млрд ₽ вкладов для банка. Ваши задачи на проекте: — продумать стратегию привлечения вкладчиков через интернет, — собрать команду: кто нужен, чтобы реализовать стратегию, — рассчитать медиаплан, — запустить и «поставить на рельсы» проект.   Увеличить доход ювелирного интернет–магазина х2 от года к году. Ваши задачи на проекте: — провести аудит и понять, на каком этапе воронки есть точки кратного роста: привлечение заказов, конверсия в оформление или выкуп заказа, средний чек, — составить список гипотез, как можно сделать х2, — собрать команду: кто нужен, чт…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="17"
+  data-date="2026-03-10T02:01:51+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131058904" target="_blank">SEO-специалист</a>
+      <div class="card-employer">Wewannamarketing</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">17 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-10</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+make</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+использование</span><span class="kw kw-pos">+коммуникации</span><span class="kw kw-pos">+копирайтеров</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Кто мы и с кем работаем   wewannamarketing — агентство, которое строит маркетинг как систему.   Помогаем продуктовым компаниям расти за счёт сильного маркетинга: понятная стратегия, офферы, воронки, каналы, экономика и стабильное масштабирование.   Работаем с SaaS, EdTech, NeuroTech, FoodTech, RealEstate, IT-продуктами и другими digital-вертикалями. Есть проекты в России и на зарубежных рынках.   Обычно мы подключаемся, когда компании нужно:     навести порядок в маркетинге как в функции и сделать его управляемым   находить новые идеи и точки роста, запускать новые направления привлечения   пересобрать стратегию, коммуникации и офферы под рост продукта   собрать или перезапустить воронку, улучшить конверсию и качество лидов   системно тестировать гипотезы, чтобы маркетинг развивался, а не «жил по инерции»   масштабировать платные каналы без ощущения «льём деньги в пустоту»   усиливать упаковку и креативы так, чтобы на продукт равнялись все конкуренты     Наши клиенты: GrowFood, Skypro, Ultimate Education, Яндекс, ВкусВилл, TrendAgent и др.   Кого ищем   Мы ищем SEO-специалиста с системным мышлением. Для нас SEO — это не набор технических правок, а управляемый канал привлечения, напрямую влияющий на лиды, выручку и экономику проектов.   Важно, чтобы ты понимал, как поисковый спрос связан с продуктом и воронкой, умел работать от бизнес-целей, приоритизировать задачи и принимать решения на основе данных. Нам нужен человек, который видит SEO как систему — от семантики и архитектуры до ссылочной стратегии и взаимодействия с разработкой.   Мы адекватная и быстрорастущая команда, нацелены на долгосрочное сотрудничество и совместное развитие.   Как устроена работа   Ты самостоятельно отвечаешь за развитие SEO и органический трафик на проектах. На каждом проекте с тобой будет PM (project manager), отвечающий за сроки, коммуникации с клиентом и организацию процесса. А если тебе потребуется помощь в принятии технических решений, всегда можно обратиться к старшим коллегам.   За…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="16"
+  data-date="2026-03-24T13:45:17+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/130487084" target="_blank">Senior AI Engineer (text, voice)</a>
+      <div class="card-employer">evrone.ru</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">16 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>до 360 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-24</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+telegram</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+low-code</span><span class="kw kw-pos">+openai</span><span class="kw kw-pos">+инфраструктуру</span><span class="kw kw-pos">+инфраструктура</span><span class="kw kw-pos">+автоматически</span><span class="kw kw-pos">+автоматизации</span>
+    <span class="kw kw-neg">-QA</span><span class="kw kw-neg">-backend</span><span class="kw kw-neg">-frontend</span>
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Привет! Команда  Evrone  занимается продуктовой разработкой стартапов и помогает в цифровой трансформации бизнеса в России, США и Европе. Думаю, что вы о нас слышали от  Григория Петрова  (Evrone Devrel)   Мы занимаемся технически сложными, высоконагруженными, наукоёмкими проектами, проектами с большой бизнес логикой или большой серверной инфраструктурой.   Сейчас ищем AI-инженеров для работы над голосовыми AI-агентами. Подробнее:   Система, которая объединяет голос, видео и интерактивные сценарии в одном месте. Основная идея - создавать умные сервисы поверх реального взаимодействия людей: от контакт-центров до автоматизации бизнес-процессов.   Архитектура распределённая, много сервисов, много интеграций, много реального времени (в прямом смысле - стримы, звонки, WebRTC). Внутри уже живут ML-компоненты, генеративные модели, пайплайны для анализа диалогов и вся AI-инфраструктура, которая помогает делать продукт умнее.   AI-стек:       Python  как основной язык под ML-инфраструктуру       LangGraph  для оркестрации агентов       Mem0  и  pgvector  как база знаний       FastAPI  — интерфейсы и API-слой       Локальные LLM : Llama, Qwen       GPT-модели , ElevenLabs, Telegram Bot API       Всё это упаковано и оркестрируется через  Kubernetes       Команды и процессы:  Всего около шести независимых потоков разработки. У каждой команды свой набор процессов:  Scrum ,  Kanban , свои ритмы, дейли, груминги, ретро и спринты. По тестированию - функциональное, регрессионное, e2e и prompt-тестирование.   В составе команд: системные-, бизнес-аналитики, DevOps, QA, PM, backend, frontend разработчики   Чем предстоит заниматься:       Проектировать архитектуру голосовых ботов: многокомпонентные сервисы, API-интерфейсы, инструменты управления и автоматизации, развивать подходы к автотестированию       Интегрировать RAG-решения, включая векторный поиск, чанкование, embedding;       Прототипировать интеграции с поставщиками (ASR, TTS, LLM, Turn Detector, Noise filter);       Проводить …</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="16"
+  data-date="2026-03-23T16:09:08+0300"
+  data-salary="85000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131008759" target="_blank">Маркетолог (Digital)</a>
+      <div class="card-employer">Базис Недвижимость</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">16 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 85 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-23</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+telegram</span><span class="kw kw-pos">+внедрение</span><span class="kw kw-pos">+операционного</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+использовать</span><span class="kw kw-pos">+копирайтеров</span><span class="kw kw-pos">+руководителя</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Базис Недвижимость  — IT-компания в сфере PropTech. Разрабатываем и внедряем цифровые решения для строительной отрасли: автоматизация строительного контроля, управление проектами, цифровые процессы на стройке.   Наша цель  — менять правила игры в отрасли через технологии. Сейчас мы усиливаем digital-направление и ищем сильного  операционного маркетолога , который будет реализовывать стратегию и усиливать присутствие бренда на рынке.   Что предстоит делать (Обязанности):       Реализация маркетинговой стратегии:       Внедрение и операционное ведение утвержденной стратегии.       Декомпозиция стратегии в конкретные задачи, спринты и KPI.       Запуск и тестирование гипотез по росту охватов, лидогенерации и узнаваемости.           Управление digital-каналами:       Ведение корпоративных каналов и работа с личным брендом руководителя (Telegram, VK / VK Видео, Rutube, MAX и другие профильные площадки).       Контент-планирование, публикация и дистрибуция материалов.       Наращивание подписной базы и повышение вовлеченности аудитории.       Настройка и контроль платного продвижения (таргет/посевы) при необходимости.           Контент-менеджмент и продюсирование:       Подготовка ТЗ для дизайнеров, видеомонтажеров и копирайтеров; контроль сроков и качества.       Упаковка кейсов клиентов и участие в подготовке экспертных материалов (статьи, аналитика, разборы).       Помощь в продюсировании видеоконтента (YouTube / RuTube).           Аналитика и продукт:       Сбор и анализ KPI (лиды, CPL, CPA, ROMI, конверсия, охваты, ER).       Настройка сквозной аналитики совместно с техническими специалистами.       Формирование ежемесячной отчетности и предложения по оптимизации на основе данных.       Понимание ценности PropTech-продуктов и участие в формировании УТП для разных сегментов ЦА (девелоперы, топ-менеджмент, техспециалисты).           Анализ рынка и конкурентов:       Мониторинг активности конкурентов в PropTech, анализ их контента и рекламных кампаний, подготовка обзоро…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="16"
+  data-date="2026-03-05T12:49:36+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/130126178" target="_blank">Продакт-менеджер (команда внутренних автоматизаций)</a>
+      <div class="card-employer">Overgear</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">16 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-05</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+внедрение</span><span class="kw kw-pos">+low-code</span><span class="kw kw-pos">+пользователей</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+использование</span><span class="kw kw-pos">+использовать</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Привет!   Overgear  - международная e-commerce платформа игровых валют и внутриигровых услуг (прокачка и коучинг). За 8 лет мы завоевали позиции лидеров на рынке США и Европы. Каждый месяц через сервис проходит более 200 тыс. пользователей, выручка проекта составляет больше $25mln в год, а география продаж охватывает 100+ стран.   Сейчас нам требуется менеджер, способный быстро погрузиться в наш продукт и усилить нашу команду автоматизации бизнес-процессов. Эта позиция подойдет вам, если:     вы бывший(ая) разработчик/системный-аналитик, выросший до менеджера/продакта, который работал(а) с созданием систем с нуля/интеграцией готовых решений для оптимизации процесса;   вы работали менеджером/продактом и занимались развитием внутренних админок, автоматизаций процессов и/или внедрением систем, улучшающих бизнес-процессы бизнеса (CRM/ERP и etc).     Основные задачи:     Анализ потребностей коллег из отделов маркетинга, продаж, снабжения и поддержки   Выявление требований к внутренним инструментам в компании   Развитие CRM системы (Salesforce) с помощью нашей команды инженеров   Автоматизация бизнес-процессов компании с использованием low-code решений и/или с помощью разработки   Разработка и внедрение стратегии развития внутренних инструментов, направленных на оптимизацию рабочих процессов и повышение эффективности работы всех отделов компании   Управление ожиданиями коллег, приоритизация и роадмаппинг работ   Поиск и анализ программных продуктов на рынке, подбор и внедрение подходящих решений, просчет затрат на использование и потенциальной выгоды   Организация и контроль работы команды разработки, ответственной за разработку прототипов и готовых решений на базе zero-code / low-code &amp; AI/ML решений     Требования:     Знание рынка программных продуктов и умение выбирать подходящие решения для компании   Опыт использования инструментов автоматизации бизнес-процессов (например, Python, RPA, BPM)   Опыт внедрения zero/low-code решений   Умение писать структурные и понятны…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="15"
+  data-date="2026-03-23T09:47:06+0300"
+  data-salary="100000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/130817366" target="_blank">AI-инженер по автоматизации ( e-commerce )</a>
+      <div class="card-employer">SONOX</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">15 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 100 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-23</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+внедрение</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+производство</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Sonox —  динамично развивающийся российский бренд матрасов нового поколения. Мы — трендсеттеры и новаторы в своей отрасли, внедряем современные технологии в производство и уже за 3 года вошли в  ТОП-5 продавцов матрасов на Wildberries ,Ozon, М-Видео и Яндекс маркет !   Наша миссия — изменить культуру сна в России и показать, что все преображения в жизни начинаются с качественного сна. В основе нашей продукции — технологии Memory Foam, независимые пружины, гипоаллергенные натуральные материалы. Ассортимент включает топперы, ортопедические матрасы разной жесткости, подушки и кровати.   Сейчас мы полностью меняем стратегию продвижения и выходим на новый уровень работы с маркетплейсами. Для этого мы ищем  специалиста для внедрения AI-решений в e-commerce компании (товары для сна).   Что вас ждет:        разработка AI-агентов для аналитики продаж;       интеграции с маркетплейсами;       автоматизация отчётности;       внедрение LLM в бизнес-процессы.       Наши ожидания:     Python;     опыт интеграций API;       работа с LLM;       опыт автоматизации процессов.       Условия работы:       График работы: Проектный формат / full-time;       Работа в дружной команде, где каждый готов помочь;       Оформление по ТК РФ, СМЗ, ИП;       Испытательный срок — 3 месяца;       Личное наставничество в период адаптации.       Готовы обсудить детали? Нажмите «Откликнуться» и заполните небольшую Яндекс форму , так мы свяжемся с вами в течение 8 часов. Будем рады знакомству и сотрудничеству!        </div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="14"
+  data-date="2026-03-22T18:23:28+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131273709" target="_blank">AI Product &amp; Operations Lead / Руководитель направления AI-продуктов и процессов</a>
+      <div class="card-employer">Astro7</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">14 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-22</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+предсказуемость</span><span class="kw kw-pos">+операционного</span><span class="kw kw-pos">+автоматизацию</span><span class="kw kw-pos">+операционные</span><span class="kw kw-pos">+использовать</span><span class="kw kw-pos">+стабильность</span><span class="kw kw-pos">+руководитель</span><span class="kw kw-pos">+операционных</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">О сервисе Aura7 Aura7 — маркетплейс, где клиенты получают личные консультации по телефону от экспертов-эзотериков (таро, нумерология, астропсихология). Мы помогаем людям разобраться в вопросах отношений, карьеры и поиска себя. Наша задача — сохраняя доверие и приватность, сделать сервис удобнее, умнее и эффективнее с помощью технологий.   Зачем мы ищем вас Перед нами стоит практическая задача по оптимизации. Нужно внедрить ИИ в ключевые процессы нашего сервиса, чтобы повысить операционную эффективность, предсказуемость и качество работы как для клиентов, так и для экспертов. Мы ищем сильного специалиста, который сможет превратить технологические возможности в измеримый бизнес-результат и стабильность production-систем.   Задача:  Использовать AI как инструмент для операционной трансформации сервиса: строить предиктивные системы, внедрять автоматизацию и создавать более персонализированный опыт через данные.   Примеры задач, которые иллюстрируют наш подход:       Развитие моделей предиктивной аналитики:  Разработка систем для прогнозирования ключевых событий (спрос, нагрузка, отток) в жизненном цикле клиента для упреждающего управления ресурсами и качеством сервиса.       Оптимизация и автоматизация процессов:  Поиск узких мест в операционных цепочках (от привлечения клиента до работы эксперта) и их автоматизация с использованием AI-инструментов для разработки и анализа.       Мы ищем того, кто:   Обладает системным и, желательно, техническим/инженерным мышлением.  Понимает, как устроены сложные системы, и может оценивать решения не только с продуктовой, но и с архитектурной стороны.   Думает и действует как предприниматель (owner) и технолог.  Принимает решения, исходя из бизнес-логики, финансового результата и долгосрочной технической реализуемости.   Имеет опыт управления полным циклом продукта и командами полного цикла.  Способен взять под руководство существующую кросс-функциональную команду (разработка, дизайн, аналитика, контакт-центр, экспертный отдел), задат…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="14"
+  data-date="2026-03-18T16:17:39+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131352550" target="_blank">Инженер по автоматизации Jira</a>
+      <div class="card-employer">Hi, Rockits!</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">14 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-18</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+внедрение</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+пользоваться</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Нахожусь в поисках  Эксперта по JIRA, ServiceDesk  системам и автоматизации в команде офисной поддержки в компанию, которая является лидером рынка в сфере доверительного управления и коллективных инвестиций.   Что хотим видеть:     Опыт работы от 3 лет;   Опыт администрирования и настройки Jira Server\Confluence (on-premise) от 1 года    Настройка workflows, автоматизаций, SLA, форм обращений, проектов и пространств;   Создание и оптимизация дашбордов и отчётности, фильтров;   Знание плагинов и умение ими пользоваться (ScriptRunner, Automation, Email This Issue, Structure);   Опыт участия в развертывании или переносах, апгрейде версий, разборе инфраструктурных сбоев.     Какие задачи вас ждут:     Проектирование и внедрение автоматизаций в JIRA\Confluence;   Оптимизация существующих процессов в системе;    Создание интеграций между системами через n8n/API;    Администрирование и развитие VDI, RPA, AI;    Разработка метрик и отчётов для анализа эффективности поддержки;   Консультирование команды по техническим вопросам, создание инструментария для поддержки, облегчающего их рутину.     Что готовы предложить:     Гибридный  формат работы в комфортном офисе рядом с метро «Маяковская»;   Комплексная программа заботы о здоровье: ДМС со стоматологией с первых дней работы;   Трудоустройство по ТК РФ, полностью белая заработная плата;   Корпоративные скидки в World class, бесплатные корпоративные занятия по йоге, футболу, гребле, шахматам. Каждый квартал новая спортивная активность;   Выгодные условия на организацию туров и льготное проживание в лучших отелях России, а также страхование для выезжающих за границу;   Обучающая среда с нацеленная на развитие каждого сотрудника: курсы, тренинги, вебинары и базы знаний. Поддержка от психологов, коучей, менторов и наставников.  </div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="14"
+  data-date="2026-03-06T14:11:14+0300"
+  data-salary="150000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131032591" target="_blank">Разработчик интеллектуальной автоматизации (RPA + AI)</a>
+      <div class="card-employer">Vig Trans</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">14 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 150 000 до 200 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-06</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+внедрение</span><span class="kw kw-pos">+openai</span><span class="kw kw-pos">+автоматизации</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Мы VIG Trans  — международная логистическая компания с  16-летним  опытом, которая стремится находить лучшие решения для наших клиентов.   400+ профессионалов  работают в офисах Москвы, Санкт-Петербурга, Минска, Стамбула, Алматы и Шанхая.   Кого мы ищем?   Мы ищем специалиста по интеллектуальной автоматизации для разработки и внедрения решений, которые автоматизируют бизнес-процессы компании с использованием  RPA и AI-агентов .   Присоединившись сейчас, ты получаешь возможность влиять на архитектуру, стандарты и будущее направление автоматизации в компании.   Задачи:     Анализ бизнес-процессов и поиск возможностей для автоматизации;   Разработка и внедрение  RPA-роботов  для автоматизации задач сотрудников;   Разработка и настройка  AI-агентов  для автоматизации обработки данных, документов и запросов;   Интеграция решений автоматизации с корпоративными системами (CRM, ERP, внутренние сервисы);   Настройка взаимодействия систем через API;   Поддержка и развитие внедрённых решений автоматизации.     Наши ожидания:     Опыт разработки решений по автоматизации бизнес-процессов;   Опыт работы с  RPA-платформами  (Primo RPA,UiPath, Power Automate);   Понимание принципов роботизации процессов (RPA) и интеллектуальной автоматизации;   Опыт разработки или настройки  AI-агентов;   Опыт работы с LLM-моделями (например: OpenAI, Anthropic);   Опыт использования AI-инструментов для разработки (например: Cursor);   Опыт работы с платформами для развёртывания AI-агентов (например: OpenClaw на платформе Timeweb Cloud);   Опыт интеграции систем через API;   Опыт работы с корпоративными системами (CRM, ERP или внутренние сервисы).     Мы предлагаем:     Гибридный/удаленный формат работы в БЦ Барклай Плаза;   Официальное оформление  с первого рабочего дня по законодательству РФ;   Стабильная заработная плата  без задержек;   Участие в важном проекте  по созданию и масштабному внедрению RPA/AI;   Возможность работать с новейшими платформами роботизации (Primo RPA);   Карьерный рост  д…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="14"
+  data-date="2026-02-28T19:41:50+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/130851923" target="_blank">AI-разработчик (LangChain, LangGraph)</a>
+      <div class="card-employer">СБЕР</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">14 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-02-28</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+внедрение</span><span class="kw kw-pos">+руководителя</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Мы — команда GigaChain. Создаём продукты для разработчиков, проводим R&amp;D исследования, фокусируясь на разработке AI-агентов, мультимодальных и мультиагентных решений Сбера. Входим в топ-3 опенсорс-решений Сбера.   Присоединяйся к нам, чтобы создавать новые AI-решения! Обязанности     Разработка решений на основе GigaChain, внедрение новых возможностей GigaChat.   Участие в создании и развитии LLM GigaChat.   Проведение исследований и создание прототипов и MVP AI-решений на базе LLM.   Разработка инструментария для AI-агентов и микросервисов.   Оптимизация и автоматизация существующих процессов разработки.   Участие в процессе вывода решений в промышленную эксплуатацию и публикацию OpenSource.   Написание технической документации, юнит-тестов и проведение code review.   Обучение и развитие специалистов команды.   Требования     Опыт разработки на Python — от 3 лет.   Опыт работы с большими языковыми моделями (LLM) и их интеграция в бизнес-решения.   Опыт разработки и интеграции REST API сервисов.   Опыт работы с Git, Docker, Linux.   Опыт работы с LangChain, LangGraph, LlamaIndex и другими решениями.   Условия     Гибкий гибрид   Возможность оформления в аккредитованную IT-компанию.   Годовая премия по итогам работы до 6 окладов.   Регулярный пересмотр зарплат.   Корпоративный спортзал и зоны отдыха.   Более 400 программ СберУниверситета для роста.   Программа адаптации и помощь руководителя на старте.   Крупнейшее DS&amp;AI community — более 600 DS банка, регулярный обмен знаниями, опытом и лучшими практиками, интерактивные лекции и мастер-классы от ведущих ВУЗов и экспертов технологических компаний, дайджест о самых последних разработках в области DS&amp;AI и отчеты с крупнейших конференций мира, регулярные внутренние митапы.   Расширенный ДМС, льготное страхование для семьи, корпоративная пенсионная программа.   Ипотека для сотрудников по дисконтной программе.   СберПрайм+ и скидки у партнёров.   Бонус за рекомендации в команду.  </div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="13"
+  data-date="2026-03-24T09:49:21+0300"
+  data-salary="250000">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131225850" target="_blank">Personal Operations Assistant / Личный операционный ассистент для семейной пары</a>
+      <div class="card-employer">Assisteca</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">13 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>от 250 000 до 300 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-24</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+n8n</span><span class="kw kw-pos">+zapier</span><span class="kw kw-pos">+автоматизацию</span><span class="kw kw-pos">+операционный</span><span class="kw kw-pos">+руководителя</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Валерия Ткачук  и  Денис Пушкин , семейная пара, проживающая в Лондоне.   Лера развивает своё агентство  Assisteca  по подбору ассистентов для IT предпринимателей и ТОП менеджеров, а Денис работает  CPO в американском AI стартапе.   Подробнее про руководителей:   У ребят высокий ритм: много задач, несколько таймзон, коммуникация в разных каналах одновременно. Им нужен не исполнитель, а  архитектор процессов  — человек, который проектирует систему, внедряет автоматизацию и держит всё без постоянного контроля — чтобы у Леры и Дениса оставался ресурс на стратегические проекты.   Фокус роли:  взять на себя операционку — календари, задачи, процессы — и выстроить её так, чтобы ничего не терялось и всё доводилось до результата.   📌Обязательно:  разговорный английский С1, работа с AI (сursor, n8n), высокая системность.   Распределение задач:  60% личные / 40% бизнес. . . Какие будут задачи:   1. Личный менеджмент - 30%   Календарь  – самая важная сфера. Лера и Денис живут строго по календарю. Он должен быть всегда актуален и заполнен идеально. - ежедневные короткие синки, апдейт и трекинг задач, - недельное планирование + ретроспектива; - поддержка актуального расписания.   Таск-менеджмент:  сбор задач из разных источников, ведение таск-трекера, написание follow-up, контроль дедлайнов, прозрачность и апдейт статусов, ежедневный план/факт   SOPs:  оформлять повторяющиеся процессы в инструкции, вести базу знаний   2. Персональные задачи Леры и Дениса - 30%   - 🚑 Здоровье: поддерживать базу по врачам, обследованиям, результатам и назначениям; записывать к специалистам через NHS и частные клиники; отслеживать плановые скрининги. - 🇬🇧 Быт в Лондоне: общение с менеджментом дома, заказ воды, общение с коммунальными службами; запись на стрижки и массаж, поиск специалистов, выбор и покупка техники и девайсов. - 🎭 Досуг: бронь ресторанов, покупка билетов в театры и на выставки, поиск студии танцев. - 🐾 Забота о собаке: ветеринария, груминг, календарь прививок, оформление страховых кл…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="13"
+  data-date="2026-02-27T17:19:11+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/130331613" target="_blank">SMM-специалист (Content Factory AI Lead)</a>
+      <div class="card-employer">НООСФЕРА</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">13 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-02-27</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+make</span><span class="kw kw-pos">+zapier</span><span class="kw kw-pos">+внедрение</span><span class="kw kw-pos">+chatgpt</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+производства</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Вакансия: SMM-специалист (Content Factory AI Lead)   Мы ищем не просто «постинг-менеджера», а архитектора контента, который умеет превращать идеи в бесконечный поток качественного визуала и текстов. Наша цель — построить настоящий «контент-завод», где нейросети берут на себя рутину, а человек управляет смыслами и качеством.   Чем предстоит заниматься:     Разработка и реализация стратегии роста через контент:  Формирование и внедрение масштабируемой системы производства контента (Reels, Shorts, посты, сторис) с фокусом на инновации, вовлеченность и удержание, с использованием передовых AI-инструментов.   AI-first подход:  Применение нейросетей (ChatGPT, Midjourney, DALL-E и других) для автоматизации контент-процессов: создание текстов, графики и видео.   Организация процесса и масштабирование:  Создание системы, позволяющей производить 50+ единиц контента в неделю с минимальными ресурсами, а также управление командой и ресурсами для роста.   Стратегическая аналитика:  Построение и внедрение аналитических систем для оценки эффективности контента, корректировка стратегии и процессов на основе данных.     Что мы ждем от тебя:     Селф-ентерпренерский подход:  Ты понимаешь, что нужно делать, как это быстро протестировать и масштабировать. У тебя есть  видение , как строить контент-машину, и ты готов ее реализовать.   Глубокие знания рынка и технологий:  Ты в курсе  новейших трендов в AI  и можешь быстро применять их на практике для создания контента, а также знаешь, как интегрировать ИИ в процессы.   Способность быстро проверять гипотезы:  Ты умеешь генерировать и тестировать гипотезы, быстро запускаешь MVP и адаптируешь подходы по мере роста.   Понимание аналитики и данных:  Ты умеешь строить и интерпретировать аналитику, основанную на данных, и корректировать стратегию для повышения эффективности.     Будет плюсом:     Опыт работы с инструментами автоматизации процессов (Make.com, Zapier и тп.).   Знание Adobe Firefly или аналогичных инструментов для работы с графикой…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="12"
+  data-date="2026-03-24T20:17:46+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/130182419" target="_blank">Fullstack-разработчик</a>
+      <div class="card-employer">НССД</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">12 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-24</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+интеграции</span><span class="kw kw-pos">+openai</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+использование</span>
+    <span class="kw kw-neg">-backend</span><span class="kw kw-neg">-frontend</span>
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Мы — «Национальная Служба Списания Долгов»  — одна из ведущих legal-tech компаний в России, специализирующаяся на сопровождении процедуры банкротства физических лиц. С 2019 года мы помогаем людям легально и полностью освободиться от долгов, возвращая им финансовую свободу, душевное спокойствие и уверенность в завтрашнем дне.       УСЛОВИЯ:     График работы: 5/2, с 09:00 до 18:00 или с 10:00 до 19:00 — по согласованию, офис с возможностью перехода на гибридный график после испытательного срока.     Размер фиксированного оклада обсуждается индивидуально с успешным кандидатом — мы стремимся предложить конкурентную заработную плату.     Современный офис в бизнес-квартале «АРМА» с удобной инфраструктурой: кофейни, рестораны, фитнес-центры, культурные пространства — всё в шаговой доступности.   Возможности карьерного роста: компания выстраивает прозрачную систему развития — все руководители прошли путь от линейных специалистов до топ-менеджеров внутри команды.   Дружелюбная корпоративная среда, поддержка коллег и открытое взаимодействие с руководством.         ОБЯЗАННОСТИ:       Разработка и поддержка веб‑приложений (Frontend+ Backend).       Интеграция AI‑сервисов и готовых ML‑решений в существующие и новые продукты компании.       Настройка и использование API внешних AI‑платформ (OpenAI, Google AI и др.) для автоматизации бизнес‑процессов.       Автоматизация процессов: обработка данных, аналитика, взаимодействие с внешними системами.       Проектирование архитектуры и масштабирование цифровых продуктов с учётом интеграции AI‑функционала.       Тестирование и оптимизация внедряемых AI‑решений, оценка их эффективности в реальных сценариях.       Взаимодействие с командами разработки и маркетинга для внедрения инновационных решений и улучшения пользовательского опыта.       Поддержка и доработка фронтенд‑ и бэкенд‑компонентов веб‑сервисов.           ТРЕБОВАНИЯ:       Опыт разработки на Python (обязательно).       Навыки интеграции AI‑сервисов через API (OpenAI, Google A…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="12"
+  data-date="2026-03-23T15:22:10+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/129763603" target="_blank">AI-инженер</a>
+      <div class="card-employer">Точка Банк</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">12 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>до 320 000 RUR</span>
+    <span>Москва</span>
+    <span>2026-03-23</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+AI</span><span class="kw kw-pos">+API</span><span class="kw kw-pos">+low-code</span><span class="kw kw-pos">+пользователей</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+пользоваться</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Ищем AI-инженера в Точка Банк. Мы создаём онлайн-банк и экосистему сервисов для бизнеса. В нашей команде больше 6 000 сотрудников, а сервисами пользуются более 800 000 клиентов.   О командах   Сейчас есть две команды, в которые мы ищем специалиста:   1. Data Dev   Мы создаём инструменты для быстрого масштабирования LLM-решений под бизнес-задачи. Наша цель — построить единый архитектурный стек для внедрения и управления интеллектуальными сервисами, которые будут использоваться во всех продуктах компании.   Работа у нас — это возможность влиять на то, как AI-инструменты и ассистенты помогают сотням тысяч пользователей и сотрудников компании. Все архитектурные решения и эксперименты — в твоих руках, а команда всегда поддержит инициативы по развитию.   2. Data-команда   Ты будешь работать в команде, которая делает ML- и AI-решения для продуктов Точка Банка.   Наш фокус — end-to-end-разработка: от исследований до внедрения в прод. Задачи разные — от look-alike-моделей и аналитики до диалоговых ассистентов. Мы помогаем продуктовым командам работать эффективнее и запускать полезные решения для пользователей. Берём в работу то, что даёт измеримую ценность для бизнеса и клиентов уже сейчас.   Мы улучшаем существующие сервисы и запускаем новые AI-продукты. Уже сделали два ассистента — для бухгалтера и для селлера на маркетплейсах. Сейчас продолжаем развивать ассистентов для других направлений. 3. ML Core   Мы занимаемся разработкой сервисов для оптимизации и автоматизации внутренних процессов компании с использованием ИИ.   Один из наших ключевых проектов сейчас — разработка платформы для автоматизации процессов документооборота с применением ИИ-инструментов: LLM, OCR, ASR. Также мы участвуем в реализации ещё нескольких проектов для других команд. Например, разрабатываем HR-ассистента и систему автоматической проверки сайтов перед подключением интернет-эквайринга. Об этом рассказывали в одном из докладов.   В команде представлены как классические инженерные роли — разработчик…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="12"
+  data-date="2026-03-12T16:41:54+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131178459" target="_blank">Руководитель направления по общеправовому сопровождению операционной деятельности</a>
+      <div class="card-employer">Росводоканал,ООО</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">12 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-12</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+автоматизацию</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+использование</span><span class="kw kw-pos">+коммуникации</span><span class="kw kw-pos">+руководитель</span><span class="kw kw-pos">+руководителя</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Обязанности:     Методологическое сопровождение, формирование и анализ практики:     Руководство аналитическим и методологическим центром правовой аналитики группы компаний Формирование и работа с Базой знаний. Обобщение и анализ практики, подготовка обзоров, единых правовых позиций группы Формирование законотворческих инициатив в сфере водоснабжения и водоотведения Обобщение и ведение базы данных по имуществу и земельным участкам группы     Управление бизнес-процессами:     Оптимизация бизнес-процессов для повышения операционной эффективности / Legal Tech. Управление договорным жизненным циклом Автоматизация рутины и согласований, напоминаний об исполнении обязательств Интеллектуальный анализ данных, в т.ч. с использование AI     Управление рисками:     Управление юридическими рисками, работа с «картой юридических рисков» компании. Риск ориентированное планирование Юридический аудит и регулярный скрининг деятельности бизнес-единиц на предмет соответствия требованиям законодательства, контроль проверок Мониторинг законопроектов (особенно в сфере ЖКХ) и подготовка компании к изменениям     Правовое обеспечение:     Правовая экспертиза договоров и внутренних документов с использованием ЭДО. Подготовка правовых заключений Разработка типовых договоров, соглашений и контроль их применения.     Руководство и работа с командой:     Курирование, координация, планирование и контроль работы юристов общеправового сопровождения операционной деятельности дочерних компаний. Постановка задач и контроль их исполнения. Мотивация сотрудников и обеспечение эффективной коммуникации Развитие, обучение команды , формирование индивидуальных планов развития, кадрового резерва     Представительство и защита:     Сопровождение проверок контрольно-надзорных органов, в т.ч. по закупкам (УФАС, ФАС и др.).      Консультирование:     Предоставление юридических консультаций руководству и сотрудникам компании Разъяснение действующего законодательства и порядка его применения     Работа с контрагент…</div>
+  
+</div>
+
+<div class="card"
+  data-priority="high"
+  data-score="12"
+  data-date="2026-03-12T11:08:13+0300"
+  data-salary="0">
+
+  <div class="card-header">
+    <div class="card-title">
+      <a href="https://hh.ru/vacancy/131160487" target="_blank">Cпециалист/Ведущий специалист по информационной безопасности</a>
+      <div class="card-employer">Гринфилдс-Логистика</div>
+    </div>
+    <span class="badge badge-high">high</span>
+    <span class="score-badge">12 баллов</span>
+  </div>
+
+  <div class="card-meta">
+    <span>не указана</span>
+    <span>Москва</span>
+    <span>2026-03-12</span>
+  </div>
+
+  
+  <div class="keywords">
+    <span class="kw kw-pos">+автоматизация</span><span class="kw kw-pos">+AI</span><span class="kw kw-pos">+внедрение</span><span class="kw kw-pos">+пользователей</span><span class="kw kw-pos">+автоматизации</span><span class="kw kw-pos">+использовать</span><span class="kw kw-pos">+операционных</span>
+    
+  </div>
+  
+
+  <div class="card-action">→ Откликнуться</div>
+
+  
+  <button class="accordion-btn" onclick="toggleDesc(this)">Показать описание</button>
+  <div class="accordion-content">Гринфилдс-Логистика  —  это более чем 25-летняя экспертиза в дистрибуции экзотических овощей и фруктов.   Факты о нас:     Торговые операции с более чем 50 странами по всему миру.   Ассортимент из более 450 SKU.   Современный логистический комплекс   класса А+ общей площадью 25000 м2.   Высокотехнологичное европейское оборудование для дозаривания фруктов.   Мы улучшаем качество жизни людей, предоставляя возможность круглый год покупать спелые, вкусные, полезные ягоды и фрукты.     Что мы предлагаем для комфортной работы:     Официальное оформление по ТК РФ.   ЗП &#34;белая&#34; точно в срок (обсуждаем индивидуально).   График работы 5/2 (офис).   Новый современный офис класса А+ с панорамными видами по адресу: район Внуково, Новомосковский административный округ, квартал № 63, 1Бс8   Корпоративный транспорт от м. Рассказовка, м. Саларьево, а также от населенных пунктов Толстопальцево, Марушкино, Кокошкино и Московский.   Бесплатная охраняемая парковка на территории компании для ваших авто.   Завтраки и обеды в корпоративном кафе по привлекательным ценам ниже бизнес-ланча.   Карьерный рост - у всех сотрудников есть возможность построить карьеру и увеличить свой доход.   Корпоративные мероприятия и подарки сотрудникам на знаковые события и праздники.   Компенсация мобильной связи.   Собственный тренажерный зал для сотрудников.   Бесплатное обеспечение спецодеждой.   Бесплатные ежегодные медицинские осмотры.   ДМС со стоматологией после испытательного срока.   Весомые скидки на продукцию компании (ягоды, фрукты и овощи самой первой свежести).     Что предстоит делать:     Разработка и внедрение набора политик контроля, соответствующих бизнес-процессам компании.   Инвентаризация сетевых активов для создания детализированной актуальной схемы корпоративной сети для анализа угроз и планирования изменений.   Сопровождение всех внешних цифровых площадок бизнеса в цифровом мире, организация контроля доступов к ним сотрудникам и подрядным организациям (матрица прав и ролей) контроль и…</div>
+  
+</div>
+
+</div>
+
+<script>
+function toggleDesc(btn) {
+  const content = btn.nextElementSibling;
+  const visible = content.style.display === 'block';
+  content.style.display = visible ? 'none' : 'block';
+  btn.textContent = visible ? 'Показать описание' : 'Скрыть описание';
+}
+
+function applyFilters() {
+  const priority = document.getElementById('filter-priority').value;
+  const sortBy = document.getElementById('sort-by').value;
+  const container = document.getElementById('cards-container');
+  const cards = Array.from(container.querySelectorAll('.card'));
+
+  cards.forEach(c => {
+    const match = !priority || c.dataset.priority === priority;
+    c.classList.toggle('hidden', !match);
+  });
+
+  const visible = cards.filter(c => !c.classList.contains('hidden'));
+  visible.sort((a, b) => {
+    if (sortBy === 'score') return Number(b.dataset.score) - Number(a.dataset.score);
+    if (sortBy === 'date') return b.dataset.date.localeCompare(a.dataset.date);
+    if (sortBy === 'salary') return Number(b.dataset.salary) - Number(a.dataset.salary);
+    return 0;
+  });
+  visible.forEach(c => container.appendChild(c));
+
+  const total = 30;
+  document.getElementById('counter').textContent = `Показано ${visible.length} из ${total}`;
+}
+</script>
+</body>
+</html>
