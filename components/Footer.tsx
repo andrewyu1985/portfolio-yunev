@@ -33,7 +33,6 @@ export default function Footer() {
     }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
 
-        {/* Top */}
         <div className="footer-top reveal" style={{
           display: 'grid', gridTemplateColumns: '1fr auto',
           gap: 40, alignItems: 'end', marginBottom: 48,
@@ -45,9 +44,9 @@ export default function Footer() {
               color: 'var(--color-accent)', margin: '0 0 16px',
             }}>03 — Связаться</p>
             <h2 style={{
-              fontFamily: 'var(--font-display)', fontWeight: 700,
+              fontFamily: 'var(--font-display)', fontWeight: 800,
               fontSize: 'clamp(1.75rem, 4vw, 3rem)',
-              lineHeight: 1.1, letterSpacing: '-0.025em',
+              lineHeight: 1.1, letterSpacing: 'var(--ls-heading)',
               color: 'var(--color-text)', margin: 0,
             }}>
               Есть задача?<br />
@@ -57,18 +56,16 @@ export default function Footer() {
           <a href="mailto:andrewyunev@gmail.com" style={{
             display: 'inline-flex', alignItems: 'center', gap: 10,
             fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.95rem',
-            color: 'oklch(0.15 0.015 258)', background: 'var(--color-accent)',
+            color: 'var(--color-text-inv)', background: 'var(--color-accent)',
             padding: '14px 28px', borderRadius: 100, textDecoration: 'none',
             transition: 'opacity 0.18s, transform 0.18s', whiteSpace: 'nowrap',
+            boxShadow: '0 4px 20px oklch(0.50 0.26 265 / 0.25)',
           }}
             onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-2px)' }}
             onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)' }}
-          >
-            Написать на email →
-          </a>
+          >Написать на email →</a>
         </div>
 
-        {/* Email */}
         <div className="reveal" style={{
           padding: '28px 0',
           borderTop: '1px solid var(--color-border)',
@@ -77,49 +74,44 @@ export default function Footer() {
         }}>
           <a href="mailto:andrewyunev@gmail.com" style={{
             fontFamily: 'var(--font-display)', fontWeight: 700,
-            fontSize: 'clamp(1.25rem, 3vw, 2rem)',
-            letterSpacing: '-0.02em', color: 'var(--color-text2)',
+            fontSize: 'clamp(1.1rem, 2.8vw, 1.8rem)',
+            letterSpacing: '-0.02em', color: 'var(--color-text3)',
             textDecoration: 'none', transition: 'color 0.18s',
           }}
             onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-accent)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text2)')}
-          >
-            andrewyunev@gmail.com
-          </a>
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text3)')}
+          >andrewyunev@gmail.com</a>
         </div>
 
-        {/* Bottom */}
         <div className="reveal" style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           flexWrap: 'wrap', gap: 20,
         }}>
           <div style={{ display: 'flex', gap: 8 }}>
             {socials.map(({ href, label, Icon }) => (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer"
-                title={label}
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" title={label}
                 style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                   width: 40, height: 40, borderRadius: 10,
                   border: '1px solid var(--color-border)',
                   color: 'var(--color-text3)', textDecoration: 'none',
-                  transition: 'color 0.18s, border-color 0.18s, background 0.18s',
+                  transition: 'color 0.18s, border-color 0.18s, background 0.18s, transform 0.18s',
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.color = 'var(--color-accent)'
                   e.currentTarget.style.borderColor = 'var(--color-accent)'
                   e.currentTarget.style.background = 'var(--color-accent-bg)'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.color = 'var(--color-text3)'
                   e.currentTarget.style.borderColor = 'var(--color-border)'
                   e.currentTarget.style.background = 'transparent'
+                  e.currentTarget.style.transform = 'translateY(0)'
                 }}
-              >
-                <Icon />
-              </a>
+              ><Icon /></a>
             ))}
           </div>
-
           <p style={{
             fontFamily: 'var(--font-mono)', fontSize: '0.72rem',
             color: 'var(--color-text3)', letterSpacing: '0.04em',
@@ -128,7 +120,6 @@ export default function Footer() {
           </p>
         </div>
       </div>
-
       <style>{`
         .footer-top { grid-template-columns: 1fr auto !important; }
         @media (max-width: 640px) { .footer-top { grid-template-columns: 1fr !important; } }

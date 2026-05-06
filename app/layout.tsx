@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
-import { Bricolage_Grotesque, Manrope, JetBrains_Mono } from 'next/font/google'
+import { Unbounded, Manrope, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 
-const bricolage = Bricolage_Grotesque({
-  variable: '--font-bricolage',
-  subsets: ['latin', 'latin-ext'],
-  weight: ['400', '600', '700', '800'],
+const unbounded = Unbounded({
+  variable: '--font-unbounded',
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '600', '700', '800', '900'],
   display: 'swap',
 })
 
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={`${bricolage.variable} ${manrope.variable} ${jetbrains.variable}`}>
+    <html lang="ru" className={`${unbounded.variable} ${manrope.variable} ${jetbrains.variable}`}>
       <head>
         <script
           type="application/ld+json"

@@ -8,8 +8,8 @@ const timeline = [
 
 const paragraphs = [
   'Архитектор автоматизации и AI-решений с 17+ годами в операционном управлении. Специализируюсь на перестройке бизнес-процессов: убираю ручные операции, внедряю воспроизводимые системы, сокращаю время типовых задач в 5–20 раз.',
-  'Не точечная оптимизация — пересборка процесса. Строю решения на пересечении управления и AI: контентные конвейеры, клиентские сценарии, операционная инфраструктура. Результат — снижение затрат на подрядчиков на 70–100%.',
-  'Основатель интернет-проектов «Юневерсум» и «ВектораВсем» с аудиторией 20 000+ человек. Ранее — основатель клуба робототехники «Роботрек» (150+ учеников в месяц, 1 место на всероссийских соревнованиях).',
+  'Не точечная оптимизация — пересборка процесса. Строю решения на пересечении управления и AI: контентные конвейеры, клиентские сценарии, операционная инфраструктура. Снижение затрат на подрядчиков на 70–100%, устойчивая работа без зависимости от человеческого фактора.',
+  'Основатель «Юневерсум» и «ВектораВсем» с аудиторией 20 000+ человек. Ранее — основатель «Роботрека» (150+ учеников в месяц, 1 место на всероссийских соревнованиях).',
 ]
 
 export default function About() {
@@ -25,12 +25,12 @@ export default function About() {
           <p style={{
             fontFamily: 'var(--font-mono)', fontSize: '0.7rem',
             letterSpacing: '0.12em', textTransform: 'uppercase',
-            color: 'var(--color-accent)', margin: '0 0 12px',
+            color: 'var(--color-accent)', margin: '0 0 14px',
           }}>02 — Обо мне</p>
           <h2 style={{
-            fontFamily: 'var(--font-display)', fontWeight: 700,
+            fontFamily: 'var(--font-display)', fontWeight: 800,
             fontSize: 'var(--text-h1)', lineHeight: 1.1,
-            letterSpacing: '-0.025em', color: 'var(--color-text)', margin: 0,
+            letterSpacing: 'var(--ls-heading)', color: 'var(--color-text)', margin: 0,
           }}>
             Строю системы,<br />
             <span style={{ color: 'var(--color-accent)' }}>которые работают сами</span>
@@ -42,8 +42,7 @@ export default function About() {
           gap: 'clamp(40px, 6vw, 80px)', alignItems: 'start',
         }} className="about-grid reveal">
 
-          {/* Текст */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
             {paragraphs.map((text, i) => (
               <p key={i} style={{
                 fontFamily: 'var(--font-body)', fontSize: 'var(--text-body)',
@@ -52,7 +51,6 @@ export default function About() {
             ))}
           </div>
 
-          {/* Timeline */}
           <div style={{ position: 'relative', paddingLeft: 28 }}>
             <div style={{
               position: 'absolute', left: 0, top: 6, bottom: 6,
@@ -65,7 +63,7 @@ export default function About() {
                     position: 'absolute', left: -33, top: 5,
                     width: 9, height: 9, borderRadius: '50%',
                     background: 'var(--color-accent)',
-                    boxShadow: '0 0 0 3px var(--color-bg3)',
+                    boxShadow: '0 0 0 3px var(--color-bg3), 0 0 0 5px oklch(0.50 0.26 265 / 0.15)',
                   }} />
                   <span style={{
                     display: 'block', fontFamily: 'var(--font-mono)',
@@ -82,10 +80,7 @@ export default function About() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
+      <style>{`@media (max-width: 768px) { .about-grid { grid-template-columns: 1fr !important; } }`}</style>
     </section>
   )
 }

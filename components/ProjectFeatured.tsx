@@ -13,10 +13,10 @@ export default function ProjectFeatured({ project }: { project: Project }) {
       display: 'grid',
       gridTemplateColumns: '1fr 260px',
       minHeight: 320,
-      transition: 'transform 0.22s ease, box-shadow 0.22s ease',
+      transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease',
     }}
       onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-3px)'
+        e.currentTarget.style.transform = 'translateY(-4px)'
         e.currentTarget.style.boxShadow = 'var(--shadow-xl)'
       }}
       onMouseLeave={e => {
@@ -40,8 +40,8 @@ export default function ProjectFeatured({ project }: { project: Project }) {
             }}>Флагманский проект</p>
             <h3 style={{
               fontFamily: 'var(--font-display)', fontWeight: 800,
-              fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)',
-              lineHeight: 1.05, letterSpacing: '-0.03em',
+              fontSize: 'clamp(1.4rem, 3vw, 2rem)',
+              lineHeight: 1.1, letterSpacing: '-0.03em',
               color: 'var(--color-text)', margin: 0,
             }}>{project.title}</h3>
           </div>
@@ -58,9 +58,7 @@ export default function ProjectFeatured({ project }: { project: Project }) {
         <p style={{
           fontFamily: 'var(--font-body)', fontSize: '0.95rem',
           lineHeight: 1.7, color: 'var(--color-text2)', maxWidth: '65ch', margin: 0,
-        }}>
-          {project.description}
-        </p>
+        }}>{project.description}</p>
 
         <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
           {project.features.map((f, i) => {
@@ -84,13 +82,14 @@ export default function ProjectFeatured({ project }: { project: Project }) {
           {project.link && (
             <a href={project.link} target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '0.875rem',
-              color: 'oklch(0.15 0.015 258)', background: 'var(--color-accent)',
+              fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.875rem',
+              color: 'var(--color-text-inv)', background: 'var(--color-accent)',
               padding: '10px 22px', borderRadius: 100, textDecoration: 'none',
-              transition: 'opacity 0.18s',
+              transition: 'opacity 0.18s, transform 0.18s',
+              boxShadow: '0 4px 16px oklch(0.50 0.26 265 / 0.22)',
             }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+              onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+              onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)' }}
             >
               {project.linkLabel ?? 'Открыть'} →
             </a>
@@ -102,35 +101,39 @@ export default function ProjectFeatured({ project }: { project: Project }) {
             }}
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-accent)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text3)')}
-            >
-              {project.demoLabel ?? 'Демо'} ↗
-            </a>
+            >{project.demoLabel ?? 'Демо'} ↗</a>
           )}
         </div>
       </div>
 
-      {/* Правая amber-панель */}
+      {/* Правая панель — indigo */}
       <div style={{
         background: 'var(--color-accent)',
-        padding: '40px 32px',
-        display: 'flex', flexDirection: 'column', gap: 16, justifyContent: 'center',
+        padding: '40px 28px',
+        display: 'flex', flexDirection: 'column', gap: 14, justifyContent: 'center',
+        position: 'relative', overflow: 'hidden',
       }}>
+        {/* Декоративный фоновый элемент */}
+        <div aria-hidden style={{
+          position: 'absolute', bottom: -40, right: -40,
+          width: 160, height: 160, borderRadius: '50%',
+          background: 'oklch(0.60 0.20 265 / 0.20)',
+          animation: 'float 6s ease-in-out infinite',
+        }} />
         <p style={{
-          fontFamily: 'var(--font-mono)', fontSize: '0.68rem',
+          fontFamily: 'var(--font-mono)', fontSize: '0.65rem',
           letterSpacing: '0.1em', textTransform: 'uppercase',
-          color: 'oklch(0.28 0.10 68)', margin: 0,
+          color: 'oklch(0.75 0.15 265)', margin: 0, position: 'relative',
         }}>Стек технологий</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7, position: 'relative' }}>
           {project.stack.map(tech => (
             <span key={tech} style={{
-              fontFamily: 'var(--font-mono)', fontSize: '0.82rem',
-              fontWeight: 500, color: 'oklch(0.22 0.08 68)',
-              background: 'oklch(0.48 0.16 68 / 0.25)',
+              fontFamily: 'var(--font-mono)', fontSize: '0.80rem',
+              fontWeight: 500, color: 'oklch(0.95 0.04 265)',
+              background: 'oklch(0.60 0.20 265 / 0.22)',
               borderRadius: 'var(--radius-sm)', padding: '6px 12px',
               letterSpacing: '0.02em',
-            }}>
-              {tech}
-            </span>
+            }}>{tech}</span>
           ))}
         </div>
       </div>

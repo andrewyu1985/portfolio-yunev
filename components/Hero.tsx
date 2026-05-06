@@ -1,216 +1,226 @@
 'use client'
 
-const TelegramIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-  </svg>
-)
-const VKIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.862-.525-2.049-1.714-1.033-1.01-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.566c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.271.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/>
-  </svg>
-)
+import { useEffect, useRef, useState } from 'react'
 
-const capabilities = [
-  'AI-оркестрация и мульти-агентные системы',
-  'Автоматизация бизнес-процессов',
-  'Telegram-боты и контент-пайплайны',
-  'MCP-интеграции и API-оркестрация',
-  'От идеи до рабочего прототипа за день',
+const CAPS = [
+  'AI-оркестрация', 'Multi-agent системы', 'Автоматизация',
+  'Telegram-боты', 'MCP-интеграции', 'Контент-пайплайны', 'API-оркестрация',
 ]
 
-const stats = [
-  { number: '13', label: 'проектов\nреализовано' },
-  { number: '18', label: 'агентов в\nHermes System' },
-  { number: '17+', label: 'лет в\nуправлении' },
-]
+function CountUp({ to, suffix = '', started }: { to: number; suffix?: string; started: boolean }) {
+  const [val, setVal] = useState(0)
+  useEffect(() => {
+    if (!started) return
+    const dur = 1400
+    const t0 = performance.now()
+    const tick = (now: number) => {
+      const p = Math.min((now - t0) / dur, 1)
+      const eased = 1 - Math.pow(1 - p, 3)
+      setVal(Math.floor(eased * to))
+      if (p < 1) requestAnimationFrame(tick)
+      else setVal(to)
+    }
+    requestAnimationFrame(tick)
+  }, [to, started])
+  return <>{val}{suffix}</>
+}
 
 export default function Hero() {
-  return (
-    <section style={{ background: 'var(--color-bg)', overflow: 'hidden' }}>
+  const statsRef = useRef<HTMLDivElement>(null)
+  const [statsStarted, setStatsStarted] = useState(false)
 
-      {/* Тонкая amber-полоска с тегами */}
-      <div style={{
-        background: 'var(--color-accent)',
-        padding: '8px 24px',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 28, overflow: 'hidden',
-      }}>
-        {['Архитектор AI-систем', '·', 'Москва', '·', 'Автоматизация', '·', 'Вайбкодинг', '·', 'Multi-agent', '·', 'Открыт к проектам'].map((t, i) => (
-          <span key={i} style={{
-            fontFamily: i % 2 === 1 ? 'var(--font-body)' : 'var(--font-mono)',
-            fontSize: '0.68rem',
-            letterSpacing: i % 2 === 1 ? 0 : '0.1em',
-            textTransform: i % 2 === 1 ? 'none' : 'uppercase',
-            color: i % 2 === 1 ? 'oklch(0.38 0.12 68)' : 'oklch(0.20 0.08 68)',
-            whiteSpace: 'nowrap',
-          }}>{t}</span>
-        ))}
+  useEffect(() => {
+    const el = statsRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setStatsStarted(true); obs.disconnect() }
+    }, { threshold: 0.4 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  return (
+    <section style={{ background: 'var(--color-bg)', overflow: 'hidden', position: 'relative' }}>
+
+      {/* Animated background blobs */}
+      <div aria-hidden style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+        <div style={{
+          position: 'absolute', width: 700, height: 700, borderRadius: '50%',
+          background: 'oklch(0.50 0.26 265 / 0.05)', filter: 'blur(100px)',
+          top: -200, right: -150,
+          animation: 'blob1 14s ease-in-out infinite',
+        }} />
+        <div style={{
+          position: 'absolute', width: 500, height: 500, borderRadius: '50%',
+          background: 'oklch(0.65 0.18 285 / 0.04)', filter: 'blur(80px)',
+          bottom: 0, left: '15%',
+          animation: 'blob2 18s ease-in-out infinite',
+        }} />
       </div>
 
-      {/* Main */}
-      <div style={{
-        maxWidth: 1100, margin: '0 auto', padding: '0 24px',
-        display: 'grid', gridTemplateColumns: '1fr 340px', gap: 0,
-        minHeight: 'clamp(480px, 60vh, 640px)',
-      }} className="hero-main">
-
-        {/* Left */}
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px', position: 'relative' }}>
         <div style={{
-          display: 'flex', flexDirection: 'column', justifyContent: 'center',
-          padding: 'clamp(40px, 6vw, 80px) 0',
-          paddingRight: 'clamp(24px, 4vw, 64px)', gap: 28,
+          paddingTop: 'clamp(64px, 9vw, 112px)',
+          paddingBottom: 'clamp(48px, 7vw, 80px)',
         }}>
-          <div>
-            <h1 style={{
-              fontFamily: 'var(--font-display)', fontWeight: 800,
-              fontSize: 'var(--text-display)', lineHeight: 'var(--lh-display)',
-              letterSpacing: 'var(--ls-display)', color: 'var(--color-text)', margin: 0,
-            }}>
-              Андрей<br />Юнев
-            </h1>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 16 }}>
-              <span style={{
-                display: 'block', height: 2, width: 32,
-                background: 'var(--color-accent)', borderRadius: 2, flexShrink: 0,
-              }} />
-              <p style={{
-                fontFamily: 'var(--font-display)', fontWeight: 600,
-                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', letterSpacing: '-0.01em',
-                color: 'var(--color-accent)', margin: 0,
-              }}>Архитектор AI-систем</p>
-            </div>
+
+          {/* Status badge */}
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: 'var(--color-accent-bg)',
+            border: '1px solid var(--color-border-accent)',
+            borderRadius: 100, padding: '6px 16px', marginBottom: 36,
+            animation: 'hero-in 0.6s cubic-bezier(0.16,1,0.3,1) both',
+          }}>
+            <span className="dot-live" style={{ flexShrink: 0 }} />
+            <span style={{
+              fontFamily: 'var(--font-mono)', fontSize: '0.7rem',
+              letterSpacing: '0.09em', textTransform: 'uppercase',
+              color: 'var(--color-accent)',
+            }}>Открыт к проектам</span>
           </div>
 
+          {/* Name */}
+          <h1 style={{
+            fontFamily: 'var(--font-display)', fontWeight: 900,
+            fontSize: 'var(--text-display)',
+            lineHeight: 'var(--lh-display)',
+            letterSpacing: 'var(--ls-display)',
+            color: 'var(--color-text)', margin: '0 0 20px',
+            animation: 'hero-in 0.7s 0.1s cubic-bezier(0.16,1,0.3,1) both',
+          }}>
+            Андрей<br />
+            Юнев<span style={{ color: 'var(--color-accent)' }}>.</span>
+          </h1>
+
+          {/* Role */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28,
+            animation: 'hero-in 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) both',
+          }}>
+            <span style={{
+              display: 'block', height: 2, width: 36,
+              background: 'var(--color-accent)', borderRadius: 2, flexShrink: 0,
+            }} />
+            <p style={{
+              fontFamily: 'var(--font-body)', fontWeight: 600,
+              fontSize: 'clamp(1rem, 2.2vw, 1.3rem)',
+              letterSpacing: '-0.01em', color: 'var(--color-text2)', margin: 0,
+            }}>Архитектор AI-систем</p>
+          </div>
+
+          {/* Bio */}
           <p style={{
-            fontFamily: 'var(--font-body)', fontSize: 'var(--text-body)',
-            lineHeight: 1.7, color: 'var(--color-text2)', maxWidth: '52ch', margin: 0,
+            fontFamily: 'var(--font-body)', fontSize: '1.05rem',
+            lineHeight: 1.7, color: 'var(--color-text2)',
+            maxWidth: '56ch', margin: '0 0 36px',
+            animation: 'hero-in 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both',
           }}>
             17 лет строю воспроизводимые системы вместо ручных операций.
-            Убираю операционный хаос, внедряю AI‑пайплайны, сокращаю время типовых задач в&nbsp;5–20 раз.
+            Убираю операционный хаос, внедряю AI‑пайплайны,
+            сокращаю время типовых задач в&nbsp;5–20 раз.
           </p>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-            {[
-              { href: 'mailto:andrewyunev@gmail.com', label: 'andrewyunev@gmail.com', icon: null },
-              { href: 'https://t.me/Andrewyunev', label: 'Telegram', icon: <TelegramIcon /> },
-              { href: 'https://vk.com/andrewyunev', label: 'VK', icon: <VKIcon /> },
-            ].map(({ href, label, icon }) => (
-              <a key={href} href={href} target={href.startsWith('mailto') ? undefined : '_blank'}
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
-                  fontFamily: 'var(--font-body)', fontSize: '0.825rem', fontWeight: 500,
-                  color: 'var(--color-text3)',
-                  background: 'var(--color-bg2)', border: '1px solid var(--color-border)',
-                  borderRadius: 100, padding: '6px 14px', textDecoration: 'none',
-                  transition: 'color 0.18s, border-color 0.18s, background 0.18s',
-                }}
+          {/* Capability chips */}
+          <div style={{
+            display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 44,
+            animation: 'hero-in 0.7s 0.4s cubic-bezier(0.16,1,0.3,1) both',
+          }}>
+            {CAPS.map((cap, i) => (
+              <span key={i} style={{
+                fontFamily: 'var(--font-body)', fontSize: '0.82rem', fontWeight: 500,
+                color: 'var(--color-accent)',
+                background: 'var(--color-accent-bg)',
+                border: '1px solid var(--color-border-accent)',
+                borderRadius: 100, padding: '6px 15px',
+                transition: 'background 0.18s, color 0.18s, transform 0.18s, box-shadow 0.18s',
+                cursor: 'default',
+              }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.color = 'var(--color-accent)'
-                  e.currentTarget.style.borderColor = 'var(--color-accent)'
-                  e.currentTarget.style.background = 'var(--color-accent-bg)'
+                  const el = e.currentTarget
+                  el.style.background = 'var(--color-accent)'
+                  el.style.color = 'var(--color-text-inv)'
+                  el.style.transform = 'translateY(-2px)'
+                  el.style.boxShadow = '0 4px 16px oklch(0.50 0.26 265 / 0.22)'
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.color = 'var(--color-text3)'
-                  e.currentTarget.style.borderColor = 'var(--color-border)'
-                  e.currentTarget.style.background = 'var(--color-bg2)'
+                  const el = e.currentTarget
+                  el.style.background = 'var(--color-accent-bg)'
+                  el.style.color = 'var(--color-accent)'
+                  el.style.transform = 'translateY(0)'
+                  el.style.boxShadow = 'none'
                 }}
-              >{icon}{label}</a>
+              >{cap}</span>
             ))}
           </div>
 
-          <div>
+          {/* CTA row */}
+          <div style={{
+            display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center',
+            animation: 'hero-in 0.7s 0.5s cubic-bezier(0.16,1,0.3,1) both',
+          }}>
             <a href="#projects" style={{
               display: 'inline-flex', alignItems: 'center', gap: 10,
               fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.95rem',
-              color: 'oklch(0.15 0.015 258)',
-              background: 'var(--color-accent)',
-              padding: '14px 28px', borderRadius: 100, textDecoration: 'none',
-              transition: 'opacity 0.2s ease, transform 0.2s ease',
+              color: 'var(--color-text-inv)', background: 'var(--color-accent)',
+              padding: '14px 32px', borderRadius: 100, textDecoration: 'none',
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+              boxShadow: '0 4px 24px oklch(0.50 0.26 265 / 0.28)',
             }}
-              onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-              onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)' }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-2px)'
+                e.currentTarget.style.boxShadow = '0 8px 32px oklch(0.50 0.26 265 / 0.40)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = '0 4px 24px oklch(0.50 0.26 265 / 0.28)'
+              }}
             >
               Смотреть проекты <span style={{ fontSize: '1.1em' }}>→</span>
             </a>
+            <a href="https://t.me/Andrewyunev" target="_blank" rel="noopener noreferrer" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '0.9rem',
+              color: 'var(--color-text2)', border: '1px solid var(--color-border)',
+              padding: '13px 28px', borderRadius: 100, textDecoration: 'none',
+              transition: 'border-color 0.18s, color 0.18s, background 0.18s',
+            }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = 'var(--color-accent)'
+                e.currentTarget.style.color = 'var(--color-accent)'
+                e.currentTarget.style.background = 'var(--color-accent-bg)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'var(--color-border)'
+                e.currentTarget.style.color = 'var(--color-text2)'
+                e.currentTarget.style.background = 'transparent'
+              }}
+            >Telegram ↗</a>
           </div>
         </div>
 
-        {/* Right — amber panel */}
-        <div style={{
-          background: 'var(--color-accent)',
-          padding: 'clamp(32px, 4vw, 52px) clamp(24px, 3vw, 40px)',
-          display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 24,
-          position: 'relative', overflow: 'hidden',
-        }} className="hero-panel">
-          {/* Декоративный текст */}
-          <span style={{
-            position: 'absolute', right: -8, top: -16,
-            fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: '9rem', lineHeight: 1, letterSpacing: '-0.05em',
-            color: 'oklch(0.48 0.16 68 / 0.25)', userSelect: 'none', pointerEvents: 'none',
-          }} aria-hidden="true">AI</span>
-
-          <p style={{
-            fontFamily: 'var(--font-mono)', fontSize: '0.68rem',
-            letterSpacing: '0.12em', textTransform: 'uppercase',
-            color: 'oklch(0.28 0.10 68)', margin: 0, position: 'relative',
-          }}>Могу помочь с</p>
-
-          <ul style={{
-            listStyle: 'none', margin: 0, padding: 0,
-            display: 'flex', flexDirection: 'column', gap: 14, position: 'relative',
-          }}>
-            {capabilities.map((cap, i) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                <span style={{
-                  width: 5, height: 5, borderRadius: '50%',
-                  background: 'oklch(0.30 0.10 68)', flexShrink: 0, marginTop: 7,
-                }} />
-                <span style={{
-                  fontFamily: 'var(--font-body)', fontSize: '0.875rem',
-                  lineHeight: 1.55, color: 'oklch(0.22 0.08 68)',
-                }}>{cap}</span>
-              </li>
-            ))}
-          </ul>
-
-          <a href="https://t.me/Andrewyunev" target="_blank" rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.875rem',
-              color: 'oklch(0.97 0.006 80)',
-              background: 'oklch(0.35 0.10 68)',
-              padding: '12px 20px', borderRadius: 'var(--radius)', textDecoration: 'none',
-              transition: 'opacity 0.18s', position: 'relative', marginTop: 8,
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-          >
-            <TelegramIcon /> Написать в Telegram
-          </a>
-        </div>
-      </div>
-
-      {/* Stats */}
-      <div style={{
-        borderTop: '1px solid var(--color-border)', background: 'var(--color-bg2)',
-      }}>
-        <div style={{
-          maxWidth: 1100, margin: '0 auto', padding: '0 24px',
+        {/* Stats — animated count-up */}
+        <div ref={statsRef} style={{
+          borderTop: '1px solid var(--color-border)',
           display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
         }} className="stats-grid">
-          {stats.map((s, i) => (
+          {[
+            { to: 13, suffix: '', label: 'проектов\nреализовано' },
+            { to: 18, suffix: '', label: 'агентов в\nHermes System' },
+            { to: 17, suffix: '+', label: 'лет в\nуправлении' },
+          ].map((s, i) => (
             <div key={i} style={{
               padding: 'clamp(20px, 3vw, 32px) 24px',
               borderRight: i < 2 ? '1px solid var(--color-border)' : 'none',
-              display: 'flex', flexDirection: 'column', gap: 4,
+              display: 'flex', flexDirection: 'column', gap: 6,
             }}>
               <span style={{
                 fontFamily: 'var(--font-display)', fontWeight: 800,
-                fontSize: 'clamp(2rem, 4vw, 3rem)', lineHeight: 1,
+                fontSize: 'clamp(2rem, 4vw, 2.8rem)', lineHeight: 1,
                 letterSpacing: '-0.03em', color: 'var(--color-accent)',
-              }}>{s.number}</span>
+              }}>
+                <CountUp to={s.to} suffix={s.suffix} started={statsStarted} />
+              </span>
               <span style={{
                 fontFamily: 'var(--font-body)', fontSize: '0.8rem',
                 lineHeight: 1.4, color: 'var(--color-text3)', whiteSpace: 'pre-line',
@@ -221,10 +231,6 @@ export default function Hero() {
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          .hero-main { grid-template-columns: 1fr !important; }
-          .hero-panel { display: none !important; }
-        }
         @media (max-width: 480px) {
           .stats-grid { grid-template-columns: 1fr !important; }
           .stats-grid > div { border-right: none !important; border-bottom: 1px solid var(--color-border); }
