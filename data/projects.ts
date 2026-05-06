@@ -226,8 +226,10 @@ export const projects: Project[] = [
       'Примеры исследований и ТЗ на Google Drive',
     ],
     tags: ['AI-агенты', 'Контент'],
-    link: 'https://drive.google.com/drive/folders/1kyPAWdmBQqF6hpvoqNo8tNiTvnuWA8Z-?usp=sharing',
-    linkLabel: 'Смотреть примеры',
+    link: '/deep-research-report.html',
+    linkLabel: 'Пример исследования',
+    demoLink: '/deep-research-prompt.html',
+    demoLabel: 'Пример промпта',
     status: 'live',
   },
   {

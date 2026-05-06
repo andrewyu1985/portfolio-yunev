@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Промпт: Глубинное исследование образовательных систем</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: oklch(0.50 0.26 265);
+      --accent-bg: oklch(0.50 0.26 265 / 0.07);
+      --accent-border: oklch(0.50 0.26 265 / 0.25);
+      --text: oklch(0.12 0.010 265);
+      --text2: oklch(0.32 0.010 265);
+      --text3: oklch(0.52 0.008 265);
+      --bg: oklch(1.00 0.000 0);
+      --bg2: oklch(0.98 0.004 265);
+      --bg3: oklch(0.96 0.008 265);
+      --border: oklch(0.88 0.006 265);
+      --radius: 10px;
+      --font-display: 'Unbounded', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    .header {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 40px;
+    }
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .header h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .header h1 span { color: var(--accent); }
+    .meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text3);
+      letter-spacing: 0.04em;
+    }
+
+    /* Content */
+    .content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 48px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::before {
+      content: '';
+      display: block;
+      width: 3px;
+      height: 18px;
+      border-radius: 2px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: var(--text2);
+      margin-bottom: 12px;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol {
+      padding-left: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+    li {
+      font-size: 0.9rem;
+      color: var(--text2);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+    }
+    li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    ol { counter-reset: item; }
+    ol li::before {
+      content: counter(item) '.';
+      counter-increment: item;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 500;
+      top: 1px;
+    }
+
+    /* Highlight block */
+    .highlight {
+      background: var(--accent-bg);
+      border: 1px solid var(--accent-border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+    .highlight p {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0;
+      line-height: 1.55;
+    }
+
+    /* Subsection */
+    .sub-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 20px 0 8px;
+    }
+
+    /* Grid of pillars */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .pillar {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      font-size: 0.85rem;
+      color: var(--text2);
+    }
+    .pillar strong {
+      display: block;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    /* Algo steps */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--accent-border);
+      flex-shrink: 0;
+      line-height: 1;
+      min-width: 32px;
+    }
+    .step-body strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .step-body p {
+      font-size: 0.85rem;
+      margin-bottom: 0;
+    }
+
+    /* Author badge */
+    .author-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 16px 8px 8px;
+      margin-bottom: 24px;
+    }
+    .author-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .author-date {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text3);
+      letter-spacing: 0.04em;
+    }
+
+    /* Back link */
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text3);
+      text-decoration: none;
+      margin-bottom: 32px;
+      transition: color 0.18s;
+    }
+    .back:hover { color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .pillars { grid-template-columns: 1fr; }
+      .header { padding: 32px 20px 28px; }
+      .content { padding: 32px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <a href="/" class="back">← Портфолио</a>
+    <p class="label">Пример промпта · Deep Research</p>
+    <h1>Исследование лучших<br /><span>образовательных систем мира</span></h1>
+    <div class="author-badge">
+      <div class="author-avatar">АЮ</div>
+      <div>
+        <div class="author-name">Андрей Юнев</div>
+        <div class="author-date">07 апреля 2026 · 01:17</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="section">
+    <div class="highlight">
+      <p>Задание для Deep Research: Исследование лучших образовательных систем, частных школ и университетов мира по реальным жизненным результатам выпускников</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Цель исследования</div>
+    <p>Провести глубокое исследование лучших образовательных институций мира — прежде всего топовых частных школ, выдающихся школьных систем, университетов и образовательных моделей, которые демонстрируют исключительно сильные результаты по судьбе выпускников.</p>
+    <p>Меня интересует не формальный престиж, не маркетинговая репутация и не только уровень зарплат, а реальный жизненный результат выпускников, включая:</p>
+    <ul>
+      <li>способность достигать выдающихся результатов в жизни</li>
+      <li>создание научных открытий, технологий, компаний, общественно значимых проектов</li>
+      <li>высокий уровень самостоятельности мышления</li>
+      <li>лидерство, предпринимательский и исследовательский потенциал</li>
+      <li>широту кругозора</li>
+      <li>способность адаптироваться и развиваться в сложном, быстро меняющемся мире</li>
+      <li>сочетание интеллектуальной, личностной и социальной зрелости</li>
+    </ul>
+    <div class="sub-title">Практическая цель</div>
+    <p>Исследование нужно для того, чтобы на его основе спроектировать образовательную программу для детей в частной школе: от раннего возраста вплоть до примерно 24 лет, включая школьный этап, предуниверситетскую подготовку, университетский этап и надстройку в виде дополнительных практик развития.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Главный исследовательский вопрос</div>
+    <div class="highlight">
+      <p>Какие образовательные подходы, среды, методологии, практики и институциональные модели реально приводят к наиболее сильным жизненным результатам учеников и выпускников — от детства до 24-летия?</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Что именно нужно исследовать</div>
+
+    <div class="sub-title">1. Лучшие образовательные институции и системы</div>
+    <ul>
+      <li>Ведущие частные школы мира</li>
+      <li>Сильнейшие университеты мира</li>
+      <li>Школы и образовательные модели с нестандартным, но доказанно сильным результатом</li>
+      <li>Системы, ориентированные на развитие будущих исследователей, предпринимателей, лидеров, создателей технологий, мыслителей</li>
+      <li>Не только отдельные школы, но и образовательные экосистемы, лицеи, лабораторные школы, gifted-программы, honors-модели</li>
+    </ul>
+
+    <div class="sub-title">2. Критерий отбора — только реальные результаты выпускников</div>
+    <p>Оценивай институции не по бренду, а по подтверждаемым результатам их учеников и выпускников. Нужны метрики и прокси-показатели:</p>
+    <ul>
+      <li>Доля выпускников, добившихся выдающихся результатов в науке, технологиях, предпринимательстве, государственном управлении, культуре</li>
+      <li>Число основателей сильных компаний и стартапов</li>
+      <li>Число исследователей, авторов важных открытий, патентов, публикаций, технологических прорывов</li>
+      <li>Признаки высокого уровня автономности, лидерства и способности к созданию нового</li>
+    </ul>
+    <p><strong style="color:var(--text)">Важно:</strong> не ограничивайся доходом выпускников. Основной фокус — результаты в жизни, масштаб влияния, качество мышления, способность создавать новое.</p>
+
+    <div class="sub-title">3. Подходы к образованию по возрастным этапам</div>
+    <div class="pillars">
+      <div class="pillar"><strong>Раннее детство</strong>Методы, усиливающие мышление и личность</div>
+      <div class="pillar"><strong>Младшая школа</strong>Формирование самостоятельности и любознательности</div>
+      <div class="pillar"><strong>Средняя школа</strong>Исследовательские навыки, логика, кругозор</div>
+      <div class="pillar"><strong>Старшая школа</strong>Форматы: проектный, сократический, STEM, liberal arts</div>
+      <div class="pillar"><strong>18–24 года</strong>Предпринимательство, лидерство, исследования</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Алгоритм исследования</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <strong>Расширение поля</strong>
+          <p>Собрать широкий пул: 20–40 сильных школ, университетов, образовательных моделей и программ. Включать как элитные традиционные институции, так и нестандартные модели. Не фильтровать слишком рано.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <strong>Кластеризация</strong>
+          <p>Разделить найденные объекты на сегменты: элитные частные школы, школы с сильным академическим ядром, ориентированные на лидерство, исследовательские экосистемы, liberal arts, accelerated/gifted-модели.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <strong>Отбор лучших</strong>
+          <p>Отобрать 10–15 наиболее сильных кейсов: есть подтверждённые результаты выпускников, понятная образовательная философия, воспроизводимые практики, а не только бренд.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <strong>Глубокий анализ</strong>
+          <p>Для каждого кейса разобраться: суть модели, методологии, как формируют мышление и характер, реальное конкурентное преимущество, слабые места, что можно воспроизвести.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <strong>Синтез</strong>
+          <p>Вывести: какие модели работают, какие практики повторяются у лучших, как должна выглядеть сильная образовательная программа от детства до 24 лет.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Стиль исследования</div>
+    <p>Действовать как аналитик уровня McKinsey / BCG / Sequoia, а не как составитель списка.</p>
+    <ul>
+      <li>Отличать реальный образовательный эффект от бренда и репутационного шума</li>
+      <li>Отделять селекцию сильных детей от реальной заслуги образовательной системы</li>
+      <li>Различать: «школа создала результат» vs «школа просто отобрала уже сильных учеников»</li>
+      <li>Выявлять скрытые закономерности, проверять противоречия</li>
+      <li>Отделять факт / интерпретацию / гипотезу</li>
+      <li>Для каждого важного утверждения — минимум 2 независимых источника</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Формат отчёта</div>
+    <ol>
+      <li>Executive Summary — главные выводы, какие модели работают лучше всего</li>
+      <li>Сводная сравнительная таблица по 10–15 лучшим кейсам</li>
+      <li>Карта рынка / карта моделей образовательного ландшафта</li>
+      <li>Глубокая аналитика по лучшим кейсам: философия, методы, среда, переносимость</li>
+      <li>Анализ возрастных этапов: 0–6, 7–12, 13–17, 18–24</li>
+      <li>Практические рекомендации для проектирования частной школы</li>
+      <li>Инсайты: 5 закономерностей, 5 недооценённых практик, 5 ошибок, 3–5 контринтуитивных вывода</li>
+      <li>Заключение — проектный каркас образовательной программы</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ключевые вопросы</div>
+    <ol>
+      <li>Какие школы и образовательные системы реально дают самые сильные жизненные результаты?</li>
+      <li>Какие подходы повторяются у лучших?</li>
+      <li>Какие методологии эффективны на разных возрастных этапах — от ранних лет до 24 лет?</li>
+      <li>Как отличить реальную силу образовательной модели от обычной селекции талантливых детей?</li>
+      <li>Какие элементы можно перенести в собственную частную школу?</li>
+      <li>Как построить маршрут, который формирует не только академическую успешность, но и способность делать открытия?</li>
+    </ol>
+  </div>
+
+</div>
+
+</body>
+</html>

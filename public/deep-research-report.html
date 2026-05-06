@@ -1,0 +1,2235 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Глобальный обзор сильнейших образовательных систем и моделей по реальным жизненным результатам выпускников</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#0f1620;
+      --card:#121c28;
+      --card2:#0d1520;
+      --text:#e8eef6;
+      --muted:#a9b7c9;
+      --muted2:#7f93ab;
+      --line:#243246;
+      --line2:#1a2636;
+      --accent:#7dd3fc;
+      --accent2:#a78bfa;
+      --good:#34d399;
+      --warn:#fbbf24;
+      --bad:#fb7185;
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --r16:16px;
+      --r12:12px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --max: 1160px;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background: radial-gradient(1200px 900px at 12% 0%, #112034 0%, var(--bg) 60%) fixed;
+      color:var(--text);
+      line-height:1.55;
+      letter-spacing:.1px;
+    }
+    a{ color:var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .layout{
+      max-width: calc(var(--max) + 320px + 24px);
+      margin:0 auto;
+      padding: 18px 16px 56px;
+      display:grid;
+      gap:24px;
+      grid-template-columns: 320px 1fr;
+    }
+    @media (max-width: 1040px){
+      .layout{ grid-template-columns:1fr; }
+      .toc{ position:relative !important; top:0 !important; }
+    }
+
+    .toc{
+      position:sticky;
+      top:14px;
+      align-self:start;
+      border:1px solid var(--line2);
+      border-radius:var(--r16);
+      background: linear-gradient(180deg, rgba(18,28,40,.86) 0%, rgba(15,22,32,.82) 100%);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+    .toc .hdr{
+      padding:14px 14px 12px;
+      border-bottom:1px solid var(--line2);
+      background: rgba(255,255,255,.02);
+    }
+    .kicker{
+      font-size:12px;
+      color:var(--muted2);
+      text-transform:uppercase;
+      letter-spacing:.16em;
+    }
+    .toc .title{
+      margin-top:8px;
+      font-size:14px;
+      font-weight:800;
+      color:var(--text);
+    }
+    .toc nav{ padding:10px 10px 14px; }
+    .toc nav a{
+      display:block;
+      padding:10px 10px;
+      border-radius:10px;
+      border:1px solid transparent;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.25;
+    }
+    .toc nav a:hover{
+      background: rgba(125,211,252,.06);
+      border-color: rgba(125,211,252,.18);
+      color:var(--text);
+      text-decoration:none;
+    }
+    .toc .meta{
+      padding:12px 14px 14px;
+      border-top:1px solid var(--line2);
+      display:grid;
+      gap:8px;
+      color:var(--muted2);
+      font-size:12px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      color:var(--muted);
+      white-space:nowrap;
+      max-width: 100%;
+    }
+    .dot{ width:8px; height:8px; border-radius:999px; display:inline-block; background:var(--accent); }
+
+    main{ min-width:0; }
+    header.report{
+      border:1px solid var(--line2);
+      border-radius:var(--r16);
+      background: linear-gradient(180deg, rgba(18,28,40,.88) 0%, rgba(15,22,32,.84) 100%);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    header .hero{
+      padding:22px 22px 18px;
+      border-bottom:1px solid var(--line2);
+    }
+    h1{
+      margin:0;
+      font-size:26px;
+      line-height:1.2;
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:14px;
+      max-width: 95ch;
+    }
+
+    .badges{ margin-top:14px; display:flex; flex-wrap:wrap; gap:8px; }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:5px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .tag.good{ border-color: rgba(52,211,153,.30); color:#baf7df; background: rgba(52,211,153,.08); }
+    .tag.warn{ border-color: rgba(251,191,36,.30); color:#ffe7a3; background: rgba(251,191,36,.08); }
+    .tag.bad{ border-color: rgba(251,113,133,.30); color:#ffc6d0; background: rgba(251,113,133,.08); }
+    .tag.info{ border-color: rgba(125,211,252,.30); color:#cfefff; background: rgba(125,211,252,.08); }
+    .tag.purple{ border-color: rgba(167,139,250,.30); color:#e3d8ff; background: rgba(167,139,250,.08); }
+
+    .content{ padding:18px 22px 22px; }
+
+    section{
+      margin-top:18px;
+      border:1px solid var(--line2);
+      border-radius:var(--r16);
+      background: linear-gradient(180deg, rgba(18,28,40,.86) 0%, rgba(15,22,32,.84) 100%);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    section .sec{ padding:18px 22px 22px; }
+
+    h2{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    h3{
+      margin:18px 0 8px;
+      font-size:15px;
+      color:var(--text);
+    }
+    p{ margin:10px 0; color:var(--text); }
+    .muted{ color:var(--muted); }
+    .small{ color:var(--muted); font-size:12px; }
+
+    .grid2{
+      display:grid;
+      gap:12px;
+      grid-template-columns: 1fr 1fr;
+      margin-top:12px;
+    }
+    @media (max-width: 980px){ .grid2{ grid-template-columns:1fr; } }
+
+    .panel{
+      border:1px solid var(--line);
+      border-radius:var(--r12);
+      background: rgba(255,255,255,.02);
+      padding:14px;
+    }
+    .callouts{
+      display:grid;
+      gap:12px;
+      grid-template-columns: 1fr 1fr;
+      margin-top:12px;
+    }
+    @media (max-width: 980px){ .callouts{ grid-template-columns:1fr; } }
+    .callout{
+      border:1px solid var(--line);
+      border-radius:var(--r12);
+      background: rgba(255,255,255,.02);
+      padding:14px;
+    }
+    .callout .hd{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .note{
+      border:1px solid rgba(167,139,250,.22);
+      background: rgba(167,139,250,.08);
+      border-radius:var(--r12);
+      padding:12px 14px;
+      margin:12px 0;
+    }
+    .warnbox{
+      border:1px solid rgba(251,191,36,.22);
+      background: rgba(251,191,36,.08);
+      border-radius:var(--r12);
+      padding:12px 14px;
+      margin:12px 0;
+    }
+    .limitbox{
+      border:1px solid rgba(251,113,133,.22);
+      background: rgba(251,113,133,.08);
+      border-radius:var(--r12);
+      padding:12px 14px;
+      margin:12px 0;
+    }
+
+    .svgwrap{
+      border:1px solid var(--line);
+      border-radius:var(--r12);
+      background: rgba(255,255,255,.02);
+      padding:12px;
+      margin-top:12px;
+      overflow-x:auto;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      border-radius:var(--r12);
+      overflow:hidden;
+      margin-top:10px;
+      font-size:12.5px;
+    }
+    th,td{
+      padding:10px 10px;
+      border-bottom:1px solid rgba(36,50,70,.55);
+      vertical-align:top;
+      text-align:left;
+    }
+    th{
+      background: rgba(255,255,255,.03);
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    tr:hover td{ background: rgba(125,211,252,.04); }
+
+    details{
+      border:1px solid var(--line);
+      border-radius:var(--r12);
+      background: rgba(255,255,255,.02);
+      padding:12px;
+      margin-top:10px;
+    }
+    summary{
+      cursor:pointer;
+      list-style:none;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    .sum-left{ display:grid; gap:4px; }
+    .sum-title{ font-weight:850; font-size:13.5px; color:var(--text); }
+    .sum-sub{ font-size:12px; color:var(--muted); max-width: 86ch; }
+    .sum-right{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; }
+
+    .cite{
+      font-family:var(--mono);
+      color:var(--muted2);
+      font-size:12px;
+      padding:2px 6px;
+      border-radius:6px;
+      border:1px solid rgba(36,50,70,.7);
+      background: rgba(0,0,0,.18);
+      display:inline-block;
+      transform: translateY(-1px);
+      white-space:nowrap;
+    }
+
+    .kpi{
+      display:grid;
+      gap:10px;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top:14px;
+    }
+    @media (max-width: 980px){ .kpi{ grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px){ .kpi{ grid-template-columns: 1fr; } }
+    .kpi .box{
+      border:1px solid var(--line);
+      border-radius:var(--r12);
+      background: rgba(255,255,255,.02);
+      padding:12px;
+    }
+    .kpi .num{ font-size:18px; font-weight:900; letter-spacing:.3px; }
+    .kpi .lbl{ margin-top:4px; font-size:12px; color:var(--muted); }
+
+    .legend{
+      display:flex; flex-wrap:wrap; gap:8px;
+      margin-top:10px; color:var(--muted); font-size:12px;
+    }
+    .legend .key{
+      display:inline-flex; align-items:center; gap:7px;
+      padding:6px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background: rgba(255,255,255,.02);
+    }
+    .sq{ width:10px; height:10px; border-radius:3px; display:inline-block; }
+    .sq.good{ background:var(--good); }
+    .sq.warn{ background:var(--warn); }
+    .sq.bad{ background:var(--bad); }
+    .sq.info{ background:var(--accent); }
+    .sq.purple{ background:var(--accent2); }
+
+    /* ── Прокручиваемые таблицы ── */
+    .table-wrap{
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      border-radius:var(--r12);
+      margin-top:10px;
+      border:1px solid var(--line);
+    }
+    .table-wrap table{
+      margin-top:0;
+      min-width:820px;
+      border:none;
+      border-radius:0;
+    }
+    .table-wrap.wide table{ min-width:1100px; }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <aside class="toc" aria-label="Оглавление">
+      <div class="hdr">
+        <div class="kicker">Навигация</div>
+        <div class="title">Аналитический отчет</div>
+      </div>
+      <nav>
+        <a href="#exec">Краткие выводы</a>
+        <a href="#framework">Исследовательская рамка</a>
+        <a href="#market">Карта мирового образовательного рынка</a>
+        <a href="#longlist">Расширенный список</a>
+        <a href="#shortlist">Краткий список и сравнительная таблица</a>
+        <a href="#dives">Детальный разбор ключевых кейсов</a>
+        <a href="#age">Анализ по возрастным этапам</a>
+        <a href="#synthesis">Синтез, критическая проверка и источники</a>
+      </nav>
+      <div class="meta">
+        <div class="pill"><span class="dot"></span><span>Дата: 2026‑04‑07 (Europe/Amsterdam)</span></div>
+        <div class="pill"><span class="dot" style="background:var(--accent2)"></span><span>Критерий: долгосрочные результаты</span></div>
+        <div class="pill"><span class="dot" style="background:var(--good)"></span><span>Фокус: вклад модели vs селекция</span></div>
+      </div>
+    </aside>
+
+    <main>
+      <header class="report">
+        <div class="hero">
+          <h1>Глобальный обзор сильнейших образовательных систем, частных школ, университетов и моделей мира по реальным жизненным результатам выпускников</h1>
+          <div class="subtitle">
+            Это не рейтинг «брендов». Это карта рынка и механик, которые повышают вероятность сильных жизненных исходов выпускников: когнитивная зрелость, самостоятельность, способность создавать новое, устойчивые траектории в сложном мире. Основные проверяемые прокси: навыки взрослых (PIAAC — Программа международной оценки компетентности взрослых), международные сравнения (PISA — Международная программа оценки образовательных достижений — и творческое мышление), квази‑экспериментальные оценки добавленная ценность (лотереи/пороги), развитие инновационных экосистем (предпринимательские следы университетов), устойчивость социальных траекторий (завершение / удержание в системе). <span class="cite">citeturn0search3turn0search2turn1search2turn4search0</span>
+          </div>
+
+          <div class="badges" aria-label="Ключевые принципы">
+            <span class="tag info">Приоритет результатов</span>
+            <span class="tag warn">Селекция ≠ эффект</span>
+            <span class="tag purple">Карта рынка</span>
+            <span class="tag good">Воспроизводимые практики</span>
+            <span class="tag warn">Компромиссы</span>
+          </div>
+
+          <div class="kpi" aria-label="Сводка объема">
+            <div class="box">
+              <div class="num">33</div>
+              <div class="lbl">объекта в расширенном списке</div>
+            </div>
+            <div class="box">
+              <div class="num">15</div>
+              <div class="lbl">кейсов в кратком списке</div>
+            </div>
+            <div class="box">
+              <div class="num">4 уровня</div>
+              <div class="lbl">Вход → Процесс → Среда → Результаты</div>
+            </div>
+            <div class="box">
+              <div class="num">2023–2026</div>
+              <div class="lbl">приоритет свежих источников</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content" id="exec">
+          <h2>Краткие выводы</h2>
+
+          <div class="callouts">
+            <div class="callout">
+              <div class="hd">
+                <strong>Главный вывод о мировом «рынке качества»</strong>
+                <span class="tag good">Высокая уверенность</span>
+              </div>
+              <p class="muted">
+                В глобальном масштабе «сильные выпускники» чаще всего возникают не из-за одного «идеального учебная программа», а из комбинации:
+                (1) качества входа (семья/селекция/предподготовка), (2) качества процесса (учителя, обратная связь, письмо/математика как мышление),
+                (3) эффектов среды (нормами группы сверстников и плотность возможностей), (4) институциональной способности удерживать долгую траекторию (переходы 13→18→24).
+              </p>
+              <p class="muted">
+                Поэтому рынок системно путает: «бренд + селекция + сеть» с «образовательным вкладом».
+                Причинные исследования селективных экзаменационных школ показывают, что «элитная оболочка» и сильные учеников-ровесников сами по себе не гарантируют измеримого добавленная ценность для маржинальных учащихся. <span class="cite">citeturn3search1turn3search7</span>
+              </p>
+            </div>
+
+            <div class="callout">
+              <div class="hd">
+                <strong>Самые сильные сегменты по долгосрочные результаты</strong>
+                <span class="tag warn">Средняя‑высокая уверенность</span>
+              </div>
+              <p class="muted">
+                Сегменты-лидеры по «реальным» outcomes делятся на три типа:
+                (A) сильные национальные системы, которые «массово» держат высокий уровень базовых и креативных когнитивных навыков (PISA + Творческое мышление, затем подтверждение во взрослом возрасте через PIAAC);
+                (B) университетские инновационные экосистемы, которые конвертируют талант в компании/технологии (с высокой зависимостью от географии и сетей);
+                (C) ученичество/VET-сегмент (особенно в Швейцарии), который дает массово устойчивые траектории школа→экономика (компромисс: ранняя специализация). <span class="cite">citeturn0search3turn0search2turn1search0turn5search6</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="panel">
+              <h3>Ключевые «ложные представления», которые рынок поддерживает</h3>
+              <p>
+                <span class="tag info">Факт</span>
+                «Сильная селекция = сильное образование» — неверно как причинный вывод; пример — экзаменационных школ (Бостон/Нью-Йорк) в квазиэкспериментальном дизайне. <span class="cite">citeturn3search1turn3search7</span>
+              </p>
+              <p>
+                <span class="tag info">Факт</span>
+                «Самые селективные колледжи обязательно дают наибольшую доходную премию» — в исследованиях по селективности вузов доходная премия сильно уменьшается, если учитывать «куда студент подавался/куда был принят», а эффекты неоднородны по группам. <span class="cite">citeturn3search0turn3search6</span>
+              </p>
+              <p>
+                <span class="tag info">Факт</span>
+                «Только тест‑ориентированные системы могут давать высокий креатив» — OECD по творческое мышление фиксирует, что можно быть сильным в креативном мышлении без экстремальных результатов в академических доменах (есть перекрытие, но не тождество). <span class="cite">citeturn0search2turn6search12</span>
+              </p>
+            </div>
+
+            <div class="panel">
+              <h3>Переоценено vs недооценено рынком</h3>
+              <p class="muted">
+                <span class="tag warn">Интерпретация</span>
+                Переоценено: элитные K‑12 «школы-конвейеры» (особенно там, где результаты меряются «поступлением в элитные вузы»), потому что сеть и семейный капитал доминируют в итогах.
+                В Великобритании доля privately educated в «top jobs» существенно превышает долю учащихся в частных школах (пример «сетевой трубы»), что не является доказательством педагогического эффекта. <span class="cite">citeturn2search8turn2search4turn2search19</span>
+              </p>
+              <p class="muted">
+                <span class="tag good">Интерпретация</span>
+                Недооценено: (1) качество учителя и его измеримый вклад в долгосрочные outcomes; (2) раннее детство как высокоокупаемый этап; (3) «архитектура переходов» (13→18→24) — поддержка поступления, удержание в траектории, практики долгих проектов. <span class="cite">citeturn1search1turn14search0turn16search1</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="note">
+            <strong>Ключевой тезис отчета (рабочее определение «outcomes»)</strong><br/>
+            В отчете outcomes трактуются как: (1) взрослые функциональные навыки и адаптивность (PIAAC), (2) когнитивные результаты в подростковом возрасте как фундамент (PISA + Творческое мышление),
+            (3) способность удерживать длинные образовательные траектории (поступление/устойчивость/завершение), (4) способность создавать новое (исследования/компании) — но с учетом того, что последняя группа особенно искажается селекцией и сетями. <span class="cite">citeturn0search3turn0search2turn16search1turn4search0</span>
+          </div>
+
+          <p class="muted">
+            В тексте ниже все причинные выводы маркируются (Факт/Интерпретация/Гипотеза) и получают уровень уверенности; там, где причинность отделить нельзя, это фиксируется явно.
+          </p>
+        </div>
+      </header>
+
+      <section id="framework">
+        <div class="sec">
+          <h2>Исследовательская рамка</h2>
+
+          <h3>Как отбирались объекты и почему это не «топ‑лист»</h3>
+          <p class="muted">
+            Объекты включались в поле, если выполнялись два условия: (1) они важны для market map (как сегмент/модель/экосистема), (2) есть хотя бы один проверяемый сигнал outcomes (сопоставимые международные метрики или квази‑экспериментальная/лонгитюдная оценка).
+            Для элитных частных школ, где данные чаще всего закрыты, моделирование строится через «рынок сигналов» и риски переоценки, а не через ложную точность. <span class="cite">citeturn2search8turn2search5turn3search1</span>
+          </p>
+
+          <h3>Как отделялся эффект системы от селекции</h3>
+          <div class="grid2">
+            <div class="panel">
+              <h3>Сильная причинная база</h3>
+              <p class="muted">
+                Добавленная ценность оценки на основе лотерей/порогов (с конкурсом schools, пороги экзаменов) считаются более сильными, чем «истории успеха».
+                В отчете используются: exam school cutoffs (RD дизайн) и лотерейные оценки чартерных школ (пример — KIPP). <span class="cite">citeturn3search1turn1search2turn1search10</span>
+              </p>
+              <p class="muted">
+                Для «учительского фактора» используются исследования, связывающие teacher добавленная ценностьed с долгосрочными outcomes (колледж, заработки и другие показатели). <span class="cite">citeturn1search1turn1search17</span>
+              </p>
+            </div>
+
+            <div class="panel">
+              <h3>Ограниченная причинная база</h3>
+              <p class="muted">
+                International учебные программы (например, IB) часто демонстрируют лучшие outcomes по поступление / удержание / завершение учёбы, но существенная часть эффекта может быть самоотбора; важны explicit ограничения самих отчетов (например, в US‑отчете по DP прямо фиксируются ограничения данных и невозможность «чистого» причинного вывода). <span class="cite">citeturn16search1turn16search2turn5search3</span>
+              </p>
+              <p class="muted">
+                Университетские «предпринимательские следы» и рейтинги венчурного финансирования отражают outcomes, но имеют сильные смещения (география, отрасль, капитал, историческая сеть). Поэтому они используются как рыночный сигнал, а не как доказательство педагогической эффективности. <span class="cite">citeturn4search2turn4search21turn4search0</span>
+              </p>
+            </div>
+          </div>
+
+          <h3>Обязательная причинная рамка кейса</h3>
+          <div class="svgwrap" aria-label="Причинная логика">
+            <svg width="980" height="250" viewBox="0 0 980 250" role="img" aria-label="Input, Process, Среда, Результаты">
+              <defs>
+                <linearGradient id="gA" x1="0" x2="1">
+                  <stop offset="0" stop-color="#7dd3fc" stop-opacity=".22"></stop>
+                  <stop offset="1" stop-color="#a78bfa" stop-opacity=".18"></stop>
+                </linearGradient>
+              </defs>
+              <rect x="10" y="12" width="960" height="226" rx="14" fill="rgba(255,255,255,.02)" stroke="#243246"/>
+              <text x="26" y="42" fill="#a9b7c9" font-size="12" font-family="ui-monospace, SFMono-Regular">Рамка: вход → образовательный процесс → эффекты среды → наблюдаемые outcomes</text>
+
+              <g>
+                <rect x="40" y="70" width="210" height="94" rx="12" fill="url(#gA)" stroke="#243246"/>
+                <text x="56" y="98" fill="#e8eef6" font-size="13" font-weight="700">Качество входа</text>
+                <text x="56" y="120" fill="#a9b7c9" font-size="12">Отбор, семья, prior prep,</text>
+                <text x="56" y="138" fill="#a9b7c9" font-size="12">соц‑капитал</text>
+              </g>
+
+              <g>
+                <rect x="270" y="70" width="230" height="94" rx="12" fill="rgba(125,211,252,.08)" stroke="#243246"/>
+                <text x="286" y="98" fill="#e8eef6" font-size="13" font-weight="700">Образовательный процесс</text>
+                <text x="286" y="120" fill="#a9b7c9" font-size="12">Учителя, учебная программа, обратная</text>
+                <text x="286" y="138" fill="#a9b7c9" font-size="12">связь, письменность, проекты</text>
+              </g>
+
+              <g>
+                <rect x="520" y="70" width="230" height="94" rx="12" fill="rgba(167,139,250,.08)" stroke="#243246"/>
+                <text x="536" y="98" fill="#e8eef6" font-size="13" font-weight="700">Среда</text>
+                <text x="536" y="120" fill="#a9b7c9" font-size="12">Peer group, нормы, сеть,</text>
+                <text x="536" y="138" fill="#a9b7c9" font-size="12">плотность возможностей</text>
+              </g>
+
+              <g>
+                <rect x="770" y="70" width="180" height="94" rx="12" fill="rgba(52,211,153,.08)" stroke="#243246"/>
+                <text x="786" y="98" fill="#e8eef6" font-size="13" font-weight="700">Результаты</text>
+                <text x="786" y="120" fill="#a9b7c9" font-size="12">Навыки, траектории,</text>
+                <text x="786" y="138" fill="#a9b7c9" font-size="12">создание нового</text>
+              </g>
+
+              <g stroke="#7f93ab" stroke-width="2" fill="none" opacity=".9">
+                <path d="M250 117 L270 117"></path>
+                <path d="M500 117 L520 117"></path>
+                <path d="M750 117 L770 117"></path>
+                <path d="M330 176 C330 216, 760 216, 760 176"></path>
+                <path d="M760 176 L760 168"></path>
+                <path d="M330 176 L330 168"></path>
+              </g>
+
+              <text x="40" y="224" fill="#7f93ab" font-size="11">Обратная связь: outcomes усиливают селекцию/ресурсы (репутация, цена, доступ) → риск «бренд = эффект»</text>
+            </svg>
+          </div>
+
+          <div class="limitbox">
+            <strong>Ограничения исследования</strong>
+            <p class="muted">
+              1) Для элитных частных школ и интернатного сегмента глобально мало открытых данных, позволяющих отделить вклад школы от семейного капитала и сети; поэтому такие кейсы используются главным образом как «сегмент рынка» (brand/network pipeline), с высокой отметкой риска переоценки. <span class="cite">citeturn2search8turn2search5</span>
+            </p>
+            <p class="muted">
+              2) Предпринимательские метрики вузов (включая рейтинги венчурного финансирования) смещены в пользу экосистем с развитым венчурным рынком и хорошей видимостью данных; это ограничивает сопоставимость по странам. <span class="cite">citeturn4search2turn4search10</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="market">
+        <div class="sec">
+          <h2>Карта мирового образовательного рынка</h2>
+
+          <p class="muted">
+            Ниже — карта рынка не по престижу, а по механике формирования outcomes и по типовым компромиссs. Внутри каждого сегмента указано: где сила outcomes наиболее вероятна, где чаще всего прячется селекция, и какие элементы переносимы. <span class="cite">citeturn0search3turn3search1turn1search0</span>
+          </p>
+
+          <div class="svgwrap" aria-label="Сегментация рынка">
+            <svg width="980" height="380" viewBox="0 0 980 380" role="img" aria-label="Карта рынка">
+              <rect x="10" y="10" width="960" height="360" rx="14" fill="rgba(255,255,255,.02)" stroke="#243246"/>
+              <text x="26" y="40" fill="#a9b7c9" font-size="12" font-family="ui-monospace, SFMono-Regular">Карта рынка: селекция (X) × переносимость модели (Y)</text>
+
+              <!-- axes -->
+              <text x="26" y="78" fill="#7f93ab" font-size="12">↑ Переносимость (выше = легче воспроизвести)</text>
+              <text x="26" y="330" fill="#7f93ab" font-size="12">↓ Тяжелый контекст (рост через капитал/географию)</text>
+              <text x="150" y="350" fill="#7f93ab" font-size="12">Низкая селекция</text>
+              <text x="780" y="350" fill="#7f93ab" font-size="12">Очень высокая селекция</text>
+
+              <!-- grid -->
+              <g stroke="#243246" stroke-width="1" opacity=".85">
+                <line x1="140" y1="90" x2="930" y2="90"/>
+                <line x1="140" y1="170" x2="930" y2="170"/>
+                <line x1="140" y1="250" x2="930" y2="250"/>
+                <line x1="140" y1="330" x2="930" y2="330"/>
+                <line x1="140" y1="90" x2="140" y2="330"/>
+                <line x1="403" y1="90" x2="403" y2="330"/>
+                <line x1="666" y1="90" x2="666" y2="330"/>
+                <line x1="930" y1="90" x2="930" y2="330"/>
+              </g>
+
+              <!-- blocks -->
+              <g>
+                <rect x="160" y="110" width="220" height="52" rx="12" fill="rgba(52,211,153,.08)" stroke="#243246"/>
+                <text x="174" y="140" fill="#e8eef6" font-size="12" font-weight="700">Сильные национальные системы</text>
+              </g>
+
+              <g>
+                <rect x="160" y="190" width="220" height="52" rx="12" fill="rgba(125,211,252,.08)" stroke="#243246"/>
+                <text x="174" y="220" fill="#e8eef6" font-size="12" font-weight="700">Альтернативные педагогики</text>
+              </g>
+
+              <g>
+                <rect x="423" y="110" width="220" height="52" rx="12" fill="rgba(167,139,250,.08)" stroke="#243246"/>
+                <text x="437" y="140" fill="#e8eef6" font-size="12" font-weight="700">Портируемые учебные программы</text>
+              </g>
+
+              <g>
+                <rect x="423" y="190" width="220" height="52" rx="12" fill="rgba(34,211,238,.08)" stroke="#243246"/>
+                <text x="437" y="220" fill="#e8eef6" font-size="12" font-weight="700">Добавленная ценность сети (лотереи)</text>
+              </g>
+
+              <g>
+                <rect x="686" y="110" width="220" height="52" rx="12" fill="rgba(251,191,36,.08)" stroke="#243246"/>
+                <text x="700" y="140" fill="#e8eef6" font-size="12" font-weight="700">Селективные экзаменационных школ</text>
+              </g>
+
+              <g>
+                <rect x="686" y="190" width="220" height="52" rx="12" fill="rgba(251,113,133,.08)" stroke="#243246"/>
+                <text x="700" y="220" fill="#e8eef6" font-size="12" font-weight="700">Топ‑университетские экосистемы</text>
+              </g>
+
+              <g>
+                <rect x="686" y="270" width="220" height="52" rx="12" fill="rgba(251,113,133,.08)" stroke="#243246"/>
+                <text x="700" y="300" fill="#e8eef6" font-size="12" font-weight="700">Элитные частные школы</text>
+              </g>
+
+              <g>
+                <rect x="423" y="270" width="220" height="52" rx="12" fill="rgba(251,191,36,.08)" stroke="#243246"/>
+                <text x="437" y="300" fill="#e8eef6" font-size="12" font-weight="700">Ученичество / ПТО (профессионально-техническое образование)</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="table-wrap">
+          <table aria-label="Таблица сегментов рынка">
+            <thead>
+              <tr>
+                <th>Сегмент</th>
+                <th>Главный механизм</th>
+                <th>Прокси outcomes (что реально меряем)</th>
+                <th>Типовые искажения восприятия</th>
+                <th>Компромиссs</th>
+                <th>Примеры/якоря</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Сильные национальные системы</strong></td>
+                <td>Системность + качество учителя + стандарты, которые поднимают массовую базу</td>
+                <td>PISA / Творческое мышление; затем навыки взрослых (PIAAC)</td>
+                <td>Сложно «приписать» эффект одной школе; влияние культуры/семьи</td>
+                <td>Риск стандартизации; конфликт «экзамены ↔ творчество»</td>
+                <td>Сингапур — лидеры по PISA и творческому мышлению; страны-лидеры PIAAC <span class="cite">citeturn0search5turn0search13turn0search3</span></td>
+              </tr>
+              <tr>
+                <td><strong>Экзаменационные школы / селективные государственные модели</strong></td>
+                <td>Жесткий отбор + сильные учеников-ровесников + академическая культура</td>
+                <td>Причинные эффекты через пороги/лотереи (если есть)</td>
+                <td>«Элитная иллюзия»: сильные выпускники могут быть объяснены входом</td>
+                <td>Социальная напряженность; ограниченная масштабируемость</td>
+                <td>Экзаменационные школы Бостона и Нью-Йорка: небольшой причинный эффект для «пограничных» учеников <span class="cite">citeturn3search1turn3search4</span></td>
+              </tr>
+              <tr>
+                <td><strong>Сети добавленной ценности (чартерные / лотерейные)</strong></td>
+                <td>Управляемая культура ожиданий + академическая поддержка + сопровождение переходов</td>
+                <td>Колледж‑поступление / удержание / достижение диплома по лотерейным дизайнам</td>
+                <td>Ограниченная внешняя валидность (часто урбан‑и с конкурсом)</td>
+                <td>Высокая «структура» может конфликтовать с автономией, если плохо исполнено</td>
+                <td>Лотерейная доказательная база для чартерного сектора; KIPP как пример <span class="cite">citeturn15search0turn1search2turn1search10</span></td>
+              </tr>
+              <tr>
+                <td><strong>Портируемые учебные программы</strong></td>
+                <td>Единый «контракт качества» (письмо, исследование, дисциплина задач)</td>
+                <td>Поступление / удержание / завершение (часто корреляционно)</td>
+                <td>Самоотбор и неоднородность реализации школами</td>
+                <td>Высокая нагрузка; риск «погони за дипломами»</td>
+                <td>МБ ДП (Международный бакалавриат — Диплом-программа): US outcomes + AU национальное исследование <span class="cite">citeturn16search1turn5search3turn5search7</span></td>
+              </tr>
+              <tr>
+                <td><strong>Ученичество / ПТО (профессионально-техническое образование)</strong></td>
+                <td>Обучение на рабочем месте + участие работодателей + стандарты профессий</td>
+                <td>Переход школа→работа; трудовые результаты (контекстно)</td>
+                <td>Зависимость от экономики и структуры рынка труда</td>
+                <td>Ранняя специализация против гибкости</td>
+                <td>Швейцария: VET как “first choice”, ~9/10 upper‑secondary VET в ученичество <span class="cite">citeturn1search0turn1search4</span></td>
+              </tr>
+              <tr>
+                <td><strong>Инновационные университетские экосистемы</strong></td>
+                <td>Плотность возможностей: лабораторий + индустрия + капитал + сеть</td>
+                <td>Оценки компаний / рабочих мест / выручки (рыночный сигнал)</td>
+                <td>Сильная селекция + география; смещение данных венчурного финансирования</td>
+                <td>Не переносится целиком; затратно</td>
+                <td>MIT и Stanford — крупные предпринимательские следы (в т.ч. через независимые пересказы) <span class="cite">citeturn4search0turn4search4turn4search1</span></td>
+              </tr>
+              <tr>
+                <td><strong>Элитные частные школы</strong></td>
+                <td>Сеть + культурный капитал + отбор + «сигнал» для поступления в элитные вузы</td>
+                <td>Доля в элитных ролях/поступлениях (обычно не причинно)</td>
+                <td>Риск подмены образования социальным воспроизводством</td>
+                <td>Высокая цена; закрытость; низкая масштабируемость</td>
+                <td>Великобритания — ведущие должности: непропорциональная доля выпускников частных школ <span class="cite">citeturn2search8turn2search19</span></td>
+              </tr>
+              <tr>
+                <td><strong>Экосистемы импорт‑образования</strong></td>
+                <td>Концентрация международных учебные программы и инспекций качества</td>
+                <td>Рыночные масштабы (численность учащихся, число школ, учебных программ)</td>
+                <td>Когорты молодые; высока миграционность → мало long‑term</td>
+                <td>Разнородность качества; цена</td>
+                <td>Дубай: рост 2024–25, 227 частных школ и 17 учебные программы <span class="cite">citeturn2search13turn2search17</span></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+
+          <div class="legend" aria-label="Легенда">
+            <span class="key"><span class="sq good"></span> выше переносимость/массовость</span>
+            <span class="key"><span class="sq warn"></span> средняя доказательность</span>
+            <span class="key"><span class="sq bad"></span> высокий риск «бренд вместо эффекта»</span>
+            <span class="key"><span class="sq info"></span> сопоставимые международные метрики</span>
+            <span class="key"><span class="sq purple"></span> экосистемные/сетевые эффекты</span>
+          </div>
+
+          <div class="note">
+            <strong>Почему когнитивные метрики допустимы как «фундамент» outcomes</strong><br/>
+            В экономике образования накоплен корпус работ, связывающих «когнитивные навыки населения» с долгосрочным экономическим ростом и благополучием; это не заменяет индивидуальные outcomes, но объясняет, почему PISA/PIAAC являются полезными якорями при построении market map. <span class="cite">citeturn14search2turn14search6</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="longlist">
+        <div class="sec">
+          <h2>Расширенный список</h2>
+
+          <p class="muted">
+            Ниже — широкий список (33 объекта): системы, программы, экосистемы и ключевые «измерители», которые помогают увидеть рынок. Это этап «расширения поля», а не ранжирование. <span class="cite">citeturn0search10turn0search3turn15search0</span>
+          </p>
+
+          <div class="table-wrap">
+          <table aria-label="Расширенный список объектов">
+            <thead>
+              <tr>
+                <th>Объект</th>
+                <th>География</th>
+                <th>Возраст</th>
+                <th>Тип</th>
+                <th>Сегмент</th>
+                <th>Почему в поле</th>
+                <th>Сигнал outcomes</th>
+                <th>Риск переоценки</th>
+                <th>Уверенность</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>PISA (ОЭСР — Организация экономического сотрудничества и развития)</strong></td>
+                <td>Глобально</td>
+                <td>15 лет</td>
+                <td>Метрика</td>
+                <td>Сопоставимые когнитивные результаты</td>
+                <td>База для сравнения систем (математика/чтение/наука)</td>
+                <td><span class="tag info">Высокий</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+              <tr>
+                <td><strong>PIAAC (Программа международной оценки компетентности взрослых)</strong></td>
+                <td>Глобально</td>
+                <td>16–65</td>
+                <td>Метрика</td>
+                <td>Навыки взрослых</td>
+                <td>Наиболее «приближённый к жизни» сопоставимый показатель навыков взрослых</td>
+                <td><span class="tag info">Высокий</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Сингапур — школьная система</strong></td>
+                <td>Сингапур</td>
+                <td>6–18</td>
+                <td>Система</td>
+                <td>Сильная нацсистема</td>
+                <td>Высокая доля лучших учащихся; сильное творческое мышление</td>
+                <td><span class="tag info">Высокий</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+              <tr>
+                <td><strong>Эстония — школьная система</strong></td>
+                <td>Эстония</td>
+                <td>6–18</td>
+                <td>Система</td>
+                <td>Сильная нацсистема</td>
+                <td>Лучшие результаты в Европе по PISA и творческому мышлению</td>
+                <td><span class="tag info">Высокий</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+              <tr>
+                <td><strong>Финляндия — система</strong></td>
+                <td>Финляндия</td>
+                <td>6–18</td>
+                <td>Система</td>
+                <td>Ориентир на навыки взрослых</td>
+                <td>Лидер/топ‑группа по PIAAC</td>
+                <td><span class="tag info">Высокий</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Япония — система</strong></td>
+                <td>Япония</td>
+                <td>6–18</td>
+                <td>Система</td>
+                <td>Экзамено‑сильная</td>
+                <td>Высокая доля лучших учащихся по математике (PISA)</td>
+                <td><span class="tag info">Высокий</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средняя‑высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Республика Корея — система</strong></td>
+                <td>Республика Корея</td>
+                <td>6–18</td>
+                <td>Система</td>
+                <td>Экзамено‑интенсивная</td>
+                <td>Высокая доля лучших учащихся по PISA и сильное творческое мышление</td>
+                <td><span class="tag info">Высокий</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средняя‑высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Швейцария — ПТО (профессионально-техническое образование) / ученичество</strong></td>
+                <td>Швейцария</td>
+                <td>15–19+</td>
+                <td>Система</td>
+                <td>VET</td>
+                <td>Массовый мост школа→работа; VET как “first choice”</td>
+                <td><span class="tag good">Высокий</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Международный бакалавриат (МБ) — Диплом-программа (ДП)</strong></td>
+                <td>Глобально</td>
+                <td>16–19</td>
+                <td>Программа</td>
+                <td>Портируемое учебная программа</td>
+                <td>US и AU исследования по поступление / удержание / завершение учёбы</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Montessori (как аутентичная модель)</strong></td>
+                <td>Глобально</td>
+                <td>3–12</td>
+                <td>Модель</td>
+                <td>Альтернативная педагогика</td>
+                <td>Мета-обзор: положительные эффекты на академические и неакадемические результаты</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>KIPP (сеть чартерных школ «Знание — сила», США)</strong></td>
+                <td>США</td>
+                <td>11–18</td>
+                <td>Сеть школ</td>
+                <td>Добавленная ценность</td>
+                <td>Лотерейные оценки долгосрочные результаты</td>
+                <td><span class="tag good">Высокий</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Boston/NYC экзаменационных школ</strong></td>
+                <td>США</td>
+                <td>12–18</td>
+                <td>Модель</td>
+                <td>Селективные госшколы</td>
+                <td>Ключевой причинный «анти-брендовый» кейс</td>
+                <td><span class="tag good">Высокий</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Mathematica (независимая исследовательская организация, США) (как источник лотерейной базы)</strong></td>
+                <td>США</td>
+                <td>—</td>
+                <td>Исследователь</td>
+                <td>Доказательная инфраструктура</td>
+                <td>Независимые отчёты о долгосрочном влиянии школ</td>
+                <td><span class="tag info">Высокий</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Opportunity Insights (экономическая исследовательская группа) — поступление в колледжи</strong></td>
+                <td>США</td>
+                <td>18–24+</td>
+                <td>Исследование</td>
+                <td>Селекция/рынок</td>
+                <td>Показывает роль дохода семьи и частной средней школы в поступлении, даже при схожих результатах тестов</td>
+                <td><span class="tag good">Высокий</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>ВОИС (Всемирная организация интеллектуальной собственности) — ГИИ как контекст инноваций</strong></td>
+                <td>Глобально</td>
+                <td>—</td>
+                <td>Индекс/контекст</td>
+                <td>Инновационная среда</td>
+                <td>Где экосистемы инноваций особенно сильны (важно для университетов)</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>МТИ (Массачусетский технологический институт, США)</strong></td>
+                <td>США</td>
+                <td>18–24+</td>
+                <td>Университет</td>
+                <td>Инновационная экосистема</td>
+                <td>Предпринимательский след (рабочие места / выручка) как рыночный сигнал</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний‑высокий</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Стэнфордский университет (Калифорния, США)</strong></td>
+                <td>США</td>
+                <td>18–24+</td>
+                <td>Университет</td>
+                <td>Инновационная экосистема</td>
+                <td>Предпринимательский след; сильнейший сетевой эффект</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний‑высокий</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>ЕТН Цюрих (Швейцарская высшая техническая школа)</strong></td>
+                <td>Швейцария</td>
+                <td>18–24+</td>
+                <td>Университет</td>
+                <td>Научное превосходство</td>
+                <td>Научный сигнал (связи с Нобелевскими лауреатами)</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>EPFL (Федеральная политехническая школа Лозанны)</strong></td>
+                <td>Швейцария</td>
+                <td>18–24+</td>
+                <td>Университет</td>
+                <td>Конвейер глубоких технологий</td>
+                <td>Рекордное число стартапов в 2025 году (контекст инновационной среды страны)</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Технион (Израильский технологический институт)</strong></td>
+                <td>Израиль</td>
+                <td>18–24+</td>
+                <td>Университет</td>
+                <td>STEM + стартап‑экономика</td>
+                <td>Отчёты о числе стартапов, основанных выпускниками (с оговорками по определениям)</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Университет Ватерлоо (Канада) — ко-оп модель</strong></td>
+                <td>Канада</td>
+                <td>18–24</td>
+                <td>Модель</td>
+                <td>Обучение, интегрированное с практикой</td>
+                <td>Ко-оп как инфраструктура перехода (данные неоднородны, часть устарела)</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag bad">Низкая‑средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Австралия: национальная база данных outcomes IB</strong></td>
+                <td>Австралия</td>
+                <td>16–24</td>
+                <td>Исследование</td>
+                <td>Переносимый стандарт</td>
+                <td>Большие выборки по зачисление / удержание / завершение учёбы</td>
+                <td><span class="tag good">Высокий</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средняя‑высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Sutton Trust (организация социальной мобильности, Великобритания) — «Элитарная Британия»</strong></td>
+                <td>Великобритания</td>
+                <td>—</td>
+                <td>Аналитика рынка элит</td>
+                <td>Цепочка бренда и сети</td>
+                <td>Сильный сигнал о социальном воспроизводстве элит</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag warn">Средняя‑высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>OECD PISA — Творческое мышление</strong></td>
+                <td>Глобально</td>
+                <td>15 лет</td>
+                <td>Метрика</td>
+                <td>Креативное мышление</td>
+                <td>Сопоставимый индикатор «создания идей» как навыка</td>
+                <td><span class="tag info">Высокий</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>США: обзоры доказательной базы чартерных школ</strong></td>
+                <td>США</td>
+                <td>K‑12</td>
+                <td>Сегмент</td>
+                <td>Добавленная ценность</td>
+                <td>Системные обзоры лотерейных исследований чартерных школ</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средняя‑высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Дубай как международный школьный хаб</strong></td>
+                <td>Дубай, ОАЭ</td>
+                <td>4–18</td>
+                <td>Экосистема</td>
+                <td>Импорт‑учебные программы</td>
+                <td>Рыночный масштаб и разнообразие учебные программы, но слабый long‑term сигнал</td>
+                <td><span class="tag bad">Низкий</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag bad">Низкая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Министерство образования Сингапура: продвинутые учебные модули</strong></td>
+                <td>Сингапур</td>
+                <td>8–12</td>
+                <td>Политика/модель</td>
+                <td>Высокоспособные учащиеся</td>
+                <td>Реформа поддержки высокоспособных учеников (центры в 15 школах)</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>КХДА (Управление знаний и развития человека, Дубай): обзор образовательного рынка</strong></td>
+                <td>Дубай</td>
+                <td>K‑12</td>
+                <td>Регулятор/данные</td>
+                <td>Импорт‑образование</td>
+                <td>Официальные данные о школах, учебных программах, численности учащихся</td>
+                <td><span class="tag info">Средний</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag warn">Средняя‑высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>ЮНЕСКО (Организация ООН по образованию, науке и культуре): регулирование частного репетиторства</strong></td>
+                <td>Глобально</td>
+                <td>—</td>
+                <td>Аналитика</td>
+                <td>Теневое образование</td>
+                <td>Частное репетиторство как фактор неравенства и системное искажение рынка</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Китай: политика «двойного снижения нагрузки» и регулирование теневого образования</strong></td>
+                <td>Китай</td>
+                <td>6–18</td>
+                <td>Политика/сегмент</td>
+                <td>Экзаменационная система + рынок репетиторства</td>
+                <td>Редкий пример государства, пытающегося «сжать» рынок репетиторства (компромиссы и побочные эффекты)</td>
+                <td><span class="tag bad">Низкий–средний</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag bad">Низкая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Индия: IIT‑экосистема, инкубаторы и коучинг‑рынок</strong></td>
+                <td>Индия</td>
+                <td>16–24</td>
+                <td>Экосистема</td>
+                <td>Сверхселекция STEM</td>
+                <td>Сильный предпринимательский сигнал по ряду данных; официально зафиксированы масштабы инкубационных программ</td>
+                <td><span class="tag bad">Низкий–средний</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag bad">Низкая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Япония: KOSEN (колледжи технологий)</strong></td>
+                <td>Япония</td>
+                <td>15–20</td>
+                <td>Модель</td>
+                <td>Практико‑инженерный трек</td>
+                <td>Институционализированная инженерная траектория (описание модели открыто; результаты неоднородны)</td>
+                <td><span class="tag bad">Низкий</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag bad">Низкая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>United World Colleges (UWC)</strong></td>
+                <td>Глобально</td>
+                <td>16–19</td>
+                <td>Сеть школ</td>
+                <td>Интернат с чёткой миссией</td>
+                <td>Независимый обзор от Project Zero (прямой причинный вывод затруднён)</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний‑высокий</span></td>
+                <td><span class="tag bad">Низкая‑средняя</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>HighScope Perry Preschool и Abecedarian (раннее детство)</strong></td>
+                <td>США</td>
+                <td>0–6</td>
+                <td>Интервенции</td>
+                <td>ДВО (дошкольное и раннее воспитание)</td>
+                <td>Классические RCT‑кейсы с долгосрочными эффектами (важно для возрастной логики)</td>
+                <td><span class="tag good">Высокий</span></td>
+                <td><span class="tag info">Низкий</span></td>
+                <td><span class="tag good">Высокая</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Education at a Glance (OECD)</strong></td>
+                <td>Глобально</td>
+                <td>—</td>
+                <td>Метрика/контекст</td>
+                <td>Доходные премии</td>
+                <td>Полезно как дополнительный слой (не основной показатель результатов)</td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средний</span></td>
+                <td><span class="tag warn">Средняя</span></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+
+          <div class="small">
+            Примечание по расширенному списку: ряд объектов (метрики/отчеты/регуляторы) включены сознательно — без них market map превращается в набор историй (survivorship bias).
+          </div>
+        </div>
+      </section>
+
+      <section id="shortlist">
+        <div class="sec">
+          <h2>Краткий список и сравнительная таблица</h2>
+
+          <p class="muted">
+            В краткий список вошли 15 кейсов, которые (а) дают сильный сигнал outcomes или (б) критичны для понимания рынка (например, демонстрируют «иллюзию элиты» или роль сетей), при обязательной маркировке селекции и переносимости. <span class="cite">citeturn3search1turn1search0turn0search3turn4search2</span>
+          </p>
+
+          <div class="table-wrap wide">
+          <table aria-label="Краткий список — сравнительная таблица">
+            <thead>
+              <tr>
+                <th>Кейс</th>
+                <th>Страна/регион</th>
+                <th>Возраст</th>
+                <th>Тип</th>
+                <th>Сегмент</th>
+                <th>Ключевая механика</th>
+                <th>Результаты‑сигнал</th>
+                <th>Селекция</th>
+                <th>Вероятный вклад модели</th>
+                <th>Переносимость</th>
+                <th>Риск переоценки</th>
+                <th>Уверенность</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Эстония (PISA‑лидер Европы)</strong></td>
+                <td>Европа</td>
+                <td>6–18</td>
+                <td>Система</td>
+                <td>Нацсистема</td>
+                <td>Система массового формирования навыков</td>
+                <td>PISA + Творческое мышление — выше среднего</td>
+                <td>Низкая</td>
+                <td>Высокий (меньше «спрятано» в отборе)</td>
+                <td>Высокая (принципы)</td>
+                <td>Низкий</td>
+                <td><span class="tag good">Высокая</span> <span class="cite">citeturn0search2turn6search12</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Сингапур (планка + дифференциация; advanced modules)</strong></td>
+                <td>Азия</td>
+                <td>6–18</td>
+                <td>Система</td>
+                <td>Нацсистема + развитие поддержки одарённых</td>
+                <td>Стандарты + управляемая поддержка высокоспособных учеников</td>
+                <td>Большая доля лучших учащихся по математике и творческому мышлению</td>
+                <td>Средняя‑высокая</td>
+                <td>Средний‑высокий</td>
+                <td>Средняя (частично)</td>
+                <td>Средний</td>
+                <td><span class="tag good">Высокая</span> <span class="cite">citeturn0search5turn0search13turn2search3turn2search18</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Финляндия (adult skills как главный якорь)</strong></td>
+                <td>Европа</td>
+                <td>6–18</td>
+                <td>Система</td>
+                <td>Ориентир на навыки взрослых</td>
+                <td>Качество навыков, сохраняющихся во взрослом возрасте</td>
+                <td>Ведущие результаты по PIAAC</td>
+                <td>Низкая</td>
+                <td>Высокий</td>
+                <td>Средняя (культура и подготовка учителей трудно воспроизводимы)</td>
+                <td>Средний</td>
+                <td><span class="tag good">Высокая</span> <span class="cite">citeturn0search3</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Япония (высокая доля лучших учащихся)</strong></td>
+                <td>Азия</td>
+                <td>6–18</td>
+                <td>Система</td>
+                <td>Экзамено‑сильная</td>
+                <td>Сильная математическая база; дисциплина учебной среды</td>
+                <td>Лидеры по результатам PISA</td>
+                <td>Средняя</td>
+                <td>Средний</td>
+                <td>Средняя</td>
+                <td>Средний</td>
+                <td><span class="tag warn">Средняя</span> <span class="cite">citeturn6search0turn6search4</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Южная Корея (высокие когнитивные результаты; креатив не тождественен академике)</strong></td>
+                <td>Азия</td>
+                <td>6–18</td>
+                <td>Система</td>
+                <td>Экзамено‑интенсивная</td>
+                <td>Высокая планка + интенсивность</td>
+                <td>Лидеры по результатам; Творческое мышление: частично независимо от академических достижений</td>
+                <td>Средняя‑высокая</td>
+                <td>Средний</td>
+                <td>Низкая‑средняя (издержки давления)</td>
+                <td>Средний</td>
+                <td><span class="tag warn">Средняя</span> <span class="cite">citeturn6search1turn6search12</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Швейцария VET (ученичество как first choice)</strong></td>
+                <td>Европа</td>
+                <td>15–19+</td>
+                <td>Система</td>
+                <td>VET</td>
+                <td>Работодатель как со-провайдер обучения; профессиональные стандарты</td>
+                <td>Описание системных элементов; высокая институционализация ученичества</td>
+                <td>Средняя</td>
+                <td>Высокий</td>
+                <td>Средняя (требует участия бизнеса)</td>
+                <td>Низкий</td>
+                <td><span class="tag good">Высокая</span> <span class="cite">citeturn1search0turn1search4</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Montessori (мета‑review)</strong></td>
+                <td>Глобально</td>
+                <td>3–12</td>
+                <td>Модель</td>
+                <td>Альтернативная педагогика</td>
+                <td>Подготовленная среда + самостоятельность + способность концентрироваться</td>
+                <td>Скромные, но значимые эффекты на академические и неакадемические результаты</td>
+                <td>Низкая‑средняя</td>
+                <td>Средний‑высокий (при аутентичности)</td>
+                <td>Высокая (можно копировать, но сложно держать качество)</td>
+                <td>Низкий</td>
+                <td><span class="tag warn">Средняя</span> <span class="cite">citeturn1search11turn1search3</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>KIPP (лотерейные long‑term эффекты)</strong></td>
+                <td>США</td>
+                <td>11–18</td>
+                <td>Сеть</td>
+                <td>Добавленная ценность</td>
+                <td>Академическая поддержка + культура ожиданий + сопровождение в переходе</td>
+                <td>Лотерейное отслеживание поступление / удержание / достижение диплома</td>
+                <td>Низкая (лотерея)</td>
+                <td>Высокий</td>
+                <td>Средняя (частично)</td>
+                <td>Низкий</td>
+                <td><span class="tag warn">Средняя</span> <span class="cite">citeturn1search2turn1search10</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>МБ ДП (Международный бакалавриат — Диплом-программа) (US + AU исследования)</strong></td>
+                <td>Глобально; США/Австралия</td>
+                <td>16–24</td>
+                <td>Программа</td>
+                <td>Переносимый стандарт</td>
+                <td>Письмо + исследование + дисциплина при работе с длинными задачами</td>
+                <td>DP выше по поступление / удержание / завершение учёбы (с оговорками причинныйity)</td>
+                <td>Средняя‑высокая</td>
+                <td>Средний</td>
+                <td>Высокая (как набор практик)</td>
+                <td>Средний</td>
+                <td><span class="tag warn">Средняя</span> <span class="cite">citeturn16search1turn16search2turn5search3</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Exam‑schools Boston/NYC (иллюзия элиты)</strong></td>
+                <td>США</td>
+                <td>12–18</td>
+                <td>Модель</td>
+                <td>Селективные госшколы</td>
+                <td>Супер‑учеников-ровесников ≠ автоматический добавленная ценность</td>
+                <td>Оценка методом регрессионного разрыва (РР): небольшие эффекты для «пограничных» учеников</td>
+                <td>Высокая</td>
+                <td>Низкий–средний</td>
+                <td>Низкая</td>
+                <td>Низкий (как предупреждение — наоборот, полезно)</td>
+                <td><span class="tag good">Высокая</span> <span class="cite">citeturn3search1turn3search4</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>University entrepreneurship рыночный сигнал (PitchBook)</strong></td>
+                <td>Глобально</td>
+                <td>18–30+</td>
+                <td>Метрика</td>
+                <td>Количество основателей компаний</td>
+                <td>Сколько основателей компаний привлекло венчурное финансирование; индикатор «венчурной конвертации»</td>
+                <td>Рейтинг основателей, привлёкших венчурный капитал (с сильным смещением выборки)</td>
+                <td>Высокая (по данным венчурного рынка)</td>
+                <td>Низкий (причинно), но высокий (как рыночный ориентир)</td>
+                <td>Низкая</td>
+                <td>Средний–высокий риск смещения</td>
+                <td><span class="tag warn">Средняя</span> <span class="cite">citeturn4search2turn4search10</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>MIT (предпринимательский след)</strong></td>
+                <td>США</td>
+                <td>18–24+</td>
+                <td>Университет</td>
+                <td>Инновационная экосистема</td>
+                <td>Плотность возможностей + культура прототипирования</td>
+                <td>Оценка числа рабочих мест и годовой выручки компаний выпускников</td>
+                <td>Очень высокая</td>
+                <td>Средний–высокий (но смешан с географическим и сетевым факторами)</td>
+                <td>Низкая (можно перенять принципы, но не экосистему целиком)</td>
+                <td>Средний</td>
+                <td><span class="tag warn">Средняя</span> <span class="cite">citeturn4search0turn4search4</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Stanford (экономический след alumni companies)</strong></td>
+                <td>США</td>
+                <td>18–24+</td>
+                <td>Университет</td>
+                <td>Инновационная экосистема</td>
+                <td>Сверхсильный сетевой эффект (связка со Стэнфордом и Кремниевой долиной)</td>
+                <td>Оценки рабочих мест и выручки (экстраполяции на основе опросов)</td>
+                <td>Очень высокая</td>
+                <td>Средний</td>
+                <td>Низкая</td>
+                <td>Средний</td>
+                <td><span class="tag warn">Средняя</span> <span class="cite">citeturn4search1turn4search21</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>ETH Zürich + EPFL (research + deep‑tech pipeline)</strong></td>
+                <td>Швейцария</td>
+                <td>18–24+</td>
+                <td>Университеты</td>
+                <td>Исследования и глубокие технологии</td>
+                <td>Научное превосходство + стартап‑инфраструктура в стране №1 по инновациям</td>
+                <td>ЕТН — связи с Нобелевскими лауреатами; EPFL — рекорд 39 стартапов в 2025 г.; Швейцария №1 в ГИИ — 14 лет</td>
+                <td>Высокая</td>
+                <td>Средний</td>
+                <td>Низкая</td>
+                <td>Средний</td>
+                <td><span class="tag warn">Средняя</span> <span class="cite">citeturn5search0turn5search1turn5search6</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Technion (стартап‑след выпускников)</strong></td>
+                <td>Израиль</td>
+                <td>18–24+</td>
+                <td>Университет</td>
+                <td>STEM + стартап‑экономика</td>
+                <td>Инженерная школа как узел национальной инновации</td>
+                <td>Данные о стартапах 2015–2022 (с оговорками об определениях)</td>
+                <td>Высокая</td>
+                <td>Средний</td>
+                <td>Низкая</td>
+                <td>Средний</td>
+                <td><span class="tag warn">Средняя</span> <span class="cite">citeturn4search3turn4search7</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Дубай (рынок международных школ; KHDA data)</strong></td>
+                <td>ОАЭ</td>
+                <td>4–18</td>
+                <td>Экосистема</td>
+                <td>Центр импортных учебных программ</td>
+                <td>Концентрация учебные программы/школ; рост рынка</td>
+                <td>387,441 students; 227 private schools; 17 учебные программы (2024–25)</td>
+                <td>—</td>
+                <td>Низкий (из-за отсутствия данных по долгосрочным когортам)</td>
+                <td>Средняя (как модель рынка)</td>
+                <td>Средний</td>
+                <td><span class="tag bad">Низкая</span> <span class="cite">citeturn2search13turn2search17</span></td>
+              </tr>
+
+              <tr>
+                <td><strong>Elite pipeline риск (UK top roles)</strong></td>
+                <td>Великобритания</td>
+                <td>—</td>
+                <td>Сегмент</td>
+                <td>Элитные частные школы</td>
+                <td>Сеть и культурный капитал как «труба»</td>
+                <td>Доля выпускников частных школ в элитных должностях</td>
+                <td>Очень высокая</td>
+                <td>Низкий (причинно), высокий (как рыночный сигнал)</td>
+                <td>Низкая</td>
+                <td>Высокий риск подмены образовательного вклада сетевым</td>
+                <td><span class="tag warn">Средняя‑высокая</span> <span class="cite">citeturn2search8turn2search19</span></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+
+          <div class="note">
+            <strong>Мини‑вывод по краткому списку</strong><br/>
+            Самые «чистые» сильные кейсы (в смысле высокой вероятности образовательного вклада, а не только бренда) — это: Эстония/Финляндия как системы массового качества, Switzerland VET как инфраструктура перехода, Montessori как переносимая педагогика при аутентичности, KIPP как пример добавленная ценность при лотерейной идентификации. <span class="cite">citeturn0search3turn1search0turn1search11turn1search2</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="dives">
+        <div class="sec">
+          <h2>Детальный разбор ключевых кейсов</h2>
+
+          <p class="muted">
+            Ниже — 10 подробных карточек. Каждая строго проходит 4‑уровневую причинную рамку, отдельно отмечает: что объясняется селекцией, что — процессом, что — средой, и что реально переносимо. <span class="cite">citeturn3search1turn1search1turn1search0</span>
+          </p>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">Эстония: «массовое качество» без элитной оболочки</div>
+                <div class="sum-sub">Кейс — для тех, кто ищет воспроизводимые механики системы, а не бренд и связи.</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag good">Уверенность: высокая</span>
+                <span class="tag info">Селекция: низкая</span>
+                <span class="tag good">Переносимость: высокая</span>
+              </div>
+            </summary>
+
+            <div class="grid2">
+              <div class="panel">
+                <h3>Качество входа</h3>
+                <p class="muted">
+                  <span class="tag info">Интерпретация</span> Главная сила — не «узкий элитный вход», а системное повышение навыков по широкой популяции. Это снижает риск спутать outcomes с селекцией.
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Образовательный процесс</h3>
+                <p class="muted">
+                  <span class="tag info">Факт</span> Эстония стабильно в группе лидеров PISA и относится к странам выше среднего в PISA — Творческое мышление по OECD‑материалам. <span class="cite">citeturn0search2turn6search12</span>
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Среда / ecosystem</h3>
+                <p class="muted">
+                  <span class="tag info">Интерпретация</span> Система выигрывает через «низкий уровень фрикции» к качеству: меньше зависимости от дорогих частных рынков подготовки и меньше «ценового барьера» для хорошего образования.
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Наблюдаемые результаты</h3>
+                <p class="muted">
+                  Результаты‑сигнал здесь — сопоставимые когнитивные результаты (PISA/Творческое мышление). Это фундамент, а не прямое измерение «создания компаний», но именно фундамент — наиболее переносимая часть модели. <span class="cite">citeturn0search2turn14search2</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="note">
+              <strong>Переносимо:</strong> системное повышение грамотности/математики, управленческая дисциплина качества, поддержка учителя и обратной связи.<br/>
+              <strong>Риск переоценки:</strong> низкий — потому что сигнал основан не на «звездных выпускниках», а на сопоставимых метриках.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">Сингапур: планка + эволюция поддержки высокоспособных</div>
+                <div class="sum-sub">Кейс «высокая когнитивная планка» и попытка расширить охват поддержки сильных учеников.</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag good">Уверенность: высокая</span>
+                <span class="tag warn">Селекция: средняя‑высокая</span>
+                <span class="tag warn">Переносимость: частично</span>
+              </div>
+            </summary>
+
+            <div class="grid2">
+              <div class="panel">
+                <h3>Качество входа</h3>
+                <p class="muted">
+                  <span class="tag info">Факт</span> В PISA 2022 в Сингапуре высокая доля лучших учащихся в математике (Level 5–6). <span class="cite">citeturn0search5turn0search9</span>
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Образовательный процесс</h3>
+                <p class="muted">
+                  <span class="tag info">Факт</span> MOE объявляет, что с 2027 года 15 начальных школ будут центрами для advanced modules (поддержка учеников с высоким потенциалом без необходимости «перевода»). <span class="cite">citeturn2search3turn2search14</span>
+                </p>
+                <p class="muted">
+                  <span class="tag info">Факт</span> Медиа‑описание подчеркивает: modules optional и ориентированы на критическое мышление и exploration (но это все еще ранняя стадия политики). <span class="cite">citeturn2search18</span>
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Среда / ecosystem</h3>
+                <p class="muted">
+                  <span class="tag warn">Интерпретация</span> Экосистема ожиданий и внешней подготовки (теневое образование) может усиливать outcomes, но одновременно повышает неравенство и давление; это важный компромисс модели высокой планки.
+                </p>
+                <p class="muted">
+                  <span class="tag info">Контекст</span> В PISA — Творческое мышление в Сингапуре также очень высокая доля лучших учащихся. <span class="cite">citeturn0search13turn0search2</span>
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Наблюдаемые результаты</h3>
+                <p class="muted">
+                  Сильная когнитивная база и creative‑thinking сигнал — высокий. При этом причинное разграничение «школа vs семья/культура» затруднено, поэтому вклад системы оценивается как средний‑высокий, а риск переоценки — средний. <span class="cite">citeturn0search5turn0search13turn2search3</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="warnbox">
+              <strong>Что может быть переоценено</strong>: «секретная методика» — чаще это комбинация селекции, культуры ожиданий и управленческой дисциплины.<br/>
+              <strong>Что переносимо</strong>: advanced modules как сервис поверх базовой школы; стандарты грамотности/математики; управление feedback‑циклом.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">Exam‑schools (Boston/NYC): «элитная иллюзия» как анти‑кейс</div>
+                <div class="sum-sub">Кейс обязателен для рынка: он показывает, почему «сильные ученики внутри» не равны «сильной модели».</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag good">Уверенность: высокая</span>
+                <span class="tag warn">Селекция: высокая</span>
+                <span class="tag info">Ценность: предупреждение</span>
+              </div>
+            </summary>
+
+            <div class="grid2">
+              <div class="panel">
+                <h3>Качество входа</h3>
+                <p class="muted">
+                  Сегмент определяется экстремальной селекцией через пороги экзамена/процедуры: вход сам по себе уже сильный, что создает высокий риск «бренд = эффект».
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Образовательный процесс</h3>
+                <p class="muted">
+                  Даже если учебная программа и учеников-ровесников сильны, итоговый причинный эффект может быть малым для маржинальных учеников; это подтверждает дизайн на cutoffs. <span class="cite">citeturn3search1turn3search4</span>
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Среда / ecosystem</h3>
+                <p class="muted">
+                  Peer group меняется резко, но «одних учеников-ровесников» недостаточно — нужен процесс, который добавляет добавленная ценность сверх подготовки ученика. Этот вывод важен для любого одарённых/exam сегмента в мире.
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Наблюдаемые результаты</h3>
+                <p class="muted">
+                  <span class="tag info">Факт</span> Исследования по Boston/NYC экзаменационных школ находят небольшие/незначимые эффекты на академические outcomes и качество колледжа для учеников около порога. <span class="cite">citeturn3search1turn3search7</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="note">
+              <strong>Главный переносимый урок</strong>: если у модели нет явной «производственной функции обучения» (учителя, обратная связь, чтение/письмо, математика как мышление), то селекция и бренд будут имитировать эффективность.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">Teacher добавленная ценностьed: учитель как самый воспроизводимый рычаг</div>
+                <div class="sum-sub">Не «институция‑бренд», а измеримая характеристика процесса: качество учителя связано с долгосрочными outcomes.</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag good">Уверенность: высокая</span>
+                <span class="tag good">Переносимость: высокая</span>
+              </div>
+            </summary>
+
+            <div class="panel">
+              <h3>Суть доказательства</h3>
+              <p class="muted">
+                <span class="tag info">Факт</span> Исследования teacher добавленная ценностьed связывают «учительский вклад в тест‑рост» с долгосрочными outcomes (колледж, заработки и другие показатели) на больших административных данных. <span class="cite">citeturn1search1turn1search9turn1search17</span>
+              </p>
+              <p class="muted">
+                <span class="tag info">Интерпретация</span> Для дизайна сильной школы это означает: ключевой инвестиционный объект — не «здание/бренд», а рекрутинг/развитие/удержание сильных учителей и качество циклов обратной связи.
+              </p>
+            </div>
+
+            <div class="note">
+              <strong>Переносимо</strong>: системы отбора и развития учителей, оценивание прогресса с минимумом помех, культура педагогической практики.<br/>
+              <strong>Компромисс</strong>: дорого и требует управленческого качества.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">KIPP: редкий школьный кейс с лотерейным long‑term tracking</div>
+                <div class="sum-sub">Важно как доказательство: «добавленная ценность возможен» даже без элитной селекции, но требования к исполнению высоки.</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag warn">Уверенность: средняя</span>
+                <span class="tag info">Селекция: низкая (лотерея)</span>
+                <span class="tag warn">Переносимость: частично</span>
+              </div>
+            </summary>
+
+            <div class="grid2">
+              <div class="panel">
+                <h3>Качество входа</h3>
+                <p class="muted">
+                  Лотерея снижает селекционный bias: сравниваются учащиеся, которые хотели поступить, но часть не получила offer. Это не «нулевая селекция» (есть самоотбора заявки), но значительно лучше, чем «элитные школы». <span class="cite">citeturn1search2turn1search10</span>
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Образовательный процесс</h3>
+                <p class="muted">
+                  Сильные эффекты проявляются, когда есть «длинная связка» (middle+high) и сопровождение перехода — это показывает независимый отчет Mathematica. <span class="cite">citeturn1search2turn1search10</span>
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Среда / ecosystem</h3>
+                <p class="muted">
+                  Модель часто строит «структурированную среду» и культуру ожиданий. Это может быть преимуществом для устойчивости траектории, но требует культурно грамотного исполнения, чтобы не подавлять автономию.
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Наблюдаемые результаты</h3>
+                <p class="muted">
+                  <span class="tag info">Факт</span> Mathematica (2023) и связанные публикации описывают эффекты на college поступление / удержание / достижение диплома; при этом отдельно отмечаются ограничения и различия между cohorts. <span class="cite">citeturn1search2turn1search10turn15search16</span>
+                </p>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">Montessori: переносимая педагогика раннего развития</div>
+                <div class="sum-sub">Кейс важен как воспроизводимый дизайн среды и самостоятельности; ключевой риск — «лейбл без механики».</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag warn">Уверенность: средняя</span>
+                <span class="tag good">Переносимость: высокая</span>
+              </div>
+            </summary>
+
+            <div class="panel">
+              <h3>Доказательная база</h3>
+              <p class="muted">
+                <span class="tag info">Факт</span> Campbell review (2023) находит «modest but meaningful» положительные эффекты Montessori на академические и non‑academic outcomes. <span class="cite">citeturn1search11turn1search7</span>
+              </p>
+              <p class="muted">
+                <span class="tag info">Факт</span> Публикации по Montessori (в т.ч. в индексируемых источниках) согласуются в направлении эффекта, но фиксируют неоднородность по качеству реализации. <span class="cite">citeturn1search3turn1search11</span>
+              </p>
+            </div>
+
+            <div class="warnbox">
+              <strong>Ключевой компромисс</strong>: свобода без структуры = дрейф; структура без свободы = слом автономии. Montessori работает именно как инженерный баланс «свобода внутри порядка».
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">МБ ДП (Международный бакалавриат — Диплом-программа): глобальный стандарт зрелости 16–19 с ограниченной причинныйity</div>
+                <div class="sum-sub">Кейс полезен как «набор практик» (письмо/исследование/длинная задача), а не как магический ярлык.</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag warn">Уверенность: средняя</span>
+                <span class="tag warn">Селекция: средняя‑высокая</span>
+                <span class="tag good">Переносимость практик: высокая</span>
+              </div>
+            </summary>
+
+            <div class="grid2">
+              <div class="panel">
+                <h3>Наблюдаемые результаты</h3>
+                <p class="muted">
+                  <span class="tag info">Факт</span> US отчет по DP (National Student Clearinghouse) показывает более высокие показали enrollment/persistence/graduation у DP graduates, но фиксирует ограничения данных и невозможность «чистого» причинного вывода. <span class="cite">citeturn16search1turn16search2</span>
+                </p>
+                <p class="muted">
+                  <span class="tag info">Факт</span> Австралийский отчет ACER (2024) использует национальные данные по cohorts и показывает преимущества по зачисление / удержание / завершение учёбы; это сильнее как эмпирика, хотя все равно сохраняется самоотбора. <span class="cite">citeturn5search3turn5search11turn5search7</span>
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Что реально переносимо из этой модели</h3>
+                <p class="muted">
+                  <span class="tag info">Интерпретация</span> Переносимо «ядро практик»: письмо/аргументация, исследовательская работа, междисциплинарная рамка, привычка держать длинный проект.
+                  Непереносим «рыночный сигнал IB» (его сила зависит от страны и университетов).
+                </p>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">MIT: предпринимательская экосистема как «плотность возможностей»</div>
+                <div class="sum-sub">Кейс важен для рынка, но его нельзя «скопировать целиком» — только принципы.</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag warn">Уверенность: средняя</span>
+                <span class="tag warn">Селекция: очень высокая</span>
+                <span class="tag bad">Переносимость: низкая</span>
+              </div>
+            </summary>
+
+            <div class="grid2">
+              <div class="panel">
+                <h3>Наблюдаемые результаты</h3>
+                <p class="muted">
+                  <span class="tag info">Факт</span> MIT News (2015) сообщает оценки: компании, основанные выпускниками создали миллионы jobs и порядка ~2 трлн долларов годовой выручки; Kauffman пересказывает ключевые числа как внешний источник. <span class="cite">citeturn4search0turn4search4</span>
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Критическая интерпретация</h3>
+                <p class="muted">
+                  <span class="tag warn">Интерпретация</span> Эти цифры — рыночный сигнал предпринимательского следа, но в причинном смысле смешивают вклад университета с селекцией и географией капитала/индустрии. Поэтому MIT — учебник по архитектуре экосистемы, но не шаблон copy‑paste.
+                </p>
+              </div>
+            </div>
+
+            <div class="note">
+              <strong>Что переносимо</strong>: доступ студентов к лабораторий и реальным задачам, культура прототипирования, инфраструктура предпринимательства низкого трения.<br/>
+              <strong>Что непереносимо</strong>: плотность капитала и индустрии как в Бостоне/США.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">Stanford: «университет + регион» как главный механизм</div>
+                <div class="sum-sub">Роль обучения сложно отделить от Silicon Valley; данные о компании‑следе основаны на survey‑экстраполяциях.</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag warn">Уверенность: средняя</span>
+                <span class="tag warn">Селекция: очень высокая</span>
+                <span class="tag bad">Переносимость: низкая</span>
+              </div>
+            </summary>
+
+            <div class="panel">
+              <h3>Наблюдаемые результаты</h3>
+              <p class="muted">
+                <span class="tag info">Факт</span> Сообщения Stanford Engineering и отчет Eesley &amp; Miller дают оценки компаний/рабочих мест/выручки, сформированных entrepreneurs, связанных со Stanford; метод — survey и экстраполяции. <span class="cite">citeturn4search1turn4search21</span>
+              </p>
+              <p class="muted">
+                <span class="tag warn">Ограничение</span> Из‑за методологии и сетевого эффекта это нельзя трактовать как «учебный план породил компании». Это результат связки: университет + региональная экономика возможностей.
+              </p>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">ETH Zürich + EPFL: research‑signal и deep‑tech pipeline в стране №1 по инновациям</div>
+                <div class="sum-sub">Кейс показывает, как «национальная инновационная среда» усиливает университетские outcomes.</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag warn">Уверенность: средняя</span>
+                <span class="tag warn">Селекция: высокая</span>
+                <span class="tag bad">Переносимость: низкая</span>
+              </div>
+            </summary>
+
+            <div class="grid2">
+              <div class="panel">
+                <h3>Наблюдаемые результаты</h3>
+                <p class="muted">
+                  <span class="tag info">Факт</span> ETH описывает, что 22 Nobel Prizes связаны с исследователями, имеющими отношения к ETH. <span class="cite">citeturn5search0turn5search4</span>
+                </p>
+                <p class="muted">
+                  <span class="tag info">Факт</span> EPFL сообщает о рекордном числе 39 startups в 2025 (официальный материал EPFL; подтверждение также в независимом стартап‑медиа). <span class="cite">citeturn5search1turn5search5turn5search16</span>
+                </p>
+              </div>
+
+              <div class="panel">
+                <h3>Контекст</h3>
+                <p class="muted">
+                  <span class="tag info">Факт</span> WIPO сообщает, что Швейцария занимает 1 место в Глобальный индекс инноваций (ГИИ) 2024 уже 14 лет подряд. Это усиливает «экосистемный эффект» вокруг университетов. <span class="cite">citeturn5search6turn5search10turn5search17</span>
+                </p>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <div class="sum-left">
+                <div class="sum-title">Technion: стартап‑след выпускников в стартап‑экономике Израиля</div>
+                <div class="sum-sub">Кейс полезен как пример «университет встроен в национальную инновационную машину», но определения стартап‑метрик требуют осторожности.</div>
+              </div>
+              <div class="sum-right">
+                <span class="tag warn">Уверенность: средняя</span>
+                <span class="tag warn">Селекция: высокая</span>
+                <span class="tag bad">Переносимость: низкая</span>
+              </div>
+            </summary>
+
+            <div class="panel">
+              <h3>Наблюдаемые результаты</h3>
+              <p class="muted">
+                <span class="tag info">Факт</span> Samuel Neaman Institute сообщает цифру 1,021 startups, основанных/возглавленных выпускниками Technion (2015–2022); Technion повторяет это утверждение в собственной публикации. <span class="cite">citeturn4search3turn4search7</span>
+              </p>
+              <p class="muted">
+                <span class="tag warn">Ограничение</span> Это сильный рыночный сигнал, но не причинная оценка, и требует проверки определений «стартапа» и «основан/возглавлен».
+              </p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section id="age">
+        <div class="sec">
+          <h2>Анализ по возрастным этапам</h2>
+
+          <p class="muted">
+            Возрастная логика — критична: то, что эффективно в 18–24 (экосистема возможностей), не заменяет то, что должно быть построено в 0–12 (саморегуляция, грамотность, математическое мышление). Этот раздел связывает рыночных сегментов с задачами развития. <span class="cite">citeturn1search11turn1search1turn16search1turn4search0</span>
+          </p>
+
+          <div class="table-wrap">
+          <table aria-label="Возрастные этапы и эффективные подходы">
+            <thead>
+              <tr>
+                <th>Этап</th>
+                <th>Что является «ядром» развития</th>
+                <th>Что показывает evidence</th>
+                <th>Среда и практики</th>
+                <th>Типовые ошибки</th>
+                <th>Сильные рыночные модели</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>0–6</strong></td>
+                <td>Саморегуляция, речь, любознательность, базовые пред‑мат навыки</td>
+                <td>программы раннего детского образования (ДВО) — интервенции (RCT) показывают долгосрочные социальные/экономические эффекты; ранняя отдача от инвестиций (ROI) высока</td>
+                <td>Качественные взрослые взаимодействия + регулярность; работа с родителями</td>
+                <td>Ранний «pressure» без мотивации; академизация вместо развития функции внимания</td>
+                <td>Perry Preschool, Abecedarian; Montessori (как переносимая модель среды) <span class="cite">citeturn14search0turn14search1turn1search11</span></td>
+              </tr>
+              <tr>
+                <td><strong>7–12</strong></td>
+                <td>Глубокая грамотность (чтение/письмо), математическое мышление, привычки труда</td>
+                <td>Вклад учителя измерим и связан с долгосрочными результатами</td>
+                <td>Сильный учитель + обратная связь; «много качественного чтения и письма»</td>
+                <td>Подмена чтения «контент‑скроллом», слабая обратная связь, отсутствие системности</td>
+                <td>Сильные нацсистемы; модели с сильной педагогикой; teacher‑quality как стратегия <span class="cite">citeturn1search1turn1search17</span></td>
+              </tr>
+              <tr>
+                <td><strong>13–17</strong></td>
+                <td>Абстрактное мышление, аргументация, проект/исследование, дисциплина длинной задачи</td>
+                <td>Творческое мышление частично независимо от академических предметов; экосистема школы важна</td>
+                <td>Дебаты/эссе/исследовательские мини‑проекты; менторство</td>
+                <td>Только тест‑дрилл; «элитизация без обучения» (селекция вместо добавленная ценность)</td>
+                <td>МБ ДП (Международный бакалавриат — Диплом-программа) как переносимый стандарт практик; сильные системы; добавленная ценность сети (KIPP) <span class="cite">citeturn0search2turn6search12turn16search1turn1search2</span></td>
+              </tr>
+              <tr>
+                <td><strong>18–24</strong></td>
+                <td>Создание нового: research ученичество, стажировки, взрослая автономия</td>
+                <td>Университетские экосистемы дают сильный предпринимательский сигнал, но сильно зависят от сети и географии</td>
+                <td>Доступ к лабораториям, индустрии и капиталу; «реальные задачи» и практики прототипирования</td>
+                <td>Пассивная «лекционная» траектория без практики и наставничества</td>
+                <td>MIT/Stanford/ETH‑EPFL/Technion как примеры экосистем; VET как альтернативный мост школа→экономика <span class="cite">citeturn4search0turn4search21turn5search1turn1search0</span></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+
+          <div class="svgwrap" aria-label="Дорожная карта 0-24">
+            <svg width="980" height="220" viewBox="0 0 980 220" role="img" aria-label="Траектория 0-24">
+              <rect x="10" y="10" width="960" height="200" rx="14" fill="rgba(255,255,255,.02)" stroke="#243246"/>
+              <text x="26" y="40" fill="#a9b7c9" font-size="12" font-family="ui-monospace, SFMono-Regular">Траектория 0–24: что является «обязательным фундаментом», а что — ускорителем</text>
+
+              <line x1="60" y1="120" x2="920" y2="120" stroke="#243246" stroke-width="2"/>
+              <text x="58" y="150" fill="#7f93ab" font-size="12">0</text>
+              <text x="235" y="150" fill="#7f93ab" font-size="12">6</text>
+              <text x="412" y="150" fill="#7f93ab" font-size="12">12</text>
+              <text x="590" y="150" fill="#7f93ab" font-size="12">18</text>
+              <text x="910" y="150" fill="#7f93ab" font-size="12">24</text>
+
+              <rect x="60" y="70" width="175" height="70" rx="12" fill="rgba(52,211,153,.08)" stroke="#243246"/>
+              <text x="75" y="98" fill="#e8eef6" font-size="12" font-weight="700">0–6</text>
+              <text x="75" y="118" fill="#a9b7c9" font-size="11">Саморегуляция • речь • игра</text>
+
+              <rect x="235" y="70" width="175" height="70" rx="12" fill="rgba(125,211,252,.08)" stroke="#243246"/>
+              <text x="250" y="98" fill="#e8eef6" font-size="12" font-weight="700">7–12</text>
+              <text x="250" y="118" fill="#a9b7c9" font-size="11">Грамотность • матмышление</text>
+
+              <rect x="410" y="70" width="180" height="70" rx="12" fill="rgba(167,139,250,.08)" stroke="#243246"/>
+              <text x="425" y="98" fill="#e8eef6" font-size="12" font-weight="700">13–17</text>
+              <text x="425" y="118" fill="#a9b7c9" font-size="11">Письмо • дебаты • проекты</text>
+
+              <rect x="590" y="70" width="330" height="70" rx="12" fill="rgba(251,191,36,.08)" stroke="#243246"/>
+              <text x="605" y="98" fill="#e8eef6" font-size="12" font-weight="700">18–24</text>
+              <text x="605" y="118" fill="#a9b7c9" font-size="11">Research ученичество • стажировки • создание</text>
+
+              <text x="60" y="188" fill="#7f93ab" font-size="11">Фундамент переносим; «экосистемный ускоритель» зависит от рынка возможностей</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section id="synthesis">
+        <div class="sec">
+          <h2>Синтез, критическая проверка и источники</h2>
+
+          <h3>Пять наиболее сильных механизмов формирования выдающихся результатов</h3>
+          <div class="panel">
+            <p>
+              <span class="tag info">Факт</span> <strong>Качество учителя</strong> — измеримый и переносимый фактор, связанный с долгосрочными outcomes. <span class="cite">citeturn1search1turn1search17</span>
+            </p>
+            <p>
+              <span class="tag info">Факт</span> <strong>Раннее детство как высоко‑окупаемая инвестиция</strong> — рандомизированные исследования (РКИ) — программы вмешательства показывают долгосрочные эффекты и высокую оценку социального ROI. <span class="cite">citeturn14search0turn14search1turn14search4</span>
+            </p>
+            <p>
+              <span class="tag warn">Интерпретация</span> <strong>Архитектура переходов</strong> (школа→вуз→рынок возможностей) часто важнее «красоты программы»: программы уровня IB имеют преимущества по persistence/completion, но это сочетание практик и селекции. <span class="cite">citeturn16search1turn5search3</span>
+            </p>
+            <p>
+              <span class="tag warn">Интерпретация</span> <strong>Плотность возможностей</strong> (лабораторий/индустрия/капитал/сеть) ускоряет создание нового, но почти не переносится целиком; поэтому экосистемы MIT/Stanford — уроки архитектуры, а не шаблон. <span class="cite">citeturn4search0turn4search21turn4search2</span>
+            </p>
+            <p>
+              <span class="tag info">Факт</span> <strong>Обучение на рабочем месте инфраструктура</strong> (VET/ученичество) снижает фрикцию перехода в экономику и создает устойчивые траектории (особенно когда VET — “first choice”). <span class="cite">citeturn1search0turn1search4</span>
+            </p>
+          </div>
+
+          <h3>Пять недооцененных практик</h3>
+          <div class="callouts">
+            <div class="callout">
+              <div class="hd"><strong>Сильная письменность как технология мышления</strong><span class="tag good">Высокая полезность</span></div>
+              <p class="muted">
+                Успешные переносимые программы (например, IB) стабильно включают эссе, аргументацию и исследовательскую работу; эффект может быть частично селекционным, но практика переносима. <span class="cite">citeturn16search1turn5search3</span>
+              </p>
+            </div>
+            <div class="callout">
+              <div class="hd"><strong>Обратная связь и итерации вместо «разового экзамена»</strong><span class="tag good">Переносимо</span></div>
+              <p class="muted">
+                «Добавленная ценность» сильнее появляется там, где есть циклы обучения (переучивание/переписывание/улучшение), а не только селекция. В противном случае элита может быть иллюзией. <span class="cite">citeturn3search1turn1search2</span>
+              </p>
+            </div>
+            <div class="callout">
+              <div class="hd"><strong>Снижение зависимости от частное репетиторство</strong><span class="tag warn">Трудно</span></div>
+              <p class="muted">
+                Private tutoring усиливает неравенство; попытки регулирования (Китай) демонстрируют и потенциал, и побочные эффекты. Для проектирования сильной модели важно строить качество внутри школы, а не «покупать» его на внешнем рынке. <span class="cite">citeturn7search5turn7search13</span>
+              </p>
+            </div>
+            <div class="callout">
+              <div class="hd"><strong>Инфраструктура перехода (стажировки/ко‑оп/аппрентис)</strong><span class="tag warn">Контекстно</span></div>
+              <p class="muted">
+                Даже старые эмпирики по ко‑оп показывают, что work‑integrated learning может улучшать outcomes на рынке труда; но требуется обновление данных и сильный рынок работодателей. <span class="cite">citeturn7search6turn7search2</span>
+              </p>
+            </div>
+          </div>
+
+          <h3>Пять ошибок, которые совершают даже хорошие школы</h3>
+          <div class="panel">
+            <p class="muted">
+              1) Покупают «брендовые сигналы» вместо построения учительской производственной функции. <span class="cite">citeturn1search1</span>
+            </p>
+            <p class="muted">
+              2) Путают сильный группа сверстников со своим образовательным вкладом (см. экзаменационных школ). <span class="cite">citeturn3search1</span>
+            </p>
+            <p class="muted">
+              3) Строят «рейтинговую» школу, но теряют переходы (13→18→24): недостаточно поддержки поступления/удержания/самостоятельных проектов. <span class="cite">citeturn16search1turn1search2</span>
+            </p>
+            <p class="muted">
+              4) Игнорируют early childhood и саморегуляцию, пытаясь «компенсировать» это тест‑интенсивностью позже. <span class="cite">citeturn14search0turn14search1</span>
+            </p>
+            <p class="muted">
+              5) Делают ставку на внешние рынки подготовки (tutoring), тем самым усиливая социальный разрыв и делая результат зависимым от кошелька. <span class="cite">citeturn7search5</span>
+            </p>
+          </div>
+
+          <h3>Критическая проверка выводов</h3>
+          <div class="limitbox">
+            <p class="muted">
+              <strong>Проверка на путаницу «сильные выпускники = сильная школа».</strong>
+              В ключевых местах отчёт опирается на источники, которые либо являются сопоставимыми международными измерениями (PISA/PIAAC), либо имеют квази‑экспериментальный дизайн (пороги экзаменов, lottery studies), либо явно предъявляют ограничения и избежать причинных заявлений (IB reports). <span class="cite">citeturn0search3turn0search2turn3search1turn1search2turn16search2</span>
+            </p>
+            <p class="muted">
+              <strong>Проверка на survivorship bias в университетских экосистемах.</strong>
+              MIT/Stanford/ETH/EPFL/Technion интерпретируются как экосистемные кейсы с низкой переносимостью и высокой селекцией; их outcomes используются как сигнал «плотности возможностей», а не доказательство педагогического превосходства. <span class="cite">citeturn4search0turn4search21turn5search1turn4search3</span>
+            </p>
+            <p class="muted">
+              <strong>Проверка на «романтизацию альтернатив».</strong>
+              Montessori включена только с опорой на систематический обзор; рынок «лейблов» признается риском. <span class="cite">citeturn1search11turn1search7</span>
+            </p>
+          </div>
+
+          <h3>Короткий слой «что можно перенять при проектировании сильной программы»</h3>
+          <div class="panel">
+            <p class="muted">
+              Если цель — выпускники, которые умеют думать и создавать новое, то «наиболее надежная комбинация» выглядит так:
+              (1) ранняя саморегуляция и богатая речевая среда,
+              (2) сильная грамотность и математика как мышление,
+              (3) письменность и аргументация как обязательный язык,
+              (4) проекты и исследования как длинная задача,
+              (5) сильный учитель/ментор и культура обратной связи,
+              (6) с 16+ — включение в реальные среды (лабораторий/стажировки), но без иллюзии, что «экосистема» заменит фундамент.
+              Эти пункты имеют поддержку либо в причинных исследованиях early childhood/teacher VA, либо в структуре программ, показывающих улучшенные результаты после школы, либо в выводах OECD о когнитивных навыках. <span class="cite">citeturn14search0turn1search1turn16search1turn14search2</span>
+            </p>
+          </div>
+
+          <h3>Источники и опорные исследования</h3>
+          <div class="table-wrap">
+          <table aria-label="Список ключевых источников">
+            <thead>
+              <tr>
+                <th>Тема</th>
+                <th>Что подтверждает</th>
+                <th>Источники</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PISA — международная оценка и лидеры по результатам</td>
+                <td>Сопоставимые результаты 15‑летних; доли лучших учащихся по странам</td>
+                <td><span class="cite">citeturn0search5turn6search0turn6search1turn6search2</span></td>
+              </tr>
+              <tr>
+                <td>PISA — Творческое мышление</td>
+                <td>Креативное мышление и его связь/несвязь с академическими доменами</td>
+                <td><span class="cite">citeturn0search2turn6search12</span></td>
+              </tr>
+              <tr>
+                <td>Навыки взрослых (PIAAC)</td>
+                <td>Взрослые функциональные навыки (грамотность / счёт / адаптивное решение задач)</td>
+                <td><span class="cite">citeturn0search3</span></td>
+              </tr>
+              <tr>
+                <td>Причинный эффект экзаменационных школ</td>
+                <td>Малые причинные эффекты «элитных» экзаменационных школ у маржинальных учащихся</td>
+                <td><span class="cite">citeturn3search1turn3search7</span></td>
+              </tr>
+              <tr>
+                <td>Teacher добавленная ценностьed</td>
+                <td>Связь качества учителя с долгосрочными outcomes</td>
+                <td><span class="cite">citeturn1search1turn1search17</span></td>
+              </tr>
+              <tr>
+                <td>KIPP — долгосрочное отслеживание результатов</td>
+                <td>Лотерейные оценки поступление / удержание / достижение диплома</td>
+                <td><span class="cite">citeturn1search2turn1search10</span></td>
+              </tr>
+              <tr>
+                <td>Монтессори — мета-обзор исследований</td>
+                <td>Позитивные академические и non‑academic эффекты</td>
+                <td><span class="cite">citeturn1search11turn1search3</span></td>
+              </tr>
+              <tr>
+                <td>МБ (Диплом-программа) — результаты после школы</td>
+                <td>US и AU исследования: улучшенные показатели (с оговорками причинныйity)</td>
+                <td><span class="cite">citeturn16search1turn16search2turn5search3turn5search7</span></td>
+              </tr>
+              <tr>
+                <td>VET Швейцарии</td>
+                <td>VET как “first choice”; ~9/10 ученичество; governance</td>
+                <td><span class="cite">citeturn1search0turn1search4</span></td>
+              </tr>
+              <tr>
+                <td>Инновационная среда (GII)</td>
+                <td>Швейцария №1 14 лет; контекст усиления вузов</td>
+                <td><span class="cite">citeturn5search6turn5search10turn5search17</span></td>
+              </tr>
+              <tr>
+                <td>Предпринимательский след университетов</td>
+                <td>Market‑сигналы MIT/Stanford; методологические ограничения</td>
+                <td><span class="cite">citeturn4search0turn4search4turn4search21turn4search1</span></td>
+              </tr>
+              <tr>
+                <td>Элитная цепочка в Великобритании</td>
+                <td>Доля выпускников частных школ в элитных должностях против доли в населении</td>
+                <td><span class="cite">citeturn2search8turn2search19turn2search4</span></td>
+              </tr>
+              <tr>
+                <td>Неравенство при поступлении (США)</td>
+                <td>Роль дохода и admission rates в Ivy Plus (ведущие американские университеты); ограничение «мерит‑сигналов»</td>
+                <td><span class="cite">citeturn2search5turn2search1</span></td>
+              </tr>
+              <tr>
+                <td>Дубай как центр международных школ</td>
+                <td>Размер рынка, числа школ и учебные программы</td>
+                <td><span class="cite">citeturn2search13turn2search17turn2search2</span></td>
+              </tr>
+              <tr>
+                <td>Министерство образования Сингапура — продвинутые модули</td>
+                <td>15 центров, timeline 2027, общая логика реформы</td>
+                <td><span class="cite">citeturn2search3turn2search18</span></td>
+              </tr>
+              <tr>
+                <td>Раннее детство ROI</td>
+                <td>Perry Preschool отдача от инвестиций; Abecedarian долгосрочные результаты</td>
+                <td><span class="cite">citeturn14search0turn14search4turn14search1</span></td>
+              </tr>
+              <tr>
+                <td>Когнитивные навыки и рост</td>
+                <td>Почему навыки населения важны как фундамент outcomes</td>
+                <td><span class="cite">citeturn14search2turn14search6</span></td>
+              </tr>
+              <tr>
+                <td>Теневое образование и регулирование</td>
+                <td>Private tutoring как фактор неравенства; кейс Китая</td>
+                <td><span class="cite">citeturn7search5turn7search13</span></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+
+          <p class="small">
+            Примечание: в тех случаях, где источники дают «сильный market‑signal», но слабую причинность (университетские entrepreneurship‑следы, elite pipeline), это маркируется как ограничение и не используется для наивных выводов «сильная школа сделала результат».
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Entity references used (first mention only) are embedded inline above. -->
+  <!-- External URLs intentionally omitted in текст: доступ через встроенные citations. -->
+</body>
+</html>
