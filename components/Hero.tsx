@@ -161,6 +161,22 @@ export default function Hero() {
             ))}
           </div>
 
+          {/* No-code badge */}
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: 'oklch(0.93 0.06 145 / 0.12)',
+            border: '1px solid oklch(0.65 0.15 145 / 0.35)',
+            borderRadius: 100, padding: '6px 14px', marginBottom: 20,
+            animation: 'hero-in 0.7s 0.45s cubic-bezier(0.16,1,0.3,1) both',
+          }}>
+            <span style={{ fontSize: '0.85rem' }}>🚫</span>
+            <span style={{
+              fontFamily: 'var(--font-mono)', fontSize: '0.68rem',
+              letterSpacing: '0.08em', textTransform: 'uppercase',
+              color: 'oklch(0.38 0.15 145)', fontWeight: 500,
+            }}>Реализовано без знания программирования</span>
+          </div>
+
           {/* CTA row */}
           <div style={{
             display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center',

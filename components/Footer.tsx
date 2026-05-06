@@ -100,6 +100,28 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* No-code callout */}
+        <div className="reveal" style={{
+          background: 'oklch(0.93 0.06 145 / 0.10)',
+          border: '1px solid oklch(0.65 0.15 145 / 0.28)',
+          borderRadius: 'var(--radius)',
+          padding: '18px 24px',
+          marginBottom: 32,
+          display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap',
+        }}>
+          <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>🚫</span>
+          <div>
+            <p style={{
+              fontFamily: 'var(--font-body)', fontWeight: 700,
+              fontSize: '0.95rem', color: 'oklch(0.25 0.12 145)', margin: '0 0 2px',
+            }}>Всё реализовано без знания программирования</p>
+            <p style={{
+              fontFamily: 'var(--font-body)', fontSize: '0.82rem',
+              color: 'oklch(0.40 0.10 145)', margin: 0,
+            }}>AI-инструменты, правильные промпты и системное мышление — никакого кода</p>
+          </div>
+        </div>
+
         <div className="reveal" style={{
           padding: '28px 0',
           borderTop: '1px solid var(--color-border)',

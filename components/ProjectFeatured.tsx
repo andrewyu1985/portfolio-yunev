@@ -96,12 +96,27 @@ export default function ProjectFeatured({ project }: { project: Project }) {
           )}
           {project.demoLink && (
             <a href={project.demoLink} target="_blank" rel="noopener noreferrer" style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.875rem', fontWeight: 500,
-              color: 'var(--color-text3)', textDecoration: 'none', transition: 'color 0.18s',
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '0.875rem',
+              color: 'var(--color-accent)',
+              background: 'var(--color-accent-bg)',
+              border: '1.5px solid var(--color-border-accent)',
+              padding: '10px 22px', borderRadius: 100, textDecoration: 'none',
+              transition: 'background 0.18s, color 0.18s, transform 0.18s, box-shadow 0.18s',
             }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-accent)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text3)')}
-            >{project.demoLabel ?? 'Демо'} ↗</a>
+              onMouseEnter={e => {
+                e.currentTarget.style.background = 'var(--color-accent)'
+                e.currentTarget.style.color = 'var(--color-text-inv)'
+                e.currentTarget.style.transform = 'translateY(-1px)'
+                e.currentTarget.style.boxShadow = '0 4px 16px oklch(0.50 0.26 265 / 0.22)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = 'var(--color-accent-bg)'
+                e.currentTarget.style.color = 'var(--color-accent)'
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = 'none'
+              }}
+            >📄 {project.demoLabel ?? 'Демо'}</a>
           )}
         </div>
       </div>
