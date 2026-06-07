@@ -197,6 +197,30 @@ footer{border-top:1px solid var(--border);padding:40px;text-align:center;backgro
 .foot-links a:hover{color:var(--indigo-d)}
 footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
 
+/* YOUTUBE BRIEF */
+.yt{background:linear-gradient(180deg,var(--bg2),var(--bg));border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.yt-thread{background:var(--bg3);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--shadow2);display:flex;flex-direction:column;gap:14px}
+.yt-user{align-self:flex-end;max-width:90%}
+.yt-chip{display:flex;align-items:center;gap:11px;background:linear-gradient(135deg,var(--indigo),var(--indigo-d));color:#fff;border-radius:14px;border-bottom-right-radius:5px;padding:11px 14px}
+.yt-play{width:34px;height:34px;border-radius:9px;background:#ff0033;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.yt-play svg{width:15px;height:15px;fill:#fff}
+.yt-chip .yc-t{font-size:12.5px;font-weight:600;line-height:1.3}
+.yt-chip .yc-s{font-size:11px;opacity:.8;font-family:'JetBrains Mono';margin-top:2px}
+.yt-brief{align-self:flex-start;max-width:96%;background:#f3f5fb;border:1px solid var(--border);border-radius:14px;border-bottom-left-radius:5px;padding:16px 17px}
+.yt-bbadge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono';font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--green);background:var(--green-dim);border-radius:100px;padding:4px 11px;margin-bottom:12px}
+.yt-bbadge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green)}
+.yt-h{font-family:'Space Grotesk';font-weight:700;font-size:14px;color:var(--ink);margin:0 0 5px}
+.yt-tldr{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:13px}
+.yt-sub{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo);margin:0 0 7px}
+.yt-bul{list-style:none;margin:0 0 13px;padding:0;display:flex;flex-direction:column;gap:6px}
+.yt-bul li{display:flex;gap:8px;font-size:12.5px;color:var(--text);line-height:1.5}
+.yt-bul li::before{content:'▹';color:var(--indigo);flex-shrink:0}
+.yt-tc{display:flex;flex-direction:column;gap:5px}
+.yt-tc-row{display:flex;gap:11px;font-size:12px;align-items:baseline}
+.yt-tc-row .tc{font-family:'JetBrains Mono';font-size:11px;color:var(--cyan);font-weight:700;flex-shrink:0;background:var(--cyan-dim);border-radius:5px;padding:1px 6px}
+.yt-tc-row .tx{color:var(--text2);line-height:1.4}
+.yt-foot{margin-top:13px;padding-top:11px;border-top:1px dashed var(--border);font-size:11.5px;color:var(--text3);display:flex;align-items:center;gap:7px}
+.yt-foot b{color:var(--indigo-d);font-weight:700}
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
 .reveal.in{opacity:1;transform:none}
 </style>
@@ -207,6 +231,7 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
   <a class="nav-logo" href="/"><span class="nav-mark">H</span>Hermes</a>
   <div class="nav-links">
     <a href="#how">Как работает</a>
+    <a href="#youtube">Видео-брифы</a>
     <a href="#channels">Каналы</a>
     <a href="#skills">Навыки</a>
     <a href="#autonomy">Автономность</a>
@@ -262,6 +287,57 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
         <div class="how-num">03</div>
         <h3>Действует и отчитывается</h3>
         <p>Доводит задачу до результата и присылает ответ туда же. А рутину выполняет сам — по расписанию, без запроса.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- YOUTUBE BRIEFS -->
+<section class="yt" id="youtube">
+  <div class="section">
+    <div class="split">
+      <div class="reveal">
+        <div class="kicker">Сценарий · экономия времени</div>
+        <h2>Видео на 2 часа → бриф за минуту</h2>
+        <p class="section-intro">Поток информации огромный, а времени отсматривать двухчасовые подкасты, лекции и разборы нет. Кидаешь Hermes ссылку на YouTube — и вместо просмотра получаешь готовую выжимку: суть, ключевые мысли и тайм-коды. Решаешь за минуту, стоит ли вообще смотреть.</p>
+        <ul class="split-list">
+          <li><span class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Просто ссылка</b> — отправляешь URL видео в мессенджер, без скачиваний и сторонних сервисов.</span></li>
+          <li><span class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Полный пересказ</b> — Hermes снимает транскрипт и пересказывает видео целиком, ничего не выдумывая.</span></li>
+          <li><span class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Структурированный бриф</b> — TL;DR, ключевые тезисы, выводы и тайм-коды для перехода к нужному месту.</span></li>
+          <li><span class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Схватываешь суть мгновенно</b> — час-два видео ужимаются в минуту чтения; сразу ясно, ценно оно или нет.</span></li>
+          <li><span class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Можно копнуть глубже</b> — задаёшь уточняющие вопросы по видео прямо в диалоге или сохраняешь бриф в базу знаний.</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <div class="yt-thread">
+          <div class="yt-user">
+            <div class="yt-chip">
+              <span class="yt-play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></span>
+              <div>
+                <div class="yc-t">youtu.be/dQw4w9 — «Будущее AI-агентов»</div>
+                <div class="yc-s">⏱ 2:14:08 · сделай бриф</div>
+              </div>
+            </div>
+          </div>
+          <div class="yt-brief">
+            <span class="yt-bbadge">бриф готов · чтение ~1 мин</span>
+            <p class="yt-h">Будущее AI-агентов — выжимка</p>
+            <p class="yt-tldr"><b>TL;DR.</b> Разбор того, как автономные агенты переходят от ответов на запросы к проактивной работе по расписанию, и что для этого нужно: память, инструменты и самоконтроль.</p>
+            <p class="yt-sub">Ключевые тезисы</p>
+            <ul class="yt-bul">
+              <li>Главный сдвиг — от «чат-бота по запросу» к агенту, который действует сам.</li>
+              <li>Память и контекст важнее размера модели — без них агент бесполезен.</li>
+              <li>Надёжность решает: нужны самодиагностика и восстановление после сбоев.</li>
+            </ul>
+            <p class="yt-sub">Тайм-коды</p>
+            <div class="yt-tc">
+              <div class="yt-tc-row"><span class="tc">12:40</span><span class="tx">Чем агент отличается от ассистента</span></div>
+              <div class="yt-tc-row"><span class="tc">48:15</span><span class="tx">Архитектура памяти и инструментов</span></div>
+              <div class="yt-tc-row"><span class="tc">1:31:50</span><span class="tx">Автономность и риски, выводы</span></div>
+            </div>
+            <div class="yt-foot">📉 <span><b>2 ч 14 мин видео</b> → бриф на 1 минуту чтения</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
