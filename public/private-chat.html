@@ -445,7 +445,7 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
     <div class="section-head reveal" style="text-align:center">
       <div class="kicker" style="justify-content:center">Безопасность</div>
       <h2 style="margin:0 auto">Защита на каждом слое</h2>
-      <p class="section-intro" style="margin:14px auto 0">Закрытый клуб требует закрытого периметра. Файлы проверяются, шифруются и помечаются — а войти можно только по приглашению.</p>
+      <p class="section-intro" style="margin:14px auto 0">Закрытый клуб требует закрытого периметра. Файлы проверяются, шифруются и помечаются, войти можно только по приглашению — а вся переписка и материалы ежедневно резервируются.</p>
     </div>
     <div class="sec-grid">
       <div class="sec-card reveal">
@@ -478,6 +478,11 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
         <h4>Media-токены</h4>
         <p>Доступ к медиа по подписанным токенам — прямые ссылки на файлы не работают.</p>
       </div>
+      <div class="sec-card reveal" style="grid-column:span 2;background:linear-gradient(135deg,rgba(245,158,11,0.10),rgba(245,158,11,0.02));border-color:var(--amber-border)">
+        <span class="sc-badge">daily · 04:00 MSK</span>
+        <h4>Ежедневный бэкап на Яндекс&nbsp;Диск</h4>
+        <p>Каждую ночь вся база данных и все материалы чата автоматически архивируются (zstd) и выгружаются на Яндекс Диск через зашифрованное соединение. Ротация 30 дней, каждый снимок полный — переписка и файлы защищены от утечек, сбоев и потери сервера.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -501,6 +506,8 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
         <div class="arch-box" style="flex:1 1 180px"><span class="arch-tag">DATA</span><div><div class="ab-t">PostgreSQL 16</div><div class="ab-d">Drizzle ORM</div></div></div>
         <div class="arch-box" style="flex:1 1 180px"><span class="arch-tag">FILES</span><div><div class="ab-t">MinIO (S3)</div><div class="ab-d">ClamAV + AES-256</div></div></div>
       </div>
+      <div class="arch-conn"></div>
+      <div class="arch-row"><div class="arch-box accent"><span class="arch-tag">BACKUP</span><div><div class="ab-t">Яндекс Диск · ежедневно 04:00 MSK</div><div class="ab-d">Автоматический pg_dump + архив всех материалов (rclone/WebDAV), ротация 30 дней</div></div></div></div>
     </div>
   </div>
 </section>
