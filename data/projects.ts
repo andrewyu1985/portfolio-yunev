@@ -19,8 +19,6 @@ export const projects: Project[] = [
     tags: ['Приложения', 'Инфраструктура'],
     status: 'live',
     featured: true,
-    link: 'https://private.yuneversum.com',
-    linkLabel: 'Открыть чат',
     demoLink: '/private-chat.html',
     demoLabel: 'Презентация проекта',
   },
