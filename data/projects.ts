@@ -4,6 +4,26 @@ export const ALL_TAG = 'Все'
 
 export const projects: Project[] = [
   {
+    id: 'private-chat',
+    title: 'Private Chat',
+    description: 'Закрытый мессенджер для приватного клуба — вход только по персональному приглашению, без публичной регистрации. Полноценный продукт: real-time чат на Socket.IO, медиа любого типа, 2FA, антивирус файлов, шифрование AES-256 и PWA-приложение на телефон.',
+    icon: '🔒',
+    stack: ['NestJS', 'PostgreSQL', 'Socket.IO', 'Next.js', 'MinIO', 'Docker'],
+    features: [
+      'Invite-only вход без публичной регистрации: роли Владелец → Админ → Участник, 2FA (TOTP) + backup-коды',
+      'Сообщения, файлы, фото, видео, голосовые, документы — реакции, ответы, редактирование, удаление',
+      'Безопасность: антивирус ClamAV, шифрование файлов AES-256-GCM, водяные знаки, хеши Argon2id',
+      'Real-time на Socket.IO, PWA-приложение на телефон, автодеплой через GitHub Actions',
+    ],
+    tags: ['Приложения', 'Инфраструктура'],
+    status: 'live',
+    featured: true,
+    link: 'https://private.yuneversum.com',
+    linkLabel: 'Открыть чат',
+    demoLink: '/private-chat.html',
+    demoLabel: 'Презентация проекта',
+  },
+  {
     id: 'hermes-system',
     title: 'Hermes System',
     description: 'Платформа AI-оркестрации. Один оркестратор принимает задачу, определяет маршрут и координирует 18 специализированных агентов. Полный цикл — от запроса до результата без ручного вмешательства.',
@@ -17,7 +37,6 @@ export const projects: Project[] = [
     ],
     tags: ['AI-агенты', 'Автоматизация', 'Контент'],
     status: 'live',
-    featured: true,
     demoLink: '/hermes-system.html',
     demoLabel: 'Презентация проекта',
   },
