@@ -199,28 +199,44 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
 
 /* YOUTUBE BRIEF */
 .yt{background:linear-gradient(180deg,var(--bg2),var(--bg));border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.yt-thread{background:var(--bg3);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--shadow2);display:flex;flex-direction:column;gap:14px}
-.yt-user{align-self:flex-end;max-width:90%}
+.yt-vrow{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:840px;margin:0 auto 44px}
+@media(max-width:720px){.yt-vrow{grid-template-columns:1fr}}
+.yt-v{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:22px;text-align:center;transition:transform .3s,box-shadow .3s,border-color .3s}
+.yt-v:hover{transform:translateY(-4px);box-shadow:var(--shadow2);border-color:var(--indigo-border)}
+.yt-v .vi{font-size:24px;display:block;margin-bottom:10px}
+.yt-v h4{font-family:'Space Grotesk';font-size:15px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.yt-v p{font-size:13px;color:var(--text2);line-height:1.55;font-weight:300}
+.yt-thread{background:var(--bg3);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--shadow2);display:flex;flex-direction:column;gap:14px;max-width:760px;margin:0 auto}
+.yt-user{align-self:flex-end;max-width:88%}
 .yt-chip{display:flex;align-items:center;gap:11px;background:linear-gradient(135deg,var(--indigo),var(--indigo-d));color:#fff;border-radius:14px;border-bottom-right-radius:5px;padding:11px 14px}
 .yt-play{width:34px;height:34px;border-radius:9px;background:#ff0033;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .yt-play svg{width:15px;height:15px;fill:#fff}
 .yt-chip .yc-t{font-size:12.5px;font-weight:600;line-height:1.3}
-.yt-chip .yc-s{font-size:11px;opacity:.8;font-family:'JetBrains Mono';margin-top:2px}
-.yt-brief{align-self:flex-start;max-width:96%;background:#f3f5fb;border:1px solid var(--border);border-radius:14px;border-bottom-left-radius:5px;padding:16px 17px}
-.yt-bbadge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono';font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--green);background:var(--green-dim);border-radius:100px;padding:4px 11px;margin-bottom:12px}
+.yt-chip .yc-s{font-size:11px;opacity:.85;font-family:'JetBrains Mono';margin-top:2px}
+.yt-brief{align-self:flex-start;width:97%;background:#f3f5fb;border:1px solid var(--border);border-radius:14px;border-bottom-left-radius:5px;padding:20px 20px}
+.yt-bbadge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono';font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--green);background:var(--green-dim);border-radius:100px;padding:4px 11px;margin-bottom:13px}
 .yt-bbadge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green)}
-.yt-h{font-family:'Space Grotesk';font-weight:700;font-size:14px;color:var(--ink);margin:0 0 5px}
-.yt-tldr{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:13px}
-.yt-sub{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo);margin:0 0 7px}
-.yt-bul{list-style:none;margin:0 0 13px;padding:0;display:flex;flex-direction:column;gap:6px}
-.yt-bul li{display:flex;gap:8px;font-size:12.5px;color:var(--text);line-height:1.5}
-.yt-bul li::before{content:'▹';color:var(--indigo);flex-shrink:0}
-.yt-tc{display:flex;flex-direction:column;gap:5px}
-.yt-tc-row{display:flex;gap:11px;font-size:12px;align-items:baseline}
-.yt-tc-row .tc{font-family:'JetBrains Mono';font-size:11px;color:var(--cyan);font-weight:700;flex-shrink:0;background:var(--cyan-dim);border-radius:5px;padding:1px 6px}
-.yt-tc-row .tx{color:var(--text2);line-height:1.4}
-.yt-foot{margin-top:13px;padding-top:11px;border-top:1px dashed var(--border);font-size:11.5px;color:var(--text3);display:flex;align-items:center;gap:7px}
+.yt-h{font-family:'Space Grotesk';font-weight:700;font-size:17px;color:var(--ink);margin:0 0 6px;line-height:1.25}
+.yt-meta{font-family:'JetBrains Mono';font-size:11px;color:var(--text3);margin-bottom:16px;line-height:1.5}
+.yt-tldr{font-size:13.5px;color:var(--text2);line-height:1.6;margin-bottom:14px}
+.yt-tldr b{color:var(--ink)}
+.yt-sub{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--indigo);margin:0 0 9px;display:flex;align-items:center;gap:9px}
+.yt-sub::before{content:'';width:18px;height:1.5px;background:var(--indigo)}
+.yt-tc{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.yt-tc-row{display:flex;gap:12px;font-size:12.5px;align-items:baseline}
+.yt-tc-row .tc{font-family:'JetBrains Mono';font-size:10.5px;color:var(--cyan);font-weight:700;flex-shrink:0;background:var(--cyan-dim);border-radius:5px;padding:2px 7px;width:92px;text-align:center}
+.yt-tc-row .tx{color:var(--text);line-height:1.45}
+.yt-tc-row .tx b{color:var(--ink);font-weight:600}
+.yt-cost{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px}
+.yt-cost .cc{flex:1 1 120px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 14px}
+.yt-cost .cc .cl{font-size:10.5px;color:var(--text3);font-family:'JetBrains Mono';margin-bottom:3px}
+.yt-cost .cc .cv{font-family:'Space Grotesk';font-weight:700;font-size:15px;color:var(--ink)}
+.yt-cost .cc.total{background:linear-gradient(135deg,rgba(79,70,229,0.08),rgba(79,70,229,0.02));border-color:var(--indigo-border)}
+.yt-cost .cc.total .cv{color:var(--indigo-d)}
+.yt-foot{margin-top:15px;padding-top:13px;border-top:1px dashed var(--border);font-size:12px;color:var(--text3);display:flex;align-items:center;gap:8px}
 .yt-foot b{color:var(--indigo-d);font-weight:700}
+.yt-cap{text-align:center;margin-top:18px;font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
+.yt-cap a{color:var(--indigo-d);text-decoration:none}
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
 .reveal.in{opacity:1;transform:none}
 </style>
@@ -295,51 +311,60 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
 <!-- YOUTUBE BRIEFS -->
 <section class="yt" id="youtube">
   <div class="section">
-    <div class="split">
-      <div class="reveal">
-        <div class="kicker">Сценарий · экономия времени</div>
-        <h2>Видео на 2 часа → бриф за минуту</h2>
-        <p class="section-intro">Поток информации огромный, а времени отсматривать двухчасовые подкасты, лекции и разборы нет. Кидаешь Hermes ссылку на YouTube — и вместо просмотра получаешь готовую выжимку: суть, ключевые мысли и тайм-коды. Решаешь за минуту, стоит ли вообще смотреть.</p>
-        <ul class="split-list">
-          <li><span class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Просто ссылка</b> — отправляешь URL видео в мессенджер, без скачиваний и сторонних сервисов.</span></li>
-          <li><span class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Полный пересказ</b> — Hermes снимает транскрипт и пересказывает видео целиком, ничего не выдумывая.</span></li>
-          <li><span class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Структурированный бриф</b> — TL;DR, ключевые тезисы, выводы и тайм-коды для перехода к нужному месту.</span></li>
-          <li><span class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Схватываешь суть мгновенно</b> — час-два видео ужимаются в минуту чтения; сразу ясно, ценно оно или нет.</span></li>
-          <li><span class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Можно копнуть глубже</b> — задаёшь уточняющие вопросы по видео прямо в диалоге или сохраняешь бриф в базу знаний.</span></li>
-        </ul>
-      </div>
-      <div class="reveal">
-        <div class="yt-thread">
-          <div class="yt-user">
-            <div class="yt-chip">
-              <span class="yt-play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></span>
-              <div>
-                <div class="yc-t">youtu.be/dQw4w9 — «Будущее AI-агентов»</div>
-                <div class="yc-s">⏱ 2:14:08 · сделай бриф</div>
-              </div>
-            </div>
-          </div>
-          <div class="yt-brief">
-            <span class="yt-bbadge">бриф готов · чтение ~1 мин</span>
-            <p class="yt-h">Будущее AI-агентов — выжимка</p>
-            <p class="yt-tldr"><b>TL;DR.</b> Разбор того, как автономные агенты переходят от ответов на запросы к проактивной работе по расписанию, и что для этого нужно: память, инструменты и самоконтроль.</p>
-            <p class="yt-sub">Ключевые тезисы</p>
-            <ul class="yt-bul">
-              <li>Главный сдвиг — от «чат-бота по запросу» к агенту, который действует сам.</li>
-              <li>Память и контекст важнее размера модели — без них агент бесполезен.</li>
-              <li>Надёжность решает: нужны самодиагностика и восстановление после сбоев.</li>
-            </ul>
-            <p class="yt-sub">Тайм-коды</p>
-            <div class="yt-tc">
-              <div class="yt-tc-row"><span class="tc">12:40</span><span class="tx">Чем агент отличается от ассистента</span></div>
-              <div class="yt-tc-row"><span class="tc">48:15</span><span class="tx">Архитектура памяти и инструментов</span></div>
-              <div class="yt-tc-row"><span class="tc">1:31:50</span><span class="tx">Автономность и риски, выводы</span></div>
-            </div>
-            <div class="yt-foot">📉 <span><b>2 ч 14 мин видео</b> → бриф на 1 минуту чтения</span></div>
+    <div class="section-head reveal" style="text-align:center">
+      <div class="kicker" style="justify-content:center">Сценарий · экономия времени</div>
+      <h2 style="margin:0 auto">Видео на час → бриф за минуту</h2>
+      <p class="section-intro" style="margin:14px auto 0">Поток информации огромный, а времени отсматривать длинные подкасты, лекции и разборы нет. Кидаешь Hermes ссылку на YouTube — и вместо просмотра получаешь полный пересказ: суть, разбор по таймкодам и выводы. Решаешь за минуту, стоит ли вообще смотреть.</p>
+    </div>
+
+    <div class="yt-vrow">
+      <div class="yt-v reveal"><span class="vi">🔗</span><h4>Просто ссылка</h4><p>Отправляешь URL видео в мессенджер — без скачиваний и сторонних сервисов.</p></div>
+      <div class="yt-v reveal"><span class="vi">📋</span><h4>Полный разбор</h4><p>Транскрипт, суть, блоки по таймкодам и выводы — ничего не выдумано.</p></div>
+      <div class="yt-v reveal"><span class="vi">⚡</span><h4>Минута вместо часа</h4><p>Сразу ясно, ценно видео или нет — и к какому месту перейти.</p></div>
+    </div>
+
+    <div class="yt-thread reveal">
+      <div class="yt-user">
+        <div class="yt-chip">
+          <span class="yt-play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></span>
+          <div>
+            <div class="yc-t">youtu.be/MOuYEOFAACA</div>
+            <div class="yc-s">⏱ 19:18 · сделай бриф</div>
           </div>
         </div>
       </div>
+      <div class="yt-brief">
+        <span class="yt-bbadge">бриф готов · 19 мин видео → ~2 мин чтения</span>
+        <p class="yt-h">Установка и использование Hermes Agent на VPS</p>
+        <p class="yt-meta">~19:18 · русский · автосубтитры (местами искажают: OpenClaw/OpenCode, Hermes, gateway, Hetzner)</p>
+
+        <p class="yt-tldr"><b>О чём видео.</b> Автор показывает, как поставить Hermes Agent на удалённый сервер примерно за 15 минут, подключить его к Telegram, настроить модель через OpenAI Codex / ChatGPT-подписку, и разбирает ключевые фишки: память, skills, self-improvement loop, dashboard/kanban и работу 24/7 на VPS.</p>
+        <p class="yt-tldr"><b>Главная мысль.</b> Hermes подаётся как более готовая и удобная альтернатива OpenClaw/OpenCode-подобным агентам: из коробки уже есть память, скиллы, канбан, Telegram-gateway и персонализация.</p>
+
+        <p class="yt-sub">Разбор по таймкодам</p>
+        <div class="yt-tc">
+          <div class="yt-tc-row"><span class="tc">00:00–01:35</span><span class="tx"><b>Почему Hermes лучше OpenClaw:</b> встроенная память, самоулучшение через skills, dashboard и kanban.</span></div>
+          <div class="yt-tc-row"><span class="tc">01:36–03:48</span><span class="tx"><b>Подготовка VPS:</b> агент работает 24/7. Минимум 2 CPU / 4 GB / 40 GB (~$5/мес), для серьёзной работы 4 CPU / 8 GB / 80 GB.</span></div>
+          <div class="yt-tc-row"><span class="tc">03:48–06:50</span><span class="tx"><b>Установка Hermes:</b> install-команда с сайта, быстрый setup, модель через OpenAI Codex ($20/мес), настройка TTS, лимита действий, summarization, auto-reset, Telegram.</span></div>
+          <div class="yt-tc-row"><span class="tc">07:00–08:35</span><span class="tx"><b>Подключение Telegram:</b> gateway setup, бот через BotFather, token, Telegram ID, home channel для cron, установка фоновым сервисом.</span></div>
+          <div class="yt-tc-row"><span class="tc">08:37–11:20</span><span class="tx"><b>Контекст и память:</b> сразу дать агенту профиль о себе. Hermes хранит важное в User.md (кто ты, цели, стиль) и Memory.md (рабочая память) — её держать компактной.</span></div>
+          <div class="yt-tc-row"><span class="tc">11:22–14:05</span><span class="tx"><b>Skills:</b> навык — текстовый файл-инструкция, подгружается при необходимости. Демо: картинка, Excalidraw-схема, короткое видео, skillhub с сотнями skills.</span></div>
+          <div class="yt-tc-row"><span class="tc">14:07–15:40</span><span class="tx"><b>Self-improvement loop:</b> поправляешь агента — при повторе паттерна он создаёт/обновляет skill. Curator архивирует неиспользуемые навыки, не удаляя.</span></div>
+          <div class="yt-tc-row"><span class="tc">15:42–18:02</span><span class="tx"><b>Kanban:</b> доска задач. Утром задачи → triage, агент смотрит память, дополняет, переводит в ready/in progress, работает сам, блокирует если нужна помощь, после — done.</span></div>
+          <div class="yt-tc-row"><span class="tc">18:04–19:15</span><span class="tx"><b>Стоимость, плюсы и минусы:</b> итоговый расчёт и выводы.</span></div>
+        </div>
+
+        <p class="yt-sub">Стоимость</p>
+        <div class="yt-cost">
+          <div class="cc"><div class="cl">VPS</div><div class="cv">~$5/мес</div></div>
+          <div class="cc"><div class="cl">ChatGPT</div><div class="cv">~$20/мес</div></div>
+          <div class="cc total"><div class="cl">итого</div><div class="cv">~$25/мес</div></div>
+        </div>
+
+        <div class="yt-foot">📉 <span><b>19 минут видео</b> → бриф, который читается за пару минут</span></div>
+      </div>
     </div>
+    <p class="yt-cap reveal">↑ реальный бриф, который Hermes сделал по видео <a href="https://youtu.be/MOuYEOFAACA" target="_blank" rel="noopener">youtu.be/MOuYEOFAACA</a></p>
   </div>
 </section>
 
