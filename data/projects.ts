@@ -37,8 +37,8 @@ export const projects: Project[] = [
     ],
     tags: ['AI-агенты', 'Автоматизация', 'Инфраструктура'],
     status: 'live',
-    demoLink: '/hermes-system.html',
-    demoLabel: 'Презентация проекта',
+    link: '/hermes-system.html',
+    linkLabel: 'Презентация проекта',
   },
   {
     id: 'news-digest',
@@ -71,6 +71,8 @@ export const projects: Project[] = [
       'Кастомные промпты под нишу и аудиторию; поддержка OpenAI, Claude, Gemini, DeepSeek, Qwen, Ollama и др.',
     ],
     tags: ['Контент', 'Автоматизация', 'AI-агенты'],
+    link: 'https://drive.google.com/file/d/1kEGYMHF63xBYKCptj30TLzJGfYWVzJFk/view?usp=sharing',
+    linkLabel: 'Пример Reels',
     status: 'live',
   },
   {
