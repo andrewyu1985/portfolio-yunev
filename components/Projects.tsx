@@ -1,23 +1,42 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { projects, allTags, ALL_TAG } from '@/data/projects'
 import ProjectCard from './ProjectCard'
 import ProjectFeatured from './ProjectFeatured'
 
 export default function Projects() {
   const [activeTag, setActiveTag] = useState(ALL_TAG)
+  const [showHint, setShowHint] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+  const endRef = useRef<HTMLDivElement>(null)
 
   const featured = projects.find(p => p.featured)
   const regular = projects.filter(p => !p.featured)
   const filteredRegular = activeTag === ALL_TAG ? regular : regular.filter(p => p.tags.includes(activeTag))
   const showFeatured = activeTag === ALL_TAG || (featured?.tags.includes(activeTag) ?? false)
 
+  // Подсказка прокрутки: видна, пока секция проектов в кадре, но её конец ещё не достигнут
+  useEffect(() => {
+    const section = sectionRef.current
+    const end = endRef.current
+    if (!section || !end) return
+    let inSection = false
+    let atEnd = true
+    const update = () => setShowHint(inSection && !atEnd)
+    const o1 = new IntersectionObserver(([e]) => { inSection = e.isIntersecting; update() }, { threshold: 0 })
+    const o2 = new IntersectionObserver(([e]) => { atEnd = e.isIntersecting; update() }, { rootMargin: '0px 0px -120px 0px' })
+    o1.observe(section)
+    o2.observe(end)
+    return () => { o1.disconnect(); o2.disconnect() }
+  }, [])
+
   return (
-    <section id="projects" style={{
+    <section ref={sectionRef} id="projects" style={{
       background: 'var(--color-bg)',
       paddingTop: 'clamp(64px, 8vw, 100px)',
       paddingBottom: 'clamp(64px, 8vw, 100px)',
+      position: 'relative',
     }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
 
@@ -35,6 +54,19 @@ export default function Projects() {
           }}>
             AI-системы и<br />инструменты автоматизации
           </h2>
+          <p style={{
+            fontFamily: 'var(--font-mono)', fontSize: '0.82rem',
+            color: 'var(--color-text3)', margin: '16px 0 0',
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+          }}>
+            <span style={{
+              fontWeight: 700, color: 'var(--color-accent)',
+              background: 'var(--color-accent-bg)',
+              border: '1px solid var(--color-border-accent)',
+              borderRadius: 100, padding: '2px 10px',
+            }}>{projects.length} проектов</span>
+            листайте, чтобы увидеть все
+          </p>
         </div>
 
         {/* Filter */}
@@ -96,7 +128,42 @@ export default function Projects() {
             </button>
           </div>
         )}
+
+        {/* Маркер конца списка для подсказки прокрутки */}
+        <div ref={endRef} aria-hidden style={{ height: 1 }} />
       </div>
+
+      {/* Плавающая подсказка «листайте вниз» */}
+      <button
+        onClick={() => window.scrollBy({ top: Math.round(window.innerHeight * 0.72), behavior: 'smooth' })}
+        aria-label="Прокрутить к следующим проектам"
+        className="scroll-hint"
+        style={{
+          position: 'fixed', left: '50%', bottom: 26, zIndex: 60,
+          transform: `translateX(-50%) translateY(${showHint ? '0' : '16px'})`,
+          opacity: showHint ? 1 : 0,
+          pointerEvents: showHint ? 'auto' : 'none',
+          display: 'inline-flex', alignItems: 'center', gap: 9,
+          fontFamily: 'var(--font-mono)', fontSize: '0.78rem', fontWeight: 500,
+          color: 'var(--color-accent)',
+          background: 'var(--color-bg2)',
+          border: '1px solid var(--color-border-accent)',
+          borderRadius: 100, padding: '9px 18px', cursor: 'pointer',
+          boxShadow: '0 8px 28px oklch(0.50 0.26 265 / 0.18)',
+          backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+          transition: 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1)',
+        }}
+      >
+        <span>Листайте вниз — ещё проекты</span>
+        <span className="sh-arrow" aria-hidden style={{ fontSize: '1rem', lineHeight: 1 }}>↓</span>
+      </button>
+
+      <style>{`
+        .scroll-hint:hover { background: var(--color-accent) !important; color: var(--color-text-inv) !important; border-color: var(--color-accent) !important; }
+        .sh-arrow { animation: sh-bounce 1.5s ease-in-out infinite; }
+        @keyframes sh-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+        @media (prefers-reduced-motion: reduce) { .sh-arrow { animation: none; } }
+      `}</style>
     </section>
   )
 }
