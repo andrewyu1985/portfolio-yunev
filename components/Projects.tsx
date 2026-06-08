@@ -9,6 +9,7 @@ export default function Projects() {
   const [activeTag, setActiveTag] = useState(ALL_TAG)
   const [showHint, setShowHint] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
   const endRef = useRef<HTMLDivElement>(null)
 
   const featured = projects.find(p => p.featured)
@@ -16,20 +17,22 @@ export default function Projects() {
   const filteredRegular = activeTag === ALL_TAG ? regular : regular.filter(p => p.tags.includes(activeTag))
   const showFeatured = activeTag === ALL_TAG || (featured?.tags.includes(activeTag) ?? false)
 
-  // Подсказка прокрутки: видна, пока секция проектов в кадре, но её конец ещё не достигнут
+  // Подсказка прокрутки: появляется только когда пользователь долистал до первого ряда
+  // обычных карточек, и исчезает, когда достигнут конец списка
   useEffect(() => {
-    const section = sectionRef.current
+    const grid = gridRef.current
     const end = endRef.current
-    if (!section || !end) return
-    let inSection = false
+    if (!grid || !end) return
+    let started = false
     let atEnd = true
-    const update = () => setShowHint(inSection && !atEnd)
-    const o1 = new IntersectionObserver(([e]) => { inSection = e.isIntersecting; update() }, { threshold: 0 })
+    const update = () => setShowHint(started && !atEnd)
+    // started=true, когда первый ряд грида заметно вошёл в кадр (на ~180px выше низа экрана)
+    const o1 = new IntersectionObserver(([e]) => { started = e.isIntersecting; update() }, { rootMargin: '0px 0px -180px 0px', threshold: 0 })
     const o2 = new IntersectionObserver(([e]) => { atEnd = e.isIntersecting; update() }, { rootMargin: '0px 0px -120px 0px' })
-    o1.observe(section)
+    o1.observe(grid)
     o2.observe(end)
     return () => { o1.disconnect(); o2.disconnect() }
-  }, [])
+  }, [filteredRegular.length])
 
   return (
     <section ref={sectionRef} id="projects" style={{
@@ -102,7 +105,7 @@ export default function Projects() {
 
         {/* Grid */}
         {filteredRegular.length > 0 ? (
-          <div style={{
+          <div ref={gridRef} style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
             gap: 20,
@@ -139,29 +142,30 @@ export default function Projects() {
         aria-label="Прокрутить к следующим проектам"
         className="scroll-hint"
         style={{
-          position: 'fixed', left: '50%', bottom: 26, zIndex: 60,
-          transform: `translateX(-50%) translateY(${showHint ? '0' : '16px'})`,
-          opacity: showHint ? 1 : 0,
+          position: 'fixed', left: '50%', bottom: 22, zIndex: 60,
+          transform: `translateX(-50%) translateY(${showHint ? '0' : '10px'})`,
+          opacity: showHint ? 0.72 : 0,
           pointerEvents: showHint ? 'auto' : 'none',
-          display: 'inline-flex', alignItems: 'center', gap: 9,
-          fontFamily: 'var(--font-mono)', fontSize: '0.78rem', fontWeight: 500,
-          color: 'var(--color-accent)',
-          background: 'var(--color-bg2)',
-          border: '1px solid var(--color-border-accent)',
-          borderRadius: 100, padding: '9px 18px', cursor: 'pointer',
-          boxShadow: '0 8px 28px oklch(0.50 0.26 265 / 0.18)',
-          backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-          transition: 'opacity 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1)',
+          display: 'inline-flex', alignItems: 'center', gap: 7,
+          fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 500,
+          letterSpacing: '0.02em',
+          color: 'var(--color-text3)',
+          background: 'oklch(1 0 0 / 0.72)',
+          border: '1px solid var(--color-border)',
+          borderRadius: 100, padding: '7px 14px', cursor: 'pointer',
+          boxShadow: '0 4px 14px oklch(0.20 0.03 265 / 0.08)',
+          backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+          transition: 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1)',
         }}
       >
-        <span>Листайте вниз — ещё проекты</span>
-        <span className="sh-arrow" aria-hidden style={{ fontSize: '1rem', lineHeight: 1 }}>↓</span>
+        <span>ещё проекты</span>
+        <span className="sh-arrow" aria-hidden style={{ fontSize: '0.9rem', lineHeight: 1, color: 'var(--color-accent)' }}>↓</span>
       </button>
 
       <style>{`
-        .scroll-hint:hover { background: var(--color-accent) !important; color: var(--color-text-inv) !important; border-color: var(--color-accent) !important; }
-        .sh-arrow { animation: sh-bounce 1.5s ease-in-out infinite; }
-        @keyframes sh-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+        .scroll-hint:hover { opacity: 1 !important; color: var(--color-text2) !important; border-color: var(--color-border-accent) !important; }
+        .sh-arrow { animation: sh-bounce 1.9s ease-in-out infinite; }
+        @keyframes sh-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
         @media (prefers-reduced-motion: reduce) { .sh-arrow { animation: none; } }
       `}</style>
     </section>
