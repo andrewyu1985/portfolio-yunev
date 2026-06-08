@@ -260,7 +260,7 @@ export default function Hero() {
           display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
         }} className="stats-grid">
           {[
-            { to: 17, suffix: '', label: 'проектов\nреализовано' },
+            { to: 18, suffix: '', label: 'проектов\nреализовано' },
             { to: 20, suffix: '×', label: 'ускорение\nтиповых задач' },
             { to: 17, suffix: '+', label: 'лет в\nуправлении' },
           ].map((s, i) => (
