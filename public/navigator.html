@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Навигатор — игровая оболочка тренинга</title>
+<meta name="description" content="Навигатор — оболочка для психологического тренинга: десять остановок, настоящие письменные упражнения, шифрование ответов на своём сервере и закрытый кабинет куратора.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#f5faf6; --bg2:#eaf4ec; --bg3:#ffffff;
+  --accent:#15803d; --accent-d:#14532d; --accent-l:#4ade80; --accent-2:#0d9488;
+  --accent-dim:rgba(21,128,61,0.09); --accent-border:rgba(21,128,61,0.28);
+  --shadow-accent:0 12px 34px rgba(21,128,61,0.24);
+  --nav-bg:rgba(245,250,246,0.78); --nav-bg-scrolled:rgba(245,250,246,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(21,128,61,0.13), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(13,148,136,0.12), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(74,222,128,0.12), transparent 55%);
+}
+/* лента остановок */
+.road{position:relative;margin-top:12px;padding:34px 0 10px}
+.road::before{content:'';position:absolute;top:52px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent-l),var(--accent),var(--accent-2));border-radius:3px;opacity:.55}
+.stops{position:relative;display:grid;grid-template-columns:repeat(10,1fr);gap:8px}
+.stop{text-align:center}
+.stop .dot{width:22px;height:22px;border-radius:50%;background:var(--bg3);border:3px solid var(--accent);margin:0 auto 12px;position:relative;z-index:2;transition:transform .25s,box-shadow .25s}
+.stop:hover .dot{transform:scale(1.25);box-shadow:0 0 0 6px var(--accent-dim)}
+.stop.paid .dot{background:var(--accent);box-shadow:0 0 0 4px var(--accent-dim)}
+.stop .n{font-family:'JetBrains Mono';font-size:11px;color:var(--text3);font-weight:700}
+.stop .l{font-size:11px;color:var(--text2);margin-top:3px;line-height:1.3;font-weight:300}
+@media(max-width:820px){.stops{grid-template-columns:repeat(5,1fr);gap:14px}.road::before{display:none}}
+@media(max-width:420px){.stops{grid-template-columns:repeat(3,1fr)}}
+/* остановка-карточка «сейчас → после» */
+.transit{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--shadow);max-width:760px;margin:32px auto 0}
+.transit .st{font-size:14px;color:var(--text2);line-height:1.55;font-weight:300}
+.transit .st b{display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:7px;font-weight:700}
+.transit .ar{font-size:22px;color:var(--accent)}
+@media(max-width:620px){.transit{grid-template-columns:1fr;gap:14px;text-align:center}.transit .ar{transform:rotate(90deg)}}
+/* мокап экрана шага */
+.screens{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+@media(max-width:900px){.screens{grid-template-columns:1fr}}
+.scr{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.scr:hover{transform:translateY(-5px);box-shadow:var(--shadow2)}
+.scr-top{padding:12px 16px;background:var(--bg2);border-bottom:1px solid var(--border);font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);display:flex;justify-content:space-between;align-items:center}
+.scr-top .pg{color:var(--accent-d);font-weight:700}
+.scr-body{padding:20px}
+.scr h4{font-family:'Space Grotesk';font-size:15px;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.35}
+.skel{height:9px;border-radius:5px;background:linear-gradient(90deg,var(--bg2),var(--border),var(--bg2));margin-bottom:8px}
+.skel.s2{width:86%}.skel.s3{width:64%}
+.field{margin-top:16px;border:1.5px dashed var(--accent-border);border-radius:10px;padding:14px;background:var(--accent-dim);min-height:88px;position:relative}
+.field .cur{display:inline-block;width:2px;height:15px;background:var(--accent);vertical-align:middle;animation:blink 1.2s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.field .ph{font-size:12.5px;color:var(--text3);font-style:italic}
+.pass-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--border);font-size:13px}
+.pass-row:last-child{border-bottom:none}
+.pass-row .k{color:var(--text2);font-weight:300}
+.pass-row .v{font-family:'JetBrains Mono';font-size:11px;color:var(--accent-d);background:var(--accent-dim);border-radius:6px;padding:3px 9px;font-weight:700}
+.scr-note{padding:12px 16px;border-top:1px solid var(--border);font-family:'JetBrains Mono';font-size:10.5px;color:var(--text3);background:var(--bg2)}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">Н</span> Навигатор</a>
+  <div class="nav-links">
+    <a href="#put">Путь</a>
+    <a href="#ekran">Экран шага</a>
+    <a href="#privacy">Приватность</a>
+    <a href="#kabinet">Кабинет</a>
+    <a href="#resheniya">Решения</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark round">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.2 8.8l-2.1 5-5 2.1 2.1-5z"/></svg>
+    </div>
+    <div class="hero-badge wip"><span class="dot"></span>в разработке</div>
+    <h1>Нави<span class="grad">гатор</span></h1>
+    <div class="hero-tag">Оболочка для готового тренинга</div>
+    <p class="hero-sub">Психологический тренинг существовал как методология и живые встречи. Задача была не «сделать курс», а построить оболочку: десять остановок, на каждой человек выполняет настоящее письменное упражнение, а не кликает по вариантам. Экран только даёт задание и бережно хранит написанное.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#ekran">Как выглядит шаг →</a>
+      <a class="btn btn-ghost" href="#privacy">Три правила приватности</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>10</strong><span>остановок</span></div>
+      <div class="hero-stat"><strong>3</strong><span>правила приватности</span></div>
+      <div class="hero-stat"><strong>AES-256</strong><span>на ответах</span></div>
+      <div class="hero-stat"><strong>13</strong><span>сборок для показа</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ПУТЬ -->
+<section class="tinted" id="put">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Путь</div>
+      <h2>Дорога с остановками — и ни одной метафоры</h2>
+      <p class="section-intro">Первые прототипы были метафорическими: путешествие, ключи, фишка-персонаж. От них отказались целиком — ни одна метафора не покрывала все десять трансформаций, а лишний смысл только мешал взрослому человеку работать. Осталась дорога: видно, где ты, сколько прошёл и что впереди.</p>
+    </div>
+    <div class="road reveal">
+      <div class="stops">
+        <div class="stop"><div class="dot"></div><div class="n">01</div><div class="l">вход</div></div>
+        <div class="stop"><div class="dot"></div><div class="n">02</div><div class="l">свободный ход</div></div>
+        <div class="stop"><div class="dot"></div><div class="n">03</div><div class="l">развилка</div></div>
+        <div class="stop paid"><div class="dot"></div><div class="n">04</div><div class="l">застава</div></div>
+        <div class="stop paid"><div class="dot"></div><div class="n">05</div><div class="l">разбор</div></div>
+        <div class="stop paid"><div class="dot"></div><div class="n">06</div><div class="l">сборка</div></div>
+        <div class="stop paid"><div class="dot"></div><div class="n">07</div><div class="l">проверка</div></div>
+        <div class="stop paid"><div class="dot"></div><div class="n">08</div><div class="l">выбор</div></div>
+        <div class="stop paid"><div class="dot"></div><div class="n">09</div><div class="l">план</div></div>
+        <div class="stop paid"><div class="dot"></div><div class="n">10</div><div class="l">итог</div></div>
+      </div>
+    </div>
+    <div class="transit reveal">
+      <div class="st"><b>Сейчас</b>Человек видит своё состояние до шага — своими словами, без оценок и баллов.</div>
+      <div class="ar">→</div>
+      <div class="st"><b>После шага</b>И видит, чем этот шаг закончится. Граница между шагами показана явно, чтобы работа не сливалась в поток экранов.</div>
+    </div>
+    <div class="demo-note reveal">Подписи остановок — механика оболочки. Содержание методологии принадлежит автору тренинга и здесь не раскрывается</div>
+  </div>
+</section>
+
+<!-- ЭКРАН ШАГА -->
+<section class="section" id="ekran">
+  <div class="section-head reveal">
+    <div class="kicker">Экран шага</div>
+    <h2>Рабочая тетрадь, а не викторина</h2>
+    <p class="section-intro">Ни одного вопроса с вариантами ответа. Человек пишет от руки — точнее, руками, — и всё, что он написал, остаётся его текстом: система не оценивает, не считает баллы и не подсказывает «правильное».</p>
+  </div>
+  <div class="screens">
+    <div class="scr reveal">
+      <div class="scr-top"><span>Задание</span><span class="pg">шаг 2 / 10</span></div>
+      <div class="scr-body">
+        <h4>Формулировка упражнения</h4>
+        <div class="skel"></div><div class="skel s2"></div><div class="skel s3"></div>
+      </div>
+      <div class="scr-note">текст задания — из канона методологии</div>
+    </div>
+    <div class="scr reveal">
+      <div class="scr-top"><span>Ответ</span><span class="pg">автосохранение</span></div>
+      <div class="scr-body">
+        <h4>Поле свободного текста</h4>
+        <div class="field"><span class="ph">человек пишет своими словами<span class="cur"></span></span></div>
+      </div>
+      <div class="scr-note">шифруется до того, как попадёт в базу</div>
+    </div>
+    <div class="scr reveal">
+      <div class="scr-top"><span>Паспорт участника</span><span class="pg">итог</span></div>
+      <div class="scr-body">
+        <h4>Собирается по ходу пути</h4>
+        <div class="pass-row"><span class="k">Пройдено остановок</span><span class="v">4 / 10</span></div>
+        <div class="pass-row"><span class="k">Заполнено полей</span><span class="v">11</span></div>
+        <div class="pass-row"><span class="k">Последний вход</span><span class="v">сегодня</span></div>
+        <div class="pass-row"><span class="k">Код участника</span><span class="v">NV-07</span></div>
+      </div>
+      <div class="scr-note">данные на макете демонстрационные</div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРИВАТНОСТЬ -->
+<section class="tinted" id="privacy">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Приватность</div>
+      <h2>Три правила, которые важнее остального кода</h2>
+      <p class="section-intro">Люди пишут сюда про долги, страхи и отношения. Поэтому правила обращения с их текстом не размазаны по проекту, а вынесены в начало серверного модуля — чтобы любой, кто откроет файл, прочитал их первыми.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="num">01</div>
+        <h3>Нет согласия — нет текста</h3>
+        <p>Свободный текст не принимается, пока человек не дал согласие. Не «примем, а спросим потом»: сервер отвечает отказом. Иначе первые же собранные ответы собраны незаконно — и их придётся стирать.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">02</div>
+        <h3>Пустое не затирает написанное</h3>
+        <p>Человек зашёл с нового устройства, клиент стартовал с чистого состояния — и одним автосохранением стёр сорок минут работы. Такую запись сервер отклоняет: непустое никогда не перезаписывается пустым.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">03</div>
+        <h3>Личный текст не течёт в логи</h3>
+        <p>Ни в события аналитики, ни в журналы сервера, ни в отладочный вывод. Никогда. В телеметрию уходит только факт «поле заполнено» и его длина.</p>
+      </div>
+    </div>
+    <div class="split" style="margin-top:56px">
+      <div class="reveal">
+        <div class="kicker">Как это сделано</div>
+        <h2 style="font-size:clamp(24px,3.4vw,34px)">Шифрование до базы, а не «доступ по паролю»</h2>
+        <ul class="split-list">
+          <li><span class="chk">✓</span><span><b>AES-256-GCM</b> — каждый ответ шифруется на сервере перед записью; в таблице лежит шифротекст, а не текст.</span></li>
+          <li><span class="chk">✓</span><span><b>Свой сервер</b> — данные не уезжают в чужой конструктор курсов и в чужую аналитику.</span></li>
+          <li><span class="chk">✓</span><span><b>Код участника вместо имени</b> — куратор работает с «участником 07», а не с персональными данными.</span></li>
+          <li><span class="chk">✓</span><span><b>Сессия по токену</b> — вход без пароля и без сбора лишних полей при регистрации.</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <div class="mock">
+          <div class="mock-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="mock-url">таблица ответов · как её видит база</span></div>
+          <div class="mock-body">
+            <div class="tbl-wrap" style="box-shadow:none;border:none">
+              <table class="tbl" style="min-width:auto">
+                <thead><tr><th>Участник</th><th>Поле</th><th>Значение в базе</th></tr></thead>
+                <tbody>
+                  <tr><td class="n">NV-07</td><td>шаг 2 · ответ</td><td class="n">9f3c…a71b</td></tr>
+                  <tr><td class="n">NV-07</td><td>шаг 3 · ответ</td><td class="n">c40e…88d2</td></tr>
+                  <tr><td class="n">NV-12</td><td>шаг 1 · ответ</td><td class="n">72ab…5f09</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="demo-note">схематичный вид: в базе лежит шифротекст, читаемых ответов там нет</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КАБИНЕТ -->
+<section class="section" id="kabinet">
+  <div class="section-head reveal">
+    <div class="kicker">Кабинет куратора</div>
+    <h2>Ведущий видит работу, а не «прогресс-бары»</h2>
+    <p class="section-intro">Куратору нужны не проценты прохождения, а то, что человек написал, и сигнал «здесь нужна помощь». Кабинет закрытый, вход отдельный, список — по кодам участников.</p>
+  </div>
+  <div class="mock reveal">
+    <div class="mock-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="mock-url">кабинет куратора · закрытый доступ</span></div>
+    <div class="mock-body" style="padding:0">
+      <div class="tbl-wrap" style="border:none;border-radius:0;box-shadow:none">
+        <table class="tbl">
+          <thead><tr><th>Участник</th><th>Остановка</th><th>Заполнено</th><th>Последний вход</th><th>Внимание</th></tr></thead>
+          <tbody>
+            <tr><td class="n">NV-04</td><td>шаг 6</td><td class="n">18 полей</td><td>сегодня</td><td class="ok">в работе</td></tr>
+            <tr><td class="n">NV-07</td><td>шаг 4</td><td class="n">11 полей</td><td>вчера</td><td class="ok">в работе</td></tr>
+            <tr><td class="n">NV-12</td><td>шаг 2</td><td class="n">3 поля</td><td>9 дней назад</td><td class="bad">застрял</td></tr>
+            <tr><td class="n">NV-15</td><td>шаг 1</td><td class="n">1 поле</td><td>14 дней назад</td><td class="bad">не начал</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="demo-note reveal">Коды и цифры демонстрационные. Ни одного настоящего ответа участника на этой странице нет</div>
+</section>
+
+<!-- РЕШЕНИЯ -->
+<section class="tinted" id="resheniya">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Решения</div>
+      <h2>Половина работы — то, что решили не делать</h2>
+      <p class="section-intro">Оболочка проектировалась вместе с авторами методологии, и самые полезные решения оказались отказами. Каждое из них снимало риск, что взрослый человек закроет вкладку на втором экране.</p>
+    </div>
+    <div class="rows">
+      <div class="row reveal"><span class="rk">убрано</span><div><div class="rt">Метафора</div><div class="rd">Ни путешествия, ни ключей, ни зверей, ни фишки-персонажа. Максимум визуальной опоры — дорога с остановками, без дополнительных смыслов.</div></div></div>
+      <div class="row reveal"><span class="rk">убрано</span><div><div class="rt">Профилирование и классы</div><div class="rd">Ни выбора трека, ни ролевых классов. Аудитория узкая и понятная — лишний выбор на входе только тормозит.</div></div></div>
+      <div class="row reveal"><span class="rk">убрано</span><div><div class="rt">Баллы и оценки</div><div class="rd">Упражнение нельзя пройти «правильно». Система не оценивает написанное — это принципиально, иначе человек начнёт писать для системы.</div></div></div>
+      <div class="row reveal"><span class="rk">изменено</span><div><div class="rt">Порядок шагов</div><div class="rd">Тяжёлый разбор прошлого уехал с третьего места на пятое: сначала настрой и разбор того, что есть. К прошлому человек приходит трезвее — и проходит его легче.</div></div></div>
+      <div class="row reveal"><span class="rk">добавлено</span><div><div class="rt">Остановка перед каждым шагом</div><div class="rd">Экран «Сейчас → После шага». Граница между шагами показана явно, чтобы работа не сливалась в бесконечную ленту.</div></div></div>
+      <div class="row reveal"><span class="rk">правило</span><div><div class="rt">Методология не додумывается</div><div class="rd">Всё, чего нет в каноне автора, помечается как добавка и требует утверждения. Оболочка не имеет права дописывать содержание за автора.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- АРХИТЕКТУРА -->
+<section class="section">
+  <div class="section-head reveal" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Архитектура</div>
+    <h2 style="margin:0 auto">Путь одного ответа</h2>
+    <p class="section-intro" style="margin:14px auto 0">От клавиатуры до кабинета куратора текст проходит четыре звена — и читаемым остаётся только на двух концах.</p>
+  </div>
+  <div class="flow reveal">
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">БРАУЗЕР</span><div><div class="fb-t">Оболочка на React</div><div class="fb-d">Дорога, экран шага, паспорт участника · автосохранение</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">СЕРВЕР</span><div><div class="fb-t">Fastify · проверка согласия</div><div class="fb-d">Нет согласия — отказ. Пустое не затирает непустое. Личный текст не попадает в логи</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ШИФР</span><div><div class="fb-t">AES-256-GCM</div><div class="fb-d">Ответ шифруется до записи, ключ живёт в окружении сервера</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">БАЗА</span><div><div class="fb-t">PostgreSQL</div><div class="fb-d">Шифротекст, код участника, отметки времени — и ничего сверх этого</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">КАБИНЕТ</span><div><div class="fb-t">Закрытый доступ куратора</div><div class="fb-d">Расшифровка на лету при просмотре карточки участника</div></div></div></div>
+  </div>
+</section>
+
+<!-- ОБОЛОЧКИ -->
+<section class="tinted">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Две оболочки</div>
+      <h2>Одно содержание, разные корпуса</h2>
+      <p class="section-intro">Содержание шагов вынесено в отдельный модуль, поэтому поверх него собирались разные оболочки — и их можно было честно сравнить на встрече, а не спорить об абстракциях.</p>
+    </div>
+    <div class="cards c2">
+      <div class="card reveal">
+        <div class="tagline">принято</div>
+        <h3>Плоская дорога</h3>
+        <p>Спокойная схема пути: остановки, текущее положение, что впереди. Работает на любом устройстве, ничего не грузит, не отвлекает от письменной работы. Этот вариант и стал рабочим.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">отменено</div>
+        <h3>Объёмная сцена</h3>
+        <p>Изометрическое поле с фигуркой на движке Babylon.js — красиво и совершенно лишнее. Собрано, показано, отклонено на встрече вместе со всеми метафорами.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- СТЕК -->
+<section class="section">
+  <div class="section-head reveal" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Технологии</div>
+    <h2 style="margin:0 auto">Стек</h2>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-item reveal"><div class="si-layer">Оболочка</div><div class="si-name">React · TypeScript</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Сервер</div><div class="si-name">Fastify</div></div>
+    <div class="stack-item reveal"><div class="si-layer">База</div><div class="si-name">PostgreSQL</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Шифрование</div><div class="si-name">AES-256-GCM</div></div>
+    <div class="stack-item reveal"><div class="si-layer">3D-вариант</div><div class="si-name">Babylon.js</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Запуск</div><div class="si-name">Docker</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Упражнение остаётся настоящим.</h2>
+    <p>Экран не заменяет работу человека над собой — он только даёт задание, держит темп и бережно хранит написанное. Всё остальное происходит на бумаге внутри головы.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/#projects">← Смотреть другие проекты</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/private-chat.html">Private Chat</a>
+    <a href="/hermes-system.html">Hermes System</a>
+  </div>
+  <div class="copy">Навигатор · Игровая оболочка тренинга · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>

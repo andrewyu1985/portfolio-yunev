@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARS Orchestrator — конвейер академической статьи</title>
+<meta name="description" content="ARS Orchestrator — оркестратор из 38 агентов и 10 стадий для Codex CLI: исследование, написание статьи, рецензирование, ревизия, повторное ревью и вывод в LaTeX или Markdown.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#f8f6fd; --bg2:#efeafb; --bg3:#ffffff;
+  --accent:#6d28d9; --accent-d:#4c1d95; --accent-l:#a78bfa; --accent-2:#4f46e5;
+  --accent-dim:rgba(109,40,217,0.08); --accent-border:rgba(109,40,217,0.26);
+  --shadow-accent:0 12px 34px rgba(109,40,217,0.24);
+  --nav-bg:rgba(248,246,253,0.78); --nav-bg-scrolled:rgba(248,246,253,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(109,40,217,0.12), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(79,70,229,0.12), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(167,139,250,0.13), transparent 55%);
+}
+.stage{display:grid;grid-template-columns:60px 1fr 92px;gap:16px;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:15px 20px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.stage:hover{transform:translateX(4px);box-shadow:var(--shadow);border-color:var(--accent-border)}
+.stage.gate{background:linear-gradient(135deg,var(--accent-dim),var(--bg3));border-color:var(--accent-border)}
+.stage .sn{font-family:'JetBrains Mono';font-size:13px;font-weight:700;color:var(--accent-d);background:var(--accent-dim);border-radius:7px;padding:6px 0;text-align:center}
+.stage .st{font-family:'Space Grotesk';font-weight:600;font-size:15px;color:var(--ink)}
+.stage .sd{font-size:12.5px;color:var(--text3);margin-top:2px;line-height:1.5}
+.stage .sa{font-family:'JetBrains Mono';font-size:11px;color:var(--text2);text-align:right;white-space:nowrap}
+.stage .sa b{display:block;font-family:'Space Grotesk';font-size:19px;color:var(--ink);font-weight:700}
+@media(max-width:640px){.stage{grid-template-columns:46px 1fr;gap:12px;padding:13px 15px}.stage .sa{grid-column:2;text-align:left;display:flex;align-items:baseline;gap:7px}.stage .sa b{font-size:14px}}
+.loop{max-width:760px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:0}
+.loop-box{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px 20px;text-align:center;box-shadow:var(--shadow)}
+.loop-box b{font-family:'Space Grotesk';font-size:15px;color:var(--ink)}
+.loop-box span{display:block;font-size:12.5px;color:var(--text3);margin-top:3px}
+.loop-arrow{color:var(--accent);font-size:16px;padding:8px 0;font-family:'JetBrains Mono'}
+.loop-back{width:100%;border:1.5px dashed var(--accent-border);border-radius:var(--r-sm);padding:12px;text-align:center;font-family:'JetBrains Mono';font-size:11.5px;color:var(--accent-d);background:var(--accent-dim);margin-top:10px}
+.paper{background:var(--bg3);border:1px solid var(--border);border-radius:6px;box-shadow:var(--shadow2);padding:42px 46px;max-width:560px;margin:0 auto;font-family:'Inter',serif}
+@media(max-width:560px){.paper{padding:26px 22px}}
+.paper .ttl{font-family:'Space Grotesk';font-size:20px;font-weight:700;color:var(--ink);line-height:1.3;text-align:center;margin-bottom:10px}
+.paper .aut{font-size:12.5px;color:var(--text3);text-align:center;margin-bottom:24px;font-family:'JetBrains Mono'}
+.paper h5{font-family:'Space Grotesk';font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-d);margin-bottom:8px}
+.paper p{font-size:12.5px;line-height:1.75;color:var(--text2);text-align:justify;font-weight:300}
+.paper .refs{margin-top:22px;padding-top:16px;border-top:1px solid var(--border)}
+.paper .refs div{font-family:'JetBrains Mono';font-size:10.5px;color:var(--text3);line-height:1.9}
+.origin{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--r-sm);padding:20px 24px;max-width:760px;margin:34px auto 0}
+.origin p{font-size:13.5px;color:var(--text2);line-height:1.65;font-weight:300}
+.origin b{color:var(--ink);font-weight:600}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">A</span> ARS Orchestrator</a>
+  <div class="nav-links">
+    <a href="#konveyer">Конвейер</a>
+    <a href="#review">Ревью</a>
+    <a href="#rezhimy">Режимы</a>
+    <a href="#vyvod">Результат</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <svg viewBox="0 0 24 24"><path d="M4 5h9a3 3 0 0 1 3 3v11a2.5 2.5 0 0 0-2.5-2.5H4z"/><path d="M20 5h-1a3 3 0 0 0-3 3v11a2.5 2.5 0 0 1 2.5-2.5H20z"/></svg>
+    </div>
+    <div class="hero-badge"><span class="dot"></span>работает · открытый код</div>
+    <h1>ARS <span class="grad">Orchestrator</span></h1>
+    <div class="hero-tag">Академическая статья как конвейер</div>
+    <p class="hero-sub">Тридцать восемь агентов проходят десять стадий: глубокое исследование, написание статьи, слепое рецензирование пятью рецензентами, ревизия, повторное ревью и вывод в LaTeX или Markdown. Между стадиями стоят обязательные ворота научной добросовестности — их нельзя пропустить флагом.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#konveyer">Смотреть конвейер →</a>
+      <a class="btn btn-ghost" href="#review">Почему ревью не один проход</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>10</strong><span>стадий</span></div>
+      <div class="hero-stat"><strong>38</strong><span>агентов</span></div>
+      <div class="hero-stat"><strong>5</strong><span>рецензентов</span></div>
+      <div class="hero-stat"><strong>2</strong><span>обязательных гейта</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- КОНВЕЙЕР -->
+<section class="tinted" id="konveyer">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Конвейер</div>
+      <h2>Десять стадий, у каждой свой выход</h2>
+      <p class="section-intro">Стадия заканчивается не «текстом в чате», а файлом на диске: отчёт исследования, черновик статьи, редакторское решение, ответ рецензентам. Прогон можно прервать и продолжить с того же места — состояние хранится в паспорте запуска.</p>
+    </div>
+    <div class="rows">
+      <div class="stage reveal"><span class="sn">1</span><div><div class="st">Исследование</div><div class="sd">Вопрос, методология, библиография, синтез, мета-анализ, проверка на смещения</div></div><div class="sa"><b>13</b>агентов</div></div>
+      <div class="stage reveal"><span class="sn">2</span><div><div class="st">Написание</div><div class="sd">Структура, аргументы, черновик, цитирование, аннотация, внутренняя вычитка</div></div><div class="sa"><b>12</b>агентов</div></div>
+      <div class="stage gate reveal"><span class="sn">2.5</span><div><div class="st">Ворота добросовестности</div><div class="sd">Обязательная проверка научной этики и соответствия требованиям — пропустить нельзя</div></div><div class="sa"><b>2</b>агента</div></div>
+      <div class="stage reveal"><span class="sn">3</span><div><div class="st">Рецензирование</div><div class="sd">Анализ области, пять параллельных рецензентов, редакторский синтез отзывов</div></div><div class="sa"><b>7</b>агентов</div></div>
+      <div class="stage reveal"><span class="sn">4</span><div><div class="st">Ревизия</div><div class="sd">Чек-лист правок, исправленная рукопись, письмо-ответ рецензентам</div></div><div class="sa"><b>3</b>агента</div></div>
+      <div class="stage reveal"><span class="sn">3′</span><div><div class="st">Повторное ревью</div><div class="sd">Три рецензента смотрят исправленный текст, редактор сводит вердикт</div></div><div class="sa"><b>4</b>агента</div></div>
+      <div class="stage reveal"><span class="sn">4′</span><div><div class="st">Вторая ревизия</div><div class="sd">Запускается только если повторное ревью её потребовало</div></div><div class="sa"><b>1</b>агент</div></div>
+      <div class="stage gate reveal"><span class="sn">4.5</span><div><div class="st">Финальные ворота</div><div class="sd">Ещё одна обязательная проверка добросовестности — перед самой вёрсткой</div></div><div class="sa"><b>2</b>агента</div></div>
+      <div class="stage reveal"><span class="sn">5</span><div><div class="st">Финализация</div><div class="sd">Готовый Markdown и LaTeX-вывод</div></div><div class="sa"><b>1</b>агент</div></div>
+      <div class="stage reveal"><span class="sn">6</span><div><div class="st">Протокол</div><div class="sd">Запись процесса и глубины участия — что именно делали агенты, а что человек</div></div><div class="sa"><b>2</b>агента</div></div>
+    </div>
+    <div class="demo-note reveal">Часть ролей вызывается на нескольких стадиях, поэтому сумма по столбцу больше числа уникальных агентов</div>
+  </div>
+</section>
+
+<!-- РЕВЬЮ -->
+<section class="section" id="review">
+  <div class="section-head reveal">
+    <div class="kicker">Ревью</div>
+    <h2>Один проход рецензии ничего не проверяет</h2>
+    <p class="section-intro">Если рецензент высказался, а текст правили «по мотивам» его отзыва, никто не знает, устранена ли проблема. Поэтому цикл замкнут: правки уходят на второй круг к новым рецензентам, и только их вердикт открывает дорогу к вёрстке.</p>
+  </div>
+  <div class="loop reveal">
+    <div class="loop-box"><b>Пять параллельных рецензентов</b><span>каждый читает независимо, не видя чужих отзывов</span></div>
+    <div class="loop-arrow">↓</div>
+    <div class="loop-box"><b>Редакторский синтез</b><span>противоречия между отзывами разрешаются явно, а не усредняются</span></div>
+    <div class="loop-arrow">↓</div>
+    <div class="loop-box"><b>Ревизия с чек-листом</b><span>каждая правка привязана к конкретному замечанию, плюс письмо-ответ</span></div>
+    <div class="loop-arrow">↓</div>
+    <div class="loop-box"><b>Три новых рецензента</b><span>смотрят уже исправленный текст</span></div>
+    <div class="loop-back">если требуют — ещё один круг правок ↺</div>
+  </div>
+  <div class="cards" style="margin-top:48px">
+    <div class="card reveal">
+      <div class="tagline">принцип</div>
+      <h3>Параллельно и вслепую</h3>
+      <p>Рецензенты работают одновременно и независимо. Иначе первый отзыв задаёт рамку остальным, и вместо пяти взглядов получается один, повторённый пять раз.</p>
+    </div>
+    <div class="card reveal">
+      <div class="tagline">принцип</div>
+      <h3>Ворота нельзя обойти</h3>
+      <p>Проверки добросовестности стоят отдельными стадиями и срабатывают даже в полностью автоматическом режиме. Это единственное место конвейера, которое не отключается флагом.</p>
+    </div>
+    <div class="card reveal">
+      <div class="tagline">принцип</div>
+      <h3>Процесс документируется</h3>
+      <p>Финальная стадия пишет протокол: какие стадии прошли, что делали агенты, где вмешивался человек. Для академической работы это часть результата, а не служебный лог.</p>
+    </div>
+  </div>
+</section>
+
+<!-- РЕЖИМЫ -->
+<section class="tinted" id="rezhimy">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Режимы</div>
+      <h2>Пошагово с остановками — или целиком без вопросов</h2>
+      <p class="section-intro">Длинный прогон стоит денег и времени, поэтому запуск гибкий: можно идти со сверкой на каждой стадии, а можно отпустить конвейер целиком. Можно войти не с начала и продолжить прерванный запуск.</p>
+    </div>
+    <div class="cards c2">
+      <div class="card reveal">
+        <div class="tagline">по умолчанию</div>
+        <h3>Чекпойнты</h3>
+        <p>После каждой стадии — остановка и вопрос, продолжать ли. Удобно, когда тема новая и хочется поймать уход не туда на первой же стадии, а не на десятой.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">без остановок</div>
+        <h3>Автоматический прогон</h3>
+        <p>Конвейер идёт до конца сам. Ворота добросовестности при этом остаются на месте — автоматический режим отключает вопросы человеку, а не проверки.</p>
+      </div>
+    </div>
+    <div class="rows" style="margin-top:22px">
+      <div class="row reveal"><span class="rk">вход</span><div><div class="rt">Старт не с первой стадии</div><div class="rd">Есть готовое исследование — можно войти сразу в написание. Есть черновик — сразу в рецензирование.</div></div></div>
+      <div class="row reveal"><span class="rk">пауза</span><div><div class="rt">Продолжение прерванного</div><div class="rd">Прогон восстанавливается из паспорта запуска: уже пройденные стадии не переигрываются заново.</div></div></div>
+      <div class="row reveal"><span class="rk">статус</span><div><div class="rt">Проверка состояния</div><div class="rd">Отдельная команда показывает, на какой стадии остановился конкретный запуск и какие файлы уже готовы.</div></div></div>
+      <div class="row reveal"><span class="rk">запуск</span><div><div class="rt">Установка одной командой</div><div class="rd">Отдельные установщики под Windows и под *nix — ставят зависимости и подтягивают нужный скилл сами.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ВЫВОД -->
+<section class="section" id="vyvod">
+  <div class="section-head reveal">
+    <div class="kicker">Результат</div>
+    <h2>На выходе — рукопись, а не переписка</h2>
+    <p class="section-intro">Каталог запуска содержит все промежуточные артефакты: отчёт исследования, черновик, редакторское решение, письмо рецензентам, финальный текст. Итог верстается в Markdown и LaTeX.</p>
+  </div>
+  <div class="paper reveal">
+    <div class="ttl">Заголовок статьи, сформулированный на стадии написания</div>
+    <div class="aut">Автор · Аффилиация · 2026</div>
+    <h5>Аннотация</h5>
+    <p>Здесь стоит аннотация, собранная отдельным агентом после того, как текст статьи готов: постановка вопроса, метод, основные результаты и вывод. Аннотация пишется последней намеренно — иначе она обещает то, чего в тексте не оказалось.</p>
+    <h5 style="margin-top:20px">1. Введение</h5>
+    <p>Вводный раздел опирается на библиографию, собранную на первой стадии, и на карту противоречий между источниками: где данные расходятся, там это сказано прямо, а не сглажено обтекаемой формулировкой.</p>
+    <div class="refs">
+      <div>[1] Источник, журнал, год</div>
+      <div>[2] Источник, журнал, год</div>
+      <div>[3] Источник, журнал, год</div>
+    </div>
+  </div>
+  <div class="demo-note reveal">Макет структуры: текст-заполнитель, не фрагмент реальной статьи</div>
+
+  <div class="origin reveal">
+    <p><b>Про происхождение.</b> Оркестратор построен поверх открытого скилла <b>academic-research-suite</b> (автор — @Imbad0202) и переносит его многоагентную схему в Codex CLI. Своя часть — конвейер: разбиение на стадии с файловыми выходами, паспорт запуска и восстановление прогона, обязательные ворота добросовестности, режимы входа и установщики под две платформы.</p>
+  </div>
+</section>
+
+<!-- СТЕК -->
+<section class="tinted">
+  <div class="section">
+    <div class="section-head reveal" style="text-align:center">
+      <div class="kicker" style="justify-content:center">Технологии</div>
+      <h2 style="margin:0 auto">Стек</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-item reveal"><div class="si-layer">Оркестратор</div><div class="si-name">Python</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Исполнитель</div><div class="si-name">Codex CLI</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Состояние</div><div class="si-name">YAML-паспорт</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Вёрстка</div><div class="si-name">LaTeX</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Черновики</div><div class="si-name">Markdown</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Установка</div><div class="si-name">PowerShell · sh</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Многоагентность полезна там, где есть возражение.</h2>
+    <p>Ценность здесь не в том, что текст пишут несколько ролей, а в том, что одни агенты обязаны спорить с результатом других — и спор фиксируется в файлах, которые можно перечитать.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/#projects">← Смотреть другие проекты</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/hermes-system.html">Hermes System</a>
+    <a href="/second-brain-bot.html">Second Brain Bot</a>
+  </div>
+  <div class="copy">ARS Orchestrator · Конвейер академической статьи · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>

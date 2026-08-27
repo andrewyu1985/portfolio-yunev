@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Second Brain Bot — голосовой второй мозг в Telegram</title>
+<meta name="description" content="Голосовой Telegram-бот, который превращает надиктованное в структурированные заметки Obsidian: напоминания, регулярные задачи, утренний брифинг из календаря и еженедельный отчёт.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#f3faf9; --bg2:#e6f4f2; --bg3:#ffffff;
+  --accent:#0d9488; --accent-d:#115e59; --accent-l:#5eead4; --accent-2:#0891b2;
+  --accent-dim:rgba(13,148,136,0.09); --accent-border:rgba(13,148,136,0.28);
+  --shadow-accent:0 12px 34px rgba(13,148,136,0.24);
+  --nav-bg:rgba(243,250,249,0.78); --nav-bg-scrolled:rgba(243,250,249,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(13,148,136,0.13), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(8,145,178,0.12), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(94,234,212,0.14), transparent 55%);
+}
+/* телефон-мокап */
+.phone{max-width:390px;margin:0 auto;background:var(--bg3);border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow2);overflow:hidden}
+.ph-top{padding:14px 18px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:11px}
+.ph-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,var(--accent-l),var(--accent-d));flex-shrink:0}
+.ph-name{font-family:'Space Grotesk';font-weight:600;font-size:14px;color:var(--ink)}
+.ph-st{font-size:11px;color:var(--green);font-family:'JetBrains Mono'}
+.ph-body{padding:18px;display:flex;flex-direction:column;gap:12px;background:var(--bg2);min-height:340px}
+.m{max-width:88%;padding:11px 14px;border-radius:14px;font-size:13.5px;line-height:1.5;box-shadow:var(--shadow)}
+.m.out{align-self:flex-end;background:linear-gradient(135deg,var(--accent),var(--accent-d));color:#fff;border-bottom-right-radius:5px}
+.m.in{align-self:flex-start;background:var(--bg3);color:var(--text);border-bottom-left-radius:5px}
+.m.in b{color:var(--ink);font-weight:600}
+.voice{display:flex;align-items:center;gap:11px}
+.voice .pl{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px}
+.wave{display:flex;align-items:center;gap:2.5px;height:20px}
+.wave i{width:2.5px;border-radius:2px;background:rgba(255,255,255,0.75);display:block}
+.dur{font-family:'JetBrains Mono';font-size:11px;opacity:.85}
+.note-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:'JetBrains Mono';font-size:11.5px;line-height:1.7;color:var(--text2);margin-top:9px}
+.note-card .h{color:var(--accent-d);font-weight:700}
+.note-card .t{color:var(--text3)}
+/* дерево vault */
+.vault{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--shadow);font-family:'JetBrains Mono';font-size:13px;line-height:2.05;color:var(--text2)}
+.vault .d{color:var(--accent-d);font-weight:700}
+.vault .c{color:var(--text3);font-size:11.5px}
+.vault .lvl1{padding-left:22px}
+.vault .lvl2{padding-left:44px}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">SB</span> Second Brain</a>
+  <div class="nav-links">
+    <a href="#vhod">Что кинуть боту</a>
+    <a href="#pamyat">Память</a>
+    <a href="#ritm">Ритм дня</a>
+    <a href="#znakomstvo">Знакомство</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark round">
+      <svg viewBox="0 0 24 24"><path d="M12 4a3.2 3.2 0 0 0-3.2 3.2A3 3 0 0 0 6 10.2a3 3 0 0 0 1.4 2.5A3 3 0 0 0 9 18.4a3 3 0 0 0 3-1.1 3 3 0 0 0 3 1.1 3 3 0 0 0 1.6-5.7A3 3 0 0 0 18 10.2a3 3 0 0 0-2.8-3A3.2 3.2 0 0 0 12 4z"/><path d="M12 7v10"/></svg>
+    </div>
+    <div class="hero-badge"><span class="dot"></span>работает на своём сервере</div>
+    <h1>Second <span class="grad">Brain</span></h1>
+    <div class="hero-tag">Надиктовал — и оно уже в нужном месте</div>
+    <p class="hero-sub">Мысль приходит в дороге, а записывать её некуда и некогда. Бот принимает голосовое, расшифровывает и раскладывает по хранилищу заметок: дневная запись, напоминание, регулярная задача. Утром присылает брифинг из календаря, в конце недели — отчёт по тому, что накопилось.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#vhod">Как это работает →</a>
+      <a class="btn btn-ghost" href="#pamyat">Куда всё ложится</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>5</strong><span>типов входа</span></div>
+      <div class="hero-stat"><strong>3</strong><span>интеграции</span></div>
+      <div class="hero-stat"><strong>32</strong><span>вопроса знакомства</span></div>
+      <div class="hero-stat"><strong>~10</strong><span>минут до запуска</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ВХОД -->
+<section class="tinted" id="vhod">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Что кинуть боту</div>
+      <h2>Любое сообщение находит своё место</h2>
+      <p class="section-intro">Никаких команд и меню: бот сам разбирает, что ему прислали, и решает, куда это положить. Голосовое станет расшифровкой в дневной заметке, фраза «напомни завтра в девять» — напоминанием, пересланный пост — цитатой с источником.</p>
+    </div>
+    <div class="split">
+      <div class="reveal">
+        <div class="phone">
+          <div class="ph-top">
+            <span class="ph-av"></span>
+            <div><div class="ph-name">Second Brain</div><div class="ph-st">на связи</div></div>
+          </div>
+          <div class="ph-body">
+            <div class="m out voice">
+              <span class="pl">▶</span>
+              <span class="wave">
+                <i style="height:7px"></i><i style="height:13px"></i><i style="height:19px"></i><i style="height:10px"></i>
+                <i style="height:16px"></i><i style="height:20px"></i><i style="height:8px"></i><i style="height:14px"></i>
+                <i style="height:18px"></i><i style="height:6px"></i><i style="height:12px"></i><i style="height:17px"></i>
+              </span>
+              <span class="dur">0:34</span>
+            </div>
+            <div class="m in">
+              Записал в заметку за сегодня.
+              <div class="note-card">
+                <span class="h">## Идеи</span><br>
+                — пересобрать вступление, начать с примера<br>
+                <span class="t">15:42 · голосовая заметка</span>
+              </div>
+            </div>
+            <div class="m out">напомни в пятницу в 10 забрать документы</div>
+            <div class="m in">Напомню <b>в пятницу в 10:00</b> — «забрать документы».</div>
+            <div class="m out">каждый понедельник в 9:00 планёрка</div>
+            <div class="m in">Поставил повтор: <b>каждый понедельник, 9:00</b>.</div>
+          </div>
+        </div>
+        <div class="demo-note">Переписка собрана для показа</div>
+      </div>
+      <div class="reveal">
+        <div class="kicker">Пять входов</div>
+        <h2 style="font-size:clamp(24px,3.4vw,34px)">Одна точка входа вместо пяти приложений</h2>
+        <ul class="split-list">
+          <li><span class="chk">1</span><span><b>Голос</b> — расшифровка и укладка в дневную заметку. Основной сценарий: руки заняты, мысль есть.</span></li>
+          <li><span class="chk">2</span><span><b>Текст</b> — любое сообщение попадает в запись за сегодня, ничего не теряется.</span></li>
+          <li><span class="chk">3</span><span><b>Фото и документы</b> — сохраняются с описанием, а не безымянным файлом в загрузках.</span></li>
+          <li><span class="chk">4</span><span><b>Репост из канала</b> — сохраняется вместе с источником, чтобы через месяц было понятно, откуда это.</span></li>
+          <li><span class="chk">5</span><span><b>Команда ассистенту</b> — отдельные команды передают задачу модели: обработать, разобрать, ответить.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПАМЯТЬ -->
+<section class="section" id="pamyat">
+  <div class="section-head reveal">
+    <div class="kicker">Память</div>
+    <h2>Заметки лежат файлами, а не внутри бота</h2>
+    <p class="section-intro">Всё сохраняется в обычное хранилище Obsidian — папку с markdown-файлами. Это принципиально: бот можно выключить, переписать или заменить, а записи останутся читаемыми и переносимыми. Никакой базы, из которой потом не выбраться.</p>
+  </div>
+  <div class="split">
+    <div class="reveal">
+      <div class="vault">
+        <div><span class="d">vault/</span></div>
+        <div class="lvl1"><span class="d">MEMORY.md</span> <span class="c">— профиль: цели, проекты, контекст</span></div>
+        <div class="lvl1"><span class="d">daily/</span> <span class="c">— по одному файлу на день</span></div>
+        <div class="lvl2">2026-08-27.md <span class="c">— заметки, идеи, встречи</span></div>
+        <div class="lvl2">2026-08-26.md</div>
+        <div class="lvl1"><span class="d">summaries/</span> <span class="c">— еженедельные отчёты</span></div>
+        <div class="lvl1"><span class="d">docs/</span> <span class="c">— инструкции для самого бота</span></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <ul class="split-list" style="margin-top:0">
+        <li><span class="chk">✓</span><span><b>Дневная заметка</b> — всё, что пришло за сутки, собирается в один файл с отметками времени.</span></li>
+        <li><span class="chk">✓</span><span><b>Профиль в отдельном файле</b> — бот читает его перед ответом, поэтому не переспрашивает то, что уже знает.</span></li>
+        <li><span class="chk">✓</span><span><b>Синхронизация как у обычной папки</b> — те же заметки открываются на компьютере в Obsidian без экспорта.</span></li>
+        <li><span class="chk">✓</span><span><b>Свой сервер</b> — хранилище и бот живут на собственной машине, а не в чужом сервисе заметок.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- РИТМ -->
+<section class="tinted" id="ritm">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Ритм дня</div>
+      <h2>Бот пишет первым, когда это уместно</h2>
+      <p class="section-intro">Помощник, который только отвечает, забывается через неделю. Поэтому у бота есть собственное расписание: утром он собирает день из календаря и задач, в конце недели подводит итог по накопленным заметкам.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="tagline">утро</div>
+        <h3>Брифинг на день</h3>
+        <p>Встречи из календаря, задачи на сегодня и напоминания — одним сообщением, до того как день начался сам собой.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">в течение дня</div>
+        <h3>Напоминания живым языком</h3>
+        <p>«Через полчаса», «завтра в девять», «в пятницу» — время разбирается из фразы, отдельного интерфейса для этого нет.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">регулярно</div>
+        <h3>Повторяющиеся задачи</h3>
+        <p>«Каждый понедельник в 9:00» ставится один раз и дальше живёт само. Разбор повторов — отдельный модуль, а не набор условий в обработчике.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">неделя</div>
+        <h3>Отчёт по накопленному</h3>
+        <p>Раз в неделю бот перечитывает дневные заметки и присылает свод: о чём вообще была эта неделя. Часто там обнаруживается то, что уже забылось.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">по запросу</div>
+        <h3>Разбор материала</h3>
+        <p>Отдельная команда отдаёт заметку или пересланный текст модели: сжать, разложить по пунктам, вытащить задачи.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">всегда</div>
+        <h3>Контекст под рукой</h3>
+        <p>Перед ответом бот читает профиль пользователя, поэтому отвечает с учётом текущих проектов, а не абстрактно.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ЗНАКОМСТВО -->
+<section class="section" id="znakomstvo">
+  <div class="section-head reveal">
+    <div class="kicker">Знакомство</div>
+    <h2>Первый разговор — тридцать два вопроса</h2>
+    <p class="section-intro">Сразу после установки бот не ждёт команд, а просит познакомиться: расспрашивает о целях, проектах, ритме дня и привычках — и складывает ответы в файл профиля. Дальше он опирается на него в каждом ответе.</p>
+  </div>
+  <div class="flow reveal">
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">1</span><div><div class="fb-t">«Давай познакомимся»</div><div class="fb-d">Первая фраза, с которой начинается работа</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">2</span><div><div class="fb-t">32 вопроса по порядку</div><div class="fb-d">Цели, проекты, роли, распорядок, чем занят прямо сейчас</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">3</span><div><div class="fb-t">Профиль сохраняется в файл</div><div class="fb-d">Обычный markdown — можно открыть и поправить руками в любой момент</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">4</span><div><div class="fb-t">Ответы с учётом контекста</div><div class="fb-d">Бот больше не переспрашивает то, что уже знает о человеке</div></div></div></div>
+  </div>
+</section>
+
+<!-- АРХИТЕКТУРА -->
+<section class="tinted">
+  <div class="section">
+    <div class="section-head reveal" style="text-align:center">
+      <div class="kicker" style="justify-content:center">Архитектура</div>
+      <h2 style="margin:0 auto">Путь голосового сообщения</h2>
+      <p class="section-intro" style="margin:14px auto 0">От нажатия на микрофон до строки в заметке — четыре шага, и все на собственном сервере.</p>
+    </div>
+    <div class="flow reveal">
+      <div class="flow-row"><div class="flow-box"><span class="flow-tag">TELEGRAM</span><div><div class="fb-t">Голосовое, текст, фото или репост</div><div class="fb-d">Обработчики разведены по типам входящего</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box"><span class="flow-tag">РЕЧЬ</span><div><div class="fb-t">Расшифровка</div><div class="fb-d">Голос превращается в текст, дальше работа идёт только с текстом</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">РАЗБОР</span><div><div class="fb-t">Что это было</div><div class="fb-d">Заметка, напоминание или регулярная задача — плюс обращение к модели, когда нужен смысл, а не форма</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row" style="flex-wrap:wrap">
+        <div class="flow-box" style="flex:1 1 170px"><span class="flow-tag">ЗАМЕТКИ</span><div><div class="fb-t">Хранилище Obsidian</div><div class="fb-d">markdown-файлы</div></div></div>
+        <div class="flow-box" style="flex:1 1 170px"><span class="flow-tag">КАЛЕНДАРЬ</span><div><div class="fb-t">События дня</div><div class="fb-d">для брифинга</div></div></div>
+        <div class="flow-box" style="flex:1 1 170px"><span class="flow-tag">ЗАДАЧИ</span><div><div class="fb-t">Список дел</div><div class="fb-d">внешний трекер</div></div></div>
+      </div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">СЕРВЕР</span><div><div class="fb-t">Служба на своём VPS</div><div class="fb-d">Автозапуск, перезапуск при падении, расписание брифингов и отчётов</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- СТЕК -->
+<section class="section">
+  <div class="section-head reveal" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Технологии</div>
+    <h2 style="margin:0 auto">Стек</h2>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-item reveal"><div class="si-layer">Язык</div><div class="si-name">Python 3.12</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Бот</div><div class="si-name">aiogram 3</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Речь</div><div class="si-name">Deepgram</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Модель</div><div class="si-name">Claude API</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Заметки</div><div class="si-name">Obsidian vault</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Календарь</div><div class="si-name">Google Calendar</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Зависимости</div><div class="si-name">uv</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Служба</div><div class="si-name">systemd</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Мысль стоит ровно столько, сколько живёт до записи.</h2>
+    <p>Вся ценность второго мозга не в умных ответах, а в том, что путь от «подумал» до «записано в нужное место» стал длиной в одно голосовое.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/#projects">← Смотреть другие проекты</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/hermes-system.html">Hermes System</a>
+    <a href="/ars-orchestrator.html">ARS Orchestrator</a>
+  </div>
+  <div class="copy">Second Brain Bot · Голосовой второй мозг · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>
