@@ -124,6 +124,8 @@ export const projects: Project[] = [
       'Пилот сделан ради шаблона: конвейер и дизайн-система переиспользуются на остальных уроках',
     ],
     tags: ['Контент', 'Автоматизация'],
+    link: 'https://disk.360.yandex.ru/i/FBi60qXqkPVXCg',
+    linkLabel: 'Смотреть урок',
     demoLink: '/video-update.html',
     demoLabel: 'Кейс «до / после»',
     status: 'wip',
