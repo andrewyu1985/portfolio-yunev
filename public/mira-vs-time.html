@@ -26,11 +26,11 @@
 @media(max-width:480px){.reels{grid-template-columns:1fr}}
 .reel{background:var(--bg3);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s,border-color .3s}
 .reel:hover{transform:translateY(-5px);box-shadow:var(--shadow2);border-color:var(--accent-border)}
-.reel-frame{aspect-ratio:9/16;background:linear-gradient(160deg,var(--bg2),var(--bg3));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;text-align:center;border-bottom:1px solid var(--border);position:relative}
-.reel-frame .ic{font-size:26px;line-height:1}
-.reel-frame .cap{font-size:12.5px;color:var(--text2);line-height:1.5;font-weight:300}
-.reel-frame .tc{position:absolute;top:10px;left:10px;font-family:'JetBrains Mono';font-size:9.5px;font-weight:700;color:var(--accent-d);background:var(--accent-dim);border-radius:5px;padding:3px 7px}
-.reel-foot{padding:11px 14px;font-family:'JetBrains Mono';font-size:10.5px;color:var(--text3);display:flex;justify-content:space-between;gap:8px}
+.reel-frame{position:relative;border-bottom:1px solid var(--border);background:var(--bg2)}
+.reel-frame img{width:100%;aspect-ratio:9/16;object-fit:cover;display:block}
+.reel-frame .tc{position:absolute;top:10px;left:10px;z-index:2;font-family:'JetBrains Mono';font-size:11px;font-weight:700;color:#fff;background:rgba(24,24,27,0.62);backdrop-filter:blur(4px);border-radius:6px;padding:4px 8px}
+.reel-cap{padding:14px 16px 4px;font-size:14px;color:var(--text2);line-height:1.5}
+.reel-foot{padding:10px 16px 14px;font-family:'JetBrains Mono';font-size:12px;color:var(--text3);display:flex;justify-content:space-between;gap:8px}
 .reel-foot b{color:var(--ink)}
 /* блок «смотреть» */
 .watch{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;background:var(--bg3);border:1px solid var(--accent-border);border-radius:var(--r);padding:28px 30px;box-shadow:var(--shadow);margin-top:26px}
@@ -40,19 +40,20 @@
 
 /* лицо-константа */
 .lock{display:flex;align-items:center;gap:22px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--shadow);max-width:760px;margin:0 auto;flex-wrap:wrap}
-.lock-face{width:96px;height:96px;border-radius:22px;background:linear-gradient(150deg,var(--accent-l),var(--accent-d));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-accent);position:relative}
-.lock-face::after{content:'';position:absolute;inset:-9px;border-radius:28px;border:1.5px dashed var(--accent-border)}
-.lock-face svg{width:44px;height:44px;stroke:#fff;fill:none;stroke-width:1.8}
-.lock-txt{flex:1;min-width:220px}
-.lock-txt b{font-family:'Space Grotesk';font-size:16px;color:var(--ink);display:block;margin-bottom:6px}
-.lock-txt p{font-size:13.5px;color:var(--text2);line-height:1.6;font-weight:300}
+.lock-pair{display:flex;gap:12px;flex-shrink:0}
+.lock-pair figure{width:118px}
+.lock-pair img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:12px;border:2px solid var(--accent-border)}
+.lock-pair figcaption{margin-top:7px;font-family:'JetBrains Mono';font-size:11px;color:var(--text3);text-align:center}
+.lock-txt{flex:1;min-width:240px}
+.lock-txt b{font-family:'Space Grotesk';font-size:17px;color:var(--ink);display:block;margin-bottom:8px}
+.lock-txt p{font-size:15px;color:var(--text2);line-height:1.6}
 /* площадки */
 .plats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
 @media(max-width:760px){.plats{grid-template-columns:repeat(2,1fr)}}
 .plat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:18px;text-align:center;transition:transform .25s,border-color .25s}
 .plat:hover{transform:translateY(-3px);border-color:var(--accent-border)}
-.plat .pn{font-family:'Space Grotesk';font-weight:600;font-size:14.5px;color:var(--ink);margin-bottom:5px}
-.plat .ph{font-family:'JetBrains Mono';font-size:11px;color:var(--accent-d)}
+.plat .pn{font-family:'Space Grotesk';font-weight:600;font-size:15.5px;color:var(--ink);margin-bottom:5px}
+.plat .ph{font-family:'JetBrains Mono';font-size:12px;color:var(--accent-d)}
 </style>
 </head>
 <body>
@@ -130,12 +131,13 @@
     <p class="section-intro">Именно на этом ломается большинство попыток сделать AI-персонажа. Модель не помнит героиню между генерациями: в одном кадре она старше, в другом другой формы лицо, в третьем другой оттенок кожи — и сквозного героя не получается.</p>
   </div>
   <div class="lock reveal">
-    <div class="lock-face">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <div class="lock-pair">
+      <figure><img src="/mira/s1.jpg" alt="Героиня в первой сцене эпизода" loading="lazy"><figcaption>первая сцена</figcaption></figure>
+      <figure><img src="/mira/s4.jpg" alt="Героиня в финальной сцене эпизода" loading="lazy"><figcaption>финал, 82-я секунда</figcaption></figure>
     </div>
     <div class="lock-txt">
       <b>Лицо-константа</b>
-      <p>Референсы героини прикладываются к каждой генерации без исключения, костюм зафиксирован отдельным набором, а движение делается не «с нуля», а от уже утверждённого старт-кадра. Персонаж перестаёт плыть от сцены к сцене — и только после этого формат вообще становится возможен.</p>
+      <p>Референсы героини прикладываются к каждой генерации без исключения, костюм зафиксирован отдельным набором, а движение делается не «с нуля», а от уже утверждённого старт-кадра. Между этими двумя кадрами — весь эпизод и десяток отдельных генераций, а человек на них один и тот же. Только после этого формат вообще становится возможен.</p>
     </div>
   </div>
   <div class="rows" style="margin-top:34px">
@@ -177,19 +179,23 @@
   </div>
   <div class="reels">
     <div class="reel reveal">
-      <div class="reel-frame"><span class="tc">00:00</span><span class="ic">🏙️</span><span class="cap">Пустой город: ни людей, ни звуков — только ветер по улицам</span></div>
+      <div class="reel-frame"><span class="tc">00:00</span><img src="/mira/s1.jpg" alt="Кадр: героиня в городе с золотыми куполами" loading="lazy"></div>
+      <div class="reel-cap">Город ещё целый — купола, деревянные дома, пустые улицы</div>
       <div class="reel-foot"><span>хук</span><b>2 с</b></div>
     </div>
     <div class="reel reveal">
-      <div class="reel-frame"><span class="tc">00:14</span><span class="ic">🍞</span><span class="cap">Брошенная изба: хлеб ещё тёплый — ушли только что</span></div>
+      <div class="reel-frame"><span class="tc">00:14</span><img src="/mira/s2.jpg" alt="Кадр: брошенная изба, на столе хлеб" loading="lazy"></div>
+      <div class="reel-cap">Брошенная изба: хлеб на столе, опрокинутая лавка — ушли только что</div>
       <div class="reel-foot"><span>улика</span><b>8 с</b></div>
     </div>
     <div class="reel reveal">
-      <div class="reel-frame"><span class="tc">00:38</span><span class="ic">🔥</span><span class="cap">Поджигатель со спины и первый огонь по кварталу</span></div>
+      <div class="reel-frame"><span class="tc">00:38</span><img src="/mira/s3.jpg" alt="Кадр: горящая улица ночью" loading="lazy"></div>
+      <div class="reel-cap">Огонь идёт по кварталу — тушить его никто не будет</div>
       <div class="reel-foot"><span>поворот</span><b>6 с</b></div>
     </div>
     <div class="reel reveal">
-      <div class="reel-frame"><span class="tc">01:12</span><span class="ic">⛰️</span><span class="cap">Холм, фигура Наполеона со спины, панч в финале</span></div>
+      <div class="reel-frame"><span class="tc">01:12</span><img src="/mira/s4.jpg" alt="Кадр: героиня на фоне сгоревшего города" loading="lazy"></div>
+      <div class="reel-cap">Тот же город и то же лицо — только вокруг уже пепел</div>
       <div class="reel-foot"><span>пейофф</span><b>6 с</b></div>
     </div>
   </div>

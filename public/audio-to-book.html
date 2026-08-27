@@ -26,11 +26,11 @@
 .vol{background:var(--bg3);border:1px solid var(--border);border-radius:6px;box-shadow:var(--shadow2);overflow:hidden;transition:transform .3s,box-shadow .3s}
 .vol:hover{transform:translateY(-5px)}
 .vol-cover{padding:44px 34px;background:linear-gradient(160deg,#f6ecdb,#e8d7bd);border-bottom:3px double var(--accent-border);text-align:center}
-.vol-series{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
-.vol-num{font-family:'Space Grotesk';font-size:13px;font-weight:600;color:var(--accent-d);margin-bottom:9px}
+.vol-series{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.vol-num{font-family:'Space Grotesk';font-size:14px;font-weight:600;color:var(--accent-d);margin-bottom:9px}
 .vol-title{font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:700;color:var(--accent-d);line-height:1.25;margin-bottom:16px}
 .vol-rule{width:52px;height:1.5px;background:var(--accent);margin:0 auto}
-.vol-meta{display:flex;justify-content:space-around;padding:18px;font-family:'JetBrains Mono';font-size:11.5px;color:var(--text3);text-align:center}
+.vol-meta{display:flex;justify-content:space-around;padding:18px;font-family:'JetBrains Mono';font-size:13px;color:var(--text3);text-align:center}
 .vol-meta b{display:block;font-family:'Space Grotesk';font-size:17px;color:var(--ink);font-weight:700;margin-bottom:2px}
 /* правила редактуры */
 .rules{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px}
@@ -39,7 +39,7 @@
 .rule-col.can{border-top:3px solid var(--green)}
 .rule-col.cant{border-top:3px solid var(--red)}
 .rule-col h3{font-family:'Space Grotesk';font-size:16px;font-weight:600;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;gap:9px}
-.rule-col li{list-style:none;font-size:13.5px;color:var(--text2);line-height:1.6;font-weight:300;padding:9px 0 9px 22px;border-bottom:1px dashed var(--border);position:relative}
+.rule-col li{list-style:none;font-size:15px;color:var(--text2);line-height:1.6;font-weight:300;padding:9px 0 9px 22px;border-bottom:1px dashed var(--border);position:relative}
 .rule-col li:last-child{border-bottom:none}
 .rule-col li::before{position:absolute;left:0;font-weight:700}
 .rule-col.can li::before{content:'✓';color:var(--green)}
@@ -48,24 +48,28 @@
 .textpair{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
 @media(max-width:760px){.textpair{grid-template-columns:1fr}}
 .tp{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
-.tp-h{padding:12px 18px;font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:700;border-bottom:1px solid var(--border)}
+.tp-h{padding:12px 18px;font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:700;border-bottom:1px solid var(--border)}
 .tp.oral .tp-h{color:var(--text3);background:var(--bg2)}
 .tp.book .tp-h{color:var(--accent-d);background:var(--accent-dim)}
 .tp-b{padding:22px}
-.tp.oral .tp-b{font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.7;color:var(--text2);font-weight:300}
-.tp.book .tp-b{font-family:Georgia,'Times New Roman',serif;font-size:14.5px;line-height:1.8;color:var(--text);text-align:justify;text-indent:1.4em}
-.tp-b .tick{font-family:'JetBrains Mono';font-size:11px;color:var(--text3);display:block;margin-bottom:10px;text-indent:0}
+.tp.oral .tp-b{font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;color:var(--text2);font-weight:300}
+.tp.book .tp-b{font-family:Georgia,'Times New Roman',serif;font-size:15.5px;line-height:1.8;color:var(--text);text-align:justify;text-indent:1.4em}
+.tp-b .tick{font-family:'JetBrains Mono';font-size:12px;color:var(--text3);display:block;margin-bottom:10px;text-indent:0}
 /* гравюры */
-.gravs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px}
+.gravs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:4px}
 @media(max-width:860px){.gravs{grid-template-columns:repeat(2,1fr)}}
-.grav{aspect-ratio:3/4;border:1px solid var(--accent-border);border-radius:4px;background:
-   repeating-linear-gradient(38deg, rgba(69,26,3,0.11) 0 1px, transparent 1px 4px),
-   repeating-linear-gradient(-38deg, rgba(69,26,3,0.07) 0 1px, transparent 1px 5px),
-   linear-gradient(170deg,#f4e8d4,#e5d2b4);
-   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:16px;text-align:center;transition:transform .3s,box-shadow .3s}
-.grav:hover{transform:translateY(-4px) rotate(-.6deg);box-shadow:var(--shadow2)}
-.grav .gi{font-size:28px;filter:sepia(1) saturate(.7) contrast(1.05)}
-.grav .gc{font-family:Georgia,serif;font-size:11.5px;color:var(--accent-d);line-height:1.4;font-style:italic}
+.grav{background:var(--bg3);border:1px solid var(--accent-border);border-radius:5px;padding:10px;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s}
+.grav:hover{transform:translateY(-4px) rotate(-.5deg);box-shadow:var(--shadow2)}
+.grav img{width:100%;border-radius:3px;display:block}
+.grav figcaption{font-family:Georgia,serif;font-size:13.5px;color:var(--accent-d);line-height:1.4;font-style:italic;text-align:center;padding:11px 4px 4px}
+/* страницы книги */
+.pages{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:4px}
+@media(max-width:860px){.pages{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}}
+.page{background:var(--bg3);border:1px solid var(--border);border-radius:4px;box-shadow:var(--shadow2);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.page:hover{transform:translateY(-5px)}
+.page img{width:100%;display:block;border-bottom:1px solid var(--border)}
+.page figcaption{padding:14px 16px;font-size:14px;color:var(--text2);line-height:1.5}
+.page figcaption b{display:block;font-family:'Space Grotesk';font-size:14.5px;color:var(--ink);font-weight:600;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -288,6 +292,26 @@
         <p>Правка в исходнике — и книга собирается заново целиком. Формат страницы, поля, плотность абзацев и стили вынесены в параметры вверху скрипта.</p>
       </div>
     </div>
+
+    <div class="section-head reveal" style="margin-top:56px">
+      <div class="kicker">Как это выглядит</div>
+      <h2>Страницы готовой книги</h2>
+      <p class="section-intro">Развороты из первого тома — ровно в том виде, в котором читатель получает файл.</p>
+    </div>
+    <div class="pages">
+      <figure class="page reveal">
+        <img src="/book/page_toc.jpg" alt="Страница содержания с частями и главами" loading="lazy">
+        <figcaption><b>Содержание</b>Части и главы с реальными номерами страниц, строки кликабельны</figcaption>
+      </figure>
+      <figure class="page reveal">
+        <img src="/book/page_illus.jpg" alt="Начало главы с гравюрой" loading="lazy">
+        <figcaption><b>Начало главы</b>Гравюра под заголовком, дальше текст в книжной вёрстке</figcaption>
+      </figure>
+      <figure class="page reveal">
+        <img src="/book/page_text.jpg" alt="Текстовая полоса книги" loading="lazy">
+        <figcaption><b>Полоса текста</b>Выключка по формату, переносы, воздух между абзацами</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -299,10 +323,10 @@
     <p class="section-intro">Тридцать четыре аллегорические гравюры в единой манере старинного офорта — сепия, штриховка, энциклопедический дух. Единство стиля здесь важнее красоты отдельной картинки: разнобой мгновенно превратил бы книгу в подборку случайных изображений.</p>
   </div>
   <div class="gravs">
-    <div class="grav reveal"><span class="gi">⚖️</span><span class="gc">Закон и мера</span></div>
-    <div class="grav reveal"><span class="gi">🏛️</span><span class="gc">Рождение политики</span></div>
-    <div class="grav reveal"><span class="gi">⚓</span><span class="gc">Морская империя</span></div>
-    <div class="grav reveal"><span class="gi">⚙️</span><span class="gc">Эпоха капитала</span></div>
+    <figure class="grav reveal"><img src="/book/g1.jpg" alt="Гравюра к главе о наблюдении" loading="lazy"><figcaption>Наблюдать, а не трактовать</figcaption></figure>
+    <figure class="grav reveal"><img src="/book/g2.jpg" alt="Гравюра к главе о технологиях господства" loading="lazy"><figcaption>Технологии господства</figcaption></figure>
+    <figure class="grav reveal"><img src="/book/g3.jpg" alt="Гравюра к главе о русском пути" loading="lazy"><figcaption>Русский путь</figcaption></figure>
+    <figure class="grav reveal"><img src="/book/g4.jpg" alt="Гравюра к главе о двадцатом веке" loading="lazy"><figcaption>Век войн</figcaption></figure>
   </div>
   <div class="rows" style="margin-top:34px">
     <div class="row reveal"><span class="rk">стиль</span><div><div class="rt">Единый рецепт на все 34</div><div class="rd">Манера, плотность штриха и тон заданы общей приставкой к описанию — меняется только сюжет главы.</div></div></div>
