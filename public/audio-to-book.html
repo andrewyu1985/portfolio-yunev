@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Из аудиокурса в двухтомник — книга с гравюрами</title>
+<meta name="description" content="Аудиокурс превращён в печатный двухтомник: расшифровка, бережная редактура, литературная проза, вёрстка print-ready PDF, 34 гравюры и лендинг продажи.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#faf6ef; --bg2:#f3ebdd; --bg3:#ffffff;
+  --accent:#92400e; --accent-d:#451a03; --accent-l:#d6a679; --accent-2:#a16207;
+  --accent-dim:rgba(146,64,14,0.08); --accent-border:rgba(146,64,14,0.26);
+  --shadow-accent:0 12px 34px rgba(146,64,14,0.24);
+  --nav-bg:rgba(250,246,239,0.78); --nav-bg-scrolled:rgba(250,246,239,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(146,64,14,0.11), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(161,98,7,0.12), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(214,166,121,0.16), transparent 55%);
+}
+/* два тома */
+.vols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:8px}
+@media(max-width:760px){.vols{grid-template-columns:1fr}}
+.vol{background:var(--bg3);border:1px solid var(--border);border-radius:6px;box-shadow:var(--shadow2);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.vol:hover{transform:translateY(-5px)}
+.vol-cover{padding:44px 34px;background:linear-gradient(160deg,#f6ecdb,#e8d7bd);border-bottom:3px double var(--accent-border);text-align:center}
+.vol-series{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.vol-num{font-family:'Space Grotesk';font-size:13px;font-weight:600;color:var(--accent-d);margin-bottom:9px}
+.vol-title{font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:700;color:var(--accent-d);line-height:1.25;margin-bottom:16px}
+.vol-rule{width:52px;height:1.5px;background:var(--accent);margin:0 auto}
+.vol-meta{display:flex;justify-content:space-around;padding:18px;font-family:'JetBrains Mono';font-size:11.5px;color:var(--text3);text-align:center}
+.vol-meta b{display:block;font-family:'Space Grotesk';font-size:17px;color:var(--ink);font-weight:700;margin-bottom:2px}
+/* правила редактуры */
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px}
+@media(max-width:760px){.rules{grid-template-columns:1fr}}
+.rule-col{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--shadow)}
+.rule-col.can{border-top:3px solid var(--green)}
+.rule-col.cant{border-top:3px solid var(--red)}
+.rule-col h3{font-family:'Space Grotesk';font-size:16px;font-weight:600;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;gap:9px}
+.rule-col li{list-style:none;font-size:13.5px;color:var(--text2);line-height:1.6;font-weight:300;padding:9px 0 9px 22px;border-bottom:1px dashed var(--border);position:relative}
+.rule-col li:last-child{border-bottom:none}
+.rule-col li::before{position:absolute;left:0;font-weight:700}
+.rule-col.can li::before{content:'✓';color:var(--green)}
+.rule-col.cant li::before{content:'✕';color:var(--red)}
+/* до/после текста */
+.textpair{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+@media(max-width:760px){.textpair{grid-template-columns:1fr}}
+.tp{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.tp-h{padding:12px 18px;font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:700;border-bottom:1px solid var(--border)}
+.tp.oral .tp-h{color:var(--text3);background:var(--bg2)}
+.tp.book .tp-h{color:var(--accent-d);background:var(--accent-dim)}
+.tp-b{padding:22px}
+.tp.oral .tp-b{font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.7;color:var(--text2);font-weight:300}
+.tp.book .tp-b{font-family:Georgia,'Times New Roman',serif;font-size:14.5px;line-height:1.8;color:var(--text);text-align:justify;text-indent:1.4em}
+.tp-b .tick{font-family:'JetBrains Mono';font-size:11px;color:var(--text3);display:block;margin-bottom:10px;text-indent:0}
+/* гравюры */
+.gravs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px}
+@media(max-width:860px){.gravs{grid-template-columns:repeat(2,1fr)}}
+.grav{aspect-ratio:3/4;border:1px solid var(--accent-border);border-radius:4px;background:
+   repeating-linear-gradient(38deg, rgba(69,26,3,0.11) 0 1px, transparent 1px 4px),
+   repeating-linear-gradient(-38deg, rgba(69,26,3,0.07) 0 1px, transparent 1px 5px),
+   linear-gradient(170deg,#f4e8d4,#e5d2b4);
+   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:16px;text-align:center;transition:transform .3s,box-shadow .3s}
+.grav:hover{transform:translateY(-4px) rotate(-.6deg);box-shadow:var(--shadow2)}
+.grav .gi{font-size:28px;filter:sepia(1) saturate(.7) contrast(1.05)}
+.grav .gc{font-family:Georgia,serif;font-size:11.5px;color:var(--accent-d);line-height:1.4;font-style:italic}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">📖</span> Аудио → книга</a>
+  <div class="nav-links">
+    <a href="#put">Путь</a>
+    <a href="#redaktura">Редактура</a>
+    <a href="#proza">Проза</a>
+    <a href="#verstka">Вёрстка</a>
+    <a href="#gravury">Гравюры</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <svg viewBox="0 0 24 24"><path d="M4 4.5h7a2.5 2.5 0 0 1 2.5 2.5v12A2 2 0 0 0 11.5 17H4z"/><path d="M20 4.5h-4a2.5 2.5 0 0 0-2.5 2.5v12A2 2 0 0 1 15.5 17H20z"/></svg>
+    </div>
+    <div class="hero-badge"><span class="dot"></span>двухтомник готов · сайт опубликован</div>
+    <h1>Из аудио — <span class="grad">в книгу</span></h1>
+    <div class="hero-tag">Курс, записанный голосом, стал двухтомником</div>
+    <p class="hero-sub">Тридцать пять часовых записей авторского курса по политике и истории существовали только как аудио. Их превратили в печатный двухтомник: расшифровка, бережная редактура, переписывание устного монолога в прозу, вёрстка print-ready PDF, тридцать четыре гравюры и лендинг для продажи.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#put">Весь путь →</a>
+      <a class="btn btn-ghost" href="#redaktura">Правила редактуры</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>2</strong><span>тома</span></div>
+      <div class="hero-stat"><strong>397</strong><span>страниц A5</span></div>
+      <div class="hero-stat"><strong>34</strong><span>гравюры</span></div>
+      <div class="hero-stat"><strong>506k</strong><span>знаков текста</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ТОМА -->
+<section class="tinted">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Результат</div>
+      <h2>Два тома, тридцать три главы</h2>
+      <p class="section-intro">Курс разложился на две части естественно: сначала метод и картина мира до эпохи капитала, затем двадцатый век. Каждый том — самостоятельная книга с обложкой, оглавлением и выходными данными.</p>
+    </div>
+    <div class="vols">
+      <div class="vol reveal">
+        <div class="vol-cover">
+          <div class="vol-series">Как устроена мировая политика</div>
+          <div class="vol-num">Том I</div>
+          <div class="vol-title">От греков<br>до капитала</div>
+          <div class="vol-rule"></div>
+        </div>
+        <div class="vol-meta">
+          <span><b>17</b>глав</span><span><b>165</b>страниц</span><span><b>17</b>гравюр</span>
+        </div>
+      </div>
+      <div class="vol reveal">
+        <div class="vol-cover">
+          <div class="vol-series">Как устроена мировая политика</div>
+          <div class="vol-num">Том II</div>
+          <div class="vol-title">XX век:<br>войны и итоги</div>
+          <div class="vol-rule"></div>
+        </div>
+        <div class="vol-meta">
+          <span><b>16</b>глав</span><span><b>232</b>страницы</span><span><b>17</b>гравюр</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПУТЬ -->
+<section class="section" id="put">
+  <div class="section-head reveal">
+    <div class="kicker">Путь</div>
+    <h2>Семь шагов от звука до готовой книги</h2>
+    <p class="section-intro">Каждый шаг работает с копией: оригиналы расшифровки не правятся никогда. Это позволяет в любой момент вернуться к исходным словам автора и проверить, не появилось ли в книге того, чего он не говорил.</p>
+  </div>
+  <div class="flow reveal">
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">АУДИО</span><div><div class="fb-t">35 записей курса</div><div class="fb-d">Живой монолог с отступлениями, оговорками и разговорным строем</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ТЕКСТ</span><div><div class="fb-t">Расшифровка с таймкодами</div><div class="fb-d">Неприкосновенные исходники: 393 содержательных абзаца</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">ПРАВКА</span><div><div class="fb-t">Строгая редактура копий</div><div class="fb-d">Только очевидные ошибки — стиль автора остаётся нетронутым</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ПРОЗА</span><div><div class="fb-t">Устная речь → книжный текст</div><div class="fb-d">Меняется форма, не содержание: ни одной новой мысли не добавлено</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ВЁРСТКА</span><div><div class="fb-t">Print-ready PDF</div><div class="fb-d">Обложка, титул, кликабельное оглавление, колонтитулы, закладки</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ОБРАЗ</span><div><div class="fb-t">34 гравюры</div><div class="fb-d">По одной на главу, единый стиль старинного офорта</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">ПРОДАЖА</span><div><div class="fb-t">Лендинг с бесплатным отрывком</div><div class="fb-d">Три главы открыты, оплата и выдача файла на почту</div></div></div></div>
+  </div>
+</section>
+
+<!-- РЕДАКТУРА -->
+<section class="tinted" id="redaktura">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Редактура</div>
+      <h2>Главный риск — «улучшить» автора</h2>
+      <p class="section-intro">Соблазн причесать живую речь огромен, и именно он убивает такие книги: текст становится гладким и безличным. Поэтому правила были заданы жёстко, а спорные места решались в пользу «не трогать».</p>
+    </div>
+    <div class="rules">
+      <div class="rule-col can reveal">
+        <h3>Можно</h3>
+        <ul>
+          <li>Исправлять явные орфографические и пунктуационные ошибки</li>
+          <li>Убирать оговорки-повторы вроде «это это», «вот вот»</li>
+          <li>Разбивать слишком длинные предложения, если смысл не меняется</li>
+          <li>Приводить к единообразию тире и кавычки</li>
+        </ul>
+      </div>
+      <div class="rule-col cant reveal">
+        <h3>Нельзя</h3>
+        <ul>
+          <li>Добавлять подзаголовки, списки и структуру, которых у автора не было</li>
+          <li>Интерпретировать, упрощать примеры, вставлять фразы от себя</li>
+          <li>Менять стиль, даже если он избыточен или разговорен</li>
+          <li>Обобщать, сокращать детали, переставлять абзацы</li>
+        </ul>
+      </div>
+    </div>
+    <div class="split" style="margin-top:56px">
+      <div class="reveal">
+        <div class="kicker">Как выполнялось</div>
+        <h2 style="font-size:clamp(24px,3.4vw,34px)">Семь редакторов параллельно — и проверка после</h2>
+        <ul class="split-list">
+          <li><span class="chk">1</span><span><b>Разбор на абзацы</b> — из каждого файла вынимался только содержательный текст, заголовки и таймкоды не трогались.</span></li>
+          <li><span class="chk">2</span><span><b>Семь агентов-редакторов</b> работали одновременно, по пять файлов на каждого, по одной и той же строгой инструкции.</span></li>
+          <li><span class="chk">3</span><span><b>Правки впаивались в копии</b> — форматирование, заголовки и разметка исходников сохранялись.</span></li>
+          <li><span class="chk">4</span><span><b>Машинная сверка</b> — совпадение числа и набора абзацев, неизменность заголовков и всех 96 таймкодов, контроль подозрительных изменений длины.</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <div class="cards c2" style="grid-template-columns:1fr">
+          <div class="card">
+            <div class="tagline">итог сверки</div>
+            <h3>Аномалий — ноль</h3>
+            <p>Ни одного абзаца не потеряно, ни один таймкод не сдвинут. На весь курс в 506 тысяч знаков внесено около тридцати точечных правок — ровно там, где расшифровка ослышалась: «они поли поначалу» стало «они шли поначалу», «вои активы» — «свои активы».</p>
+          </div>
+          <div class="card">
+            <div class="tagline">принцип</div>
+            <h3>При сомнении — не трогать</h3>
+            <p>Формулировка из инструкции редакторам. Она и определила результат: книга звучит голосом автора, а не голосом редактора.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРОЗА -->
+<section class="section" id="proza">
+  <div class="section-head reveal">
+    <div class="kicker">Проза</div>
+    <h2>Устная речь и книжный текст живут по разным законам</h2>
+    <p class="section-intro">Расшифровка, набранная как есть, читается тяжело: в живой речи мысль возвращается, уточняется на ходу, держится интонацией, которой на бумаге нет. Книжная версия меняет форму подачи — и только её.</p>
+  </div>
+  <div class="textpair">
+    <div class="tp oral reveal">
+      <div class="tp-h">Расшифровка · как сказано</div>
+      <div class="tp-b">
+        <span class="tick">00:14:26</span>
+        И вот смотрите, ну то есть, если мы берём вот этот принцип, он же везде работает, да? Ну то есть и в человеке, и в обществе, и вообще во Вселенной — это один и тот же принцип, понимаете? Просто масштаб разный, а закон один.
+      </div>
+    </div>
+    <div class="tp book reveal">
+      <div class="tp-h">Книга · как написано</div>
+      <div class="tp-b">
+        Принцип этот работает всюду одинаково: в человеке, в обществе, во Вселенной. Меняется лишь масштаб — закон остаётся одним и тем же.
+      </div>
+    </div>
+  </div>
+  <div class="demo-note reveal">Фрагмент собран для показа. Смысл, факты и авторские идеи при переводе в прозу не искажаются и не дополняются</div>
+</section>
+
+<!-- ВЁРСТКА -->
+<section class="tinted" id="verstka">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Вёрстка</div>
+      <h2>PDF, который не стыдно продавать</h2>
+      <p class="section-intro">Книга собирается скриптом: четыре отдельных куска — обложка, начальные страницы, основной блок и выходные данные — рендерятся браузером и сшиваются в один документ. Оглавление и закладки строятся автоматически по реальным номерам страниц, а не проставляются руками.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="num">01</div>
+        <h3>Кликабельное оглавление</h3>
+        <p>Номера страниц берутся из готового документа, строки ведут к своим главам. Плюс полноценные закладки в боковой панели читалки: обложка, титул, части, главы, колофон.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">02</div>
+        <h3>Книжная типографика</h3>
+        <p>Шрифт с засечками, выключка по формату, переносы, абзацный отступ и воздух между абзацами. Страница выглядит как книга, а не как распечатанный документ.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">03</div>
+        <h3>Абзацы дробятся по предложениям</h3>
+        <p>В устной речи абзац может тянуться на страницу. Скрипт делит такие куски по границам предложений — слова автора при этом не меняются ни на одно.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">04</div>
+        <h3>Живой подвал</h3>
+        <p>На каждой странице основного блока — строка контактов автора с рабочими ссылками и номер страницы. Ссылки навешиваются программно по полосе подвала, чтобы не зацепить слова из текста глав.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">05</div>
+        <h3>Два формата на выходе</h3>
+        <p>Кроме печатного PDF собираются версии в редактируемом формате — на случай правок и переизданий.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">06</div>
+        <h3>Пересборка одной командой</h3>
+        <p>Правка в исходнике — и книга собирается заново целиком. Формат страницы, поля, плотность абзацев и стили вынесены в параметры вверху скрипта.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ГРАВЮРЫ -->
+<section class="section" id="gravury">
+  <div class="section-head reveal">
+    <div class="kicker">Гравюры</div>
+    <h2>По одной иллюстрации на каждую главу</h2>
+    <p class="section-intro">Тридцать четыре аллегорические гравюры в единой манере старинного офорта — сепия, штриховка, энциклопедический дух. Единство стиля здесь важнее красоты отдельной картинки: разнобой мгновенно превратил бы книгу в подборку случайных изображений.</p>
+  </div>
+  <div class="gravs">
+    <div class="grav reveal"><span class="gi">⚖️</span><span class="gc">Закон и мера</span></div>
+    <div class="grav reveal"><span class="gi">🏛️</span><span class="gc">Рождение политики</span></div>
+    <div class="grav reveal"><span class="gi">⚓</span><span class="gc">Морская империя</span></div>
+    <div class="grav reveal"><span class="gi">⚙️</span><span class="gc">Эпоха капитала</span></div>
+  </div>
+  <div class="rows" style="margin-top:34px">
+    <div class="row reveal"><span class="rk">стиль</span><div><div class="rt">Единый рецепт на все 34</div><div class="rd">Манера, плотность штриха и тон заданы общей приставкой к описанию — меняется только сюжет главы.</div></div></div>
+    <div class="row reveal"><span class="rk">смысл</span><div><div class="rt">Аллегория, а не иллюстрация факта</div><div class="rd">Картинка не пересказывает главу буквально, а даёт образ её главной мысли — так она не спорит с текстом.</div></div></div>
+    <div class="row reveal"><span class="rk">вставка</span><div><div class="rt">Впечатаны в макет</div><div class="rd">Гравюры встают на свои страницы при сборке книги, а не вклеиваются вручную в готовый файл.</div></div></div>
+  </div>
+</section>
+
+<!-- САЙТ -->
+<section class="tinted">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Продажа</div>
+      <h2>Лендинг в эстетике самой книги</h2>
+      <p class="section-intro">Страница продажи сделана в той же манере старинного офорта, что и обложки: тот же цвет, та же графика, тот же шрифтовой строй. Читатель не должен чувствовать разрыва между сайтом и тем, что он получит на почту.</p>
+    </div>
+    <div class="mock reveal">
+      <div class="mock-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="mock-url">лендинг двухтомника</span></div>
+      <div class="mock-body" style="background:linear-gradient(160deg,#f6ecdb,#fff);text-align:center;padding:44px 26px">
+        <div style="font-family:'JetBrains Mono';font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px">Электронное издание · 2026</div>
+        <div style="font-family:Georgia,serif;font-size:clamp(22px,3.4vw,30px);font-weight:700;color:var(--accent-d);line-height:1.25;margin-bottom:12px">Как устроена мировая политика:<br>система координат</div>
+        <div style="font-size:13.5px;color:var(--text2);font-weight:300;max-width:420px;margin:0 auto 24px;line-height:1.6">Двухтомник по авторскому курсу. Три главы открыты бесплатно — прочитать можно до покупки.</div>
+        <div class="chips" style="justify-content:center">
+          <span class="chip">Том I</span><span class="chip">Том II</span><span class="chip on">Комплект — выгоднее</span>
+        </div>
+      </div>
+    </div>
+    <div class="cards" style="margin-top:34px">
+      <div class="card reveal">
+        <div class="tagline">до покупки</div>
+        <h3>Бесплатный отрывок</h3>
+        <p>Открыты три главы — по одной из начала каждого тома и одна из середины. Достаточно, чтобы понять и метод, и манеру автора.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">оплата</div>
+        <h3>Выдача на почту</h3>
+        <p>Три варианта покупки: любой том отдельно или комплект по цене ниже суммы. Файл приходит на указанный адрес.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">статика</div>
+        <h3>Без движка и админки</h3>
+        <p>Лендинг — обычные HTML, CSS и немного скрипта. Ничего не ломается, ничего не требует обновлений безопасности, открывается мгновенно.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- СТЕК -->
+<section class="section">
+  <div class="section-head reveal" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Технологии</div>
+    <h2 style="margin:0 auto">Стек</h2>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-item reveal"><div class="si-layer">Сборка книги</div><div class="si-name">Python</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Рендер страниц</div><div class="si-name">Chromium</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Работа с PDF</div><div class="si-name">PyMuPDF</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Разбор текста</div><div class="si-name">razdel</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Исходник макета</div><div class="si-name">HTML · CSS</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Иллюстрации</div><div class="si-name">AI-генерация</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Редактура</div><div class="si-name">7 агентов</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Лендинг</div><div class="si-name">Статика</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Курс, который слушали, теперь можно читать.</h2>
+    <p>Ценность здесь не в автоматизации как таковой, а в дисциплине: оригиналы неприкосновенны, точность важнее гладкости, ничего не выдумано. Книга получилась авторской именно потому, что конвейер не позволил себе лишнего.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/#projects">← Смотреть другие проекты</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/uneversum-catalog.html">Каталог «Юневерсум»</a>
+    <a href="/video-update.html">Апдейт видеокурсов</a>
+  </div>
+  <div class="copy">Из аудио — в книгу · Двухтомник с гравюрами · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Told After Dark — рисованные эпизоды по регламенту из 15 этапов</title>
+<meta name="description" content="Англоязычный faceless-канал про непознанное: сценарий, озвучка, полсотни рисованных кадров и оживление их в анимацию — производство эпизода разложено на пятнадцать воспроизводимых этапов.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#f6f6fa; --bg2:#eceef7; --bg3:#ffffff;
+  --accent:#1e3a8a; --accent-d:#172554; --accent-l:#60a5fa; --accent-2:#f59e0b;
+  --accent-dim:rgba(30,58,138,0.08); --accent-border:rgba(30,58,138,0.26);
+  --shadow-accent:0 12px 34px rgba(30,58,138,0.26);
+  --nav-bg:rgba(246,246,250,0.78); --nav-bg-scrolled:rgba(246,246,250,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(30,58,138,0.12), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(245,158,11,0.14), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(96,165,250,0.13), transparent 55%);
+}
+/* дудл-кадр */
+.doodles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+@media(max-width:860px){.doodles{grid-template-columns:1fr}}
+.doodle{background:#fff;border:3px solid #18181b;border-radius:12px;overflow:hidden;box-shadow:6px 6px 0 rgba(24,24,27,0.12);transition:transform .3s,box-shadow .3s}
+.doodle:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 rgba(24,24,27,0.16)}
+.doodle-art{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;gap:14px;background:#fff;border-bottom:3px solid #18181b;font-size:40px;line-height:1}
+.doodle-cap{padding:13px 16px;font-size:12.5px;color:var(--text2);line-height:1.5;font-weight:300}
+.doodle-cap b{display:block;font-family:'Space Grotesk';font-size:13.5px;color:var(--ink);font-weight:600;margin-bottom:4px}
+/* этапы */
+.stages{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+@media(max-width:900px){.stages{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.stages{grid-template-columns:1fr}}
+.stg{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px 18px;display:flex;gap:13px;align-items:flex-start;transition:transform .25s,border-color .25s,box-shadow .25s}
+.stg:hover{transform:translateY(-3px);border-color:var(--accent-border);box-shadow:var(--shadow)}
+.stg .sn{font-family:'JetBrains Mono';font-size:11px;font-weight:700;color:#fff;background:var(--accent);border-radius:6px;padding:4px 8px;flex-shrink:0}
+.stg.gen .sn{background:var(--accent-2);color:#7c2d12}
+.stg .st{font-family:'Space Grotesk';font-weight:600;font-size:13.5px;color:var(--ink);line-height:1.3}
+.stg .sd{font-size:11.5px;color:var(--text3);margin-top:3px;line-height:1.45}
+/* эпизоды-полоса */
+.eps{display:flex;flex-wrap:wrap;gap:9px;margin-top:8px}
+.ep{font-family:'JetBrains Mono';font-size:12px;font-weight:700;border-radius:8px;padding:9px 14px;border:1px solid var(--border);background:var(--bg3);color:var(--text3)}
+.ep.done{border-color:rgba(22,163,74,0.35);color:var(--green);background:var(--green-dim)}
+.ep.wait{border-color:var(--accent-border);color:var(--accent-d);background:var(--accent-dim)}
+.ep-legend{display:flex;flex-wrap:wrap;gap:20px;margin-top:18px;font-family:'JetBrains Mono';font-size:11.5px;color:var(--text3)}
+.ep-legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">TAD</span> Told After Dark</a>
+  <div class="nav-links">
+    <a href="#stil">Стиль</a>
+    <a href="#reglament">Регламент</a>
+    <a href="#ozhivlenie">Оживление</a>
+    <a href="#grabli">Грабли</a>
+    <a href="#status">Статус</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 3a6.5 6.5 0 0 0-3.5 12v2.5h7V15A6.5 6.5 0 0 0 12 3z"/><path d="M9.5 20.5h5"/></svg>
+    </div>
+    <div class="hero-badge wip"><span class="dot"></span>канал запущен · эпизоды в производстве</div>
+    <h1>Told <span class="grad">After Dark</span></h1>
+    <div class="hero-tag">Рисованные истории про непознанное</div>
+    <p class="hero-sub">Англоязычный канал без лица в кадре: голос рассказчика, как у костра, и нарисованный мир вокруг него. Полсотни дудл-кадров на эпизод, каждый оживает лёгким движением. Главное здесь не отдельный ролик, а регламент из пятнадцати этапов, по которому эпизод собирается воспроизводимо.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#reglament">Пятнадцать этапов →</a>
+      <a class="btn btn-ghost" href="#grabli">Грабли производства</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>15</strong><span>этапов регламента</span></div>
+      <div class="hero-stat"><strong>49</strong><span>кадров в эпизоде</span></div>
+      <div class="hero-stat"><strong>77</strong><span>скриптов конвейера</span></div>
+      <div class="hero-stat"><strong>4:50</strong><span>эпизод 01</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- СТИЛЬ -->
+<section class="tinted" id="stil">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Стиль</div>
+      <h2>Намеренно неумелый рисунок</h2>
+      <p class="section-intro">Визуал выбран не «какой получится», а зафиксирован рецептом: толстый дрожащий чёрный контур, плоская яркая заливка без теней и градиентов, круглоголовые человечки с точками вместо глаз, белый фон. Такой кадр не пытается быть реалистичным — и поэтому не проваливается в зловещую долину, где страшная история становится смешной.</p>
+    </div>
+    <div class="doodles">
+      <div class="doodle reveal">
+        <div class="doodle-art">🛏️ 🕒</div>
+        <div class="doodle-cap"><b>Кадр 01</b>Человек лежит без сна, часы у кровати показывают 3:00, за окном ночные каракули</div>
+      </div>
+      <div class="doodle reveal">
+        <div class="doodle-art">👥 💭</div>
+        <div class="doodle-cap"><b>Кадр 18</b>Множество одинаковых фигурок просыпается в один и тот же миг в разных городах</div>
+      </div>
+      <div class="doodle reveal">
+        <div class="doodle-art">🌍 ✨</div>
+        <div class="doodle-cap"><b>Кадр 44</b>Планета в разрезе, тонкие линии связывают проснувшихся между собой</div>
+      </div>
+    </div>
+    <div class="rows" style="margin-top:34px">
+      <div class="row reveal"><span class="rk">рецепт</span><div><div class="rt">Неизменная приставка к промпту</div><div class="rd">Описание стиля копируется в каждый кадр дословно — иначе к середине эпизода рисунок незаметно уезжает в другую манеру.</div></div></div>
+      <div class="row reveal"><span class="rk">рецепт</span><div><div class="rt">Хвост-запрет</div><div class="rd">В конце каждого промпта — список того, чего быть не должно: фотореализма, тканей, настоящих лиц, надписей, водяных знаков.</div></div></div>
+      <div class="row reveal"><span class="rk">рецепт</span><div><div class="rt">Смысл несут образы</div><div class="rd">Никаких подписей внутри картинки: генератор рисует буквы криво, поэтому идея кадра всегда выражается через сцену.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- РЕГЛАМЕНТ -->
+<section class="section" id="reglament">
+  <div class="section-head reveal">
+    <div class="kicker">Регламент</div>
+    <h2>Эпизод собирается по пятнадцати этапам</h2>
+    <p class="section-intro">Пока производство держится в голове, каждый следующий ролик делается заново и с теми же ошибками. Поэтому весь путь от идеи до загрузки описан документом с настройками, порядком действий и отдельным разделом «что здесь ломается».</p>
+  </div>
+  <div class="stages">
+    <div class="stg reveal"><span class="sn">1</span><div><div class="st">Тема и якорь</div><div class="sd">за что цепляется зритель</div></div></div>
+    <div class="stg reveal"><span class="sn">2</span><div><div class="st">Сценарий</div><div class="sd">структура истории целиком</div></div></div>
+    <div class="stg reveal"><span class="sn">3</span><div><div class="st">Текст под озвучку</div><div class="sd">разметка пауз и интонаций</div></div></div>
+    <div class="stg reveal"><span class="sn">4</span><div><div class="st">Озвучка</div><div class="sd">голос рассказчика</div></div></div>
+    <div class="stg reveal"><span class="sn">5</span><div><div class="st">Дорожка и блоки</div><div class="sd">границы смысловых кусков</div></div></div>
+    <div class="stg reveal"><span class="sn">6</span><div><div class="st">Тайминги</div><div class="sd">расшифровка с точным временем</div></div></div>
+    <div class="stg reveal"><span class="sn">7</span><div><div class="st">Раскладка кадров</div><div class="sd">что и когда на экране</div></div></div>
+    <div class="stg reveal"><span class="sn">8</span><div><div class="st">Промпты</div><div class="sd">по кадру на каждую точку</div></div></div>
+    <div class="stg gen reveal"><span class="sn">9</span><div><div class="st">Генерация картинок</div><div class="sd">полсотни кадров в стиле канала</div></div></div>
+    <div class="stg gen reveal"><span class="sn">10</span><div><div class="st">Оживление</div><div class="sd">картинка → короткий клип</div></div></div>
+    <div class="stg reveal"><span class="sn">11</span><div><div class="st">Сборка финала</div><div class="sd">видеоряд под дорожку</div></div></div>
+    <div class="stg reveal"><span class="sn">12</span><div><div class="st">Музыка</div><div class="sd">фон под настроение истории</div></div></div>
+    <div class="stg reveal"><span class="sn">13</span><div><div class="st">Превью</div><div class="sd">несколько вариантов обложки</div></div></div>
+    <div class="stg reveal"><span class="sn">14</span><div><div class="st">Пакет для загрузки</div><div class="sd">название, описание, теги</div></div></div>
+    <div class="stg reveal"><span class="sn">15</span><div><div class="st">Сдача и запись знаний</div><div class="sd">новые грабли — в регламент</div></div></div>
+  </div>
+  <div class="demo-note reveal">Пятнадцатый этап важнее, чем кажется: каждая поломка производства возвращается в документ правилом, поэтому следующий эпизод делается быстрее предыдущего</div>
+</section>
+
+<!-- ОЖИВЛЕНИЕ -->
+<section class="tinted" id="ozhivlenie">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Оживление</div>
+      <h2>Из статичного рисунка — движущийся кадр</h2>
+      <p class="section-intro">Классическая анимация здесь невозможна: полсотни кадров на эпизод нарисовать и оживить руками нереально. Поэтому каждый кадр сначала рождается картинкой, а потом отдельно оживляется коротким движением — камера ведёт, персонаж моргает, дым идёт.</p>
+    </div>
+    <div class="flow reveal">
+      <div class="flow-row"><div class="flow-box"><span class="flow-tag">ТЕКСТ</span><div><div class="fb-t">Реплика рассказчика</div><div class="fb-d">Кусок дорожки с точным временем начала и конца</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box"><span class="flow-tag">ПРОМПТ</span><div><div class="fb-t">Сцена на английском</div><div class="fb-d">Приставка стиля плюс описание конкретного действия в кадре</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">КАРТИНКА</span><div><div class="fb-t">Дудл-кадр 16:9</div><div class="fb-d">Генерация пачкой, отбраковка и повтор тех, что ушли из стиля</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box"><span class="flow-tag">ДВИЖЕНИЕ</span><div><div class="fb-t">Короткий клип из картинки</div><div class="fb-d">Оживляются не все кадры, а те точки, где движение добавляет смысл</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">ФИНАЛ</span><div><div class="fb-t">Сборка под дорожку</div><div class="fb-d">Кадры встают по таймингам расшифровки, сверху музыка и превью</div></div></div></div>
+    </div>
+    <div class="cards" style="margin-top:44px">
+      <div class="card reveal">
+        <div class="tagline">почему так</div>
+        <h3>Пачками, а не по одному</h3>
+        <p>Полсотни кадров вручную — это день кликов. Генерация, скачивание, проверка и повтор неудачных вынесены в скрипты, поэтому эпизод собирается за вечер.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">почему так</div>
+        <h3>Отбраковка обязательна</h3>
+        <p>Часть кадров всегда уезжает: другой стиль, лишние детали, случайные надписи. Такие кадры отправляются на перегенерацию, а не «сойдёт и так».</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">почему так</div>
+        <h3>Движение — не везде</h3>
+        <p>Оживлять каждый кадр дорого и не нужно. Клипы делаются там, где движение работает на историю: приближение к двери, огонь, взгляд в камеру.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ГРАБЛИ -->
+<section class="section" id="grabli">
+  <div class="section-head reveal">
+    <div class="kicker">Грабли</div>
+    <h2>Записанные ошибки — половина регламента</h2>
+    <p class="section-intro">Каждая из них стоила пачки перегенераций или потерянного вечера. Все они лежат в документе отдельным разделом с формулой «симптом → что делать», поэтому повторно не случаются.</p>
+  </div>
+  <div class="rows">
+    <div class="row reveal"><span class="rk">кадр</span><div><div class="rt">Метка эпизода попадает в картинку</div><div class="rd">Служебный токен, добавленный к промпту для различения эпизодов, генератор нарисовал видимой надписью в углу кадра. Уникальность пришлось задавать самими сценами.</div></div></div>
+    <div class="row reveal"><span class="rk">кадр</span><div><div class="rt">Чужие референсы и водяные знаки</div><div class="rd">Без явного списка запретов в хвосте промпта в кадр заезжают фотофактуры, реалистичные лица и логотипы.</div></div></div>
+    <div class="row reveal"><span class="rk">файлы</span><div><div class="rt">Готовый кадр теряется на скачивании</div><div class="rd">Несовпадение кодировок в служебных путях приводило к тому, что успешно сгенерированный кадр не доезжал до папки эпизода.</div></div></div>
+    <div class="row reveal"><span class="rk">пачка</span><div><div class="rt">Отклонённый кадр рушил всю партию</div><div class="rd">Один отбракованный генератором кадр останавливал обработку остальных — обработку статуса пришлось чинить отдельно.</div></div></div>
+    <div class="row reveal"><span class="rk">звук</span><div><div class="rt">Музыка блокирует выпуск</div><div class="rd">Несколько готовых эпизодов ждут именно музыкального слоя: без него ролик не выкладывается, хотя видеоряд уже собран.</div></div></div>
+  </div>
+</section>
+
+<!-- СТАТУС -->
+<section class="tinted" id="status">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Статус</div>
+      <h2>Где сейчас находится канал</h2>
+      <p class="section-intro">Честная картина: конвейер работает и эпизоды копятся, но выпуск идёт медленнее производства. Первый эпизод опубликован, остальные находятся на разных стадиях готовности.</p>
+    </div>
+    <div class="eps reveal">
+      <span class="ep done">эп. 01 ✓</span>
+      <span class="ep wait">02</span><span class="ep wait">03</span><span class="ep wait">04</span>
+      <span class="ep wait">05</span><span class="ep wait">06</span><span class="ep wait">07</span>
+      <span class="ep wait">08</span><span class="ep wait">09</span><span class="ep wait">10</span>
+      <span class="ep wait">11</span><span class="ep">12</span>
+    </div>
+    <div class="ep-legend">
+      <span><i style="background:var(--green)"></i>опубликован</span>
+      <span><i style="background:var(--accent)"></i>собран или в сборке</span>
+      <span><i style="background:var(--border2)"></i>в очереди на генерацию</span>
+    </div>
+    <div class="cards c2" style="margin-top:40px">
+      <div class="card reveal">
+        <div class="tagline">эпизод 01</div>
+        <h3>«The Same Second»</h3>
+        <p>История о пробуждении в три часа ночи и общем сознании. Полностью готов: озвучка, 49 кадров, видеоряд в 1080p на 4 минуты 50 секунд, три варианта превью и пакет для загрузки.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">вывод</div>
+        <h3>Узкое место — не производство</h3>
+        <p>Кадры и сборка перестали быть проблемой. Упирается всё в музыкальный слой и в выпуск: снятая с производства нагрузка просто переехала на следующий этап.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- СТЕК -->
+<section class="section">
+  <div class="section-head reveal" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Технологии</div>
+    <h2 style="margin:0 auto">Стек</h2>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-item reveal"><div class="si-layer">Голос</div><div class="si-name">ElevenLabs</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Кадры</div><div class="si-name">Nano Banana Pro</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Оживление</div><div class="si-name">i2v</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Сборка</div><div class="si-name">ffmpeg</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Музыка</div><div class="si-name">Suno</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Конвейер</div><div class="si-name">Python</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Канал — это регламент, а не вдохновение.</h2>
+    <p>Один хороший ролик делает кто угодно. Двенадцать подряд делает только тот, у кого записано, что за чем идёт, какие настройки и где именно всё ломается в прошлый раз.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/#projects">← Смотреть другие проекты</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/mira-vs-time.html">Mira vs Time</a>
+    <a href="/video-update.html">Апдейт видеокурсов</a>
+  </div>
+  <div class="copy">Told After Dark · Рисованные истории про непознанное · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>

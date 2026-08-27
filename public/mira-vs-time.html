@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mira vs Time — AI-инфлюенсер, который путешествует во времени</title>
+<meta name="description" content="AI-героиня ведёт влог от первого лица изнутри исторических катастроф: одно лицо во всех кадрах, конвейер из озвучки, старт-кадров и оживления, вертикальный ролик под четыре площадки.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#fdf5f7; --bg2:#fae8ec; --bg3:#ffffff;
+  --accent:#be123c; --accent-d:#881337; --accent-l:#fb7185; --accent-2:#ea580c;
+  --accent-dim:rgba(190,18,60,0.08); --accent-border:rgba(190,18,60,0.26);
+  --shadow-accent:0 12px 34px rgba(190,18,60,0.24);
+  --nav-bg:rgba(253,245,247,0.78); --nav-bg-scrolled:rgba(253,245,247,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(190,18,60,0.12), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(234,88,12,0.13), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(251,113,133,0.13), transparent 55%);
+}
+/* вертикальный ролик-раскадровка */
+.reels{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px}
+@media(max-width:900px){.reels{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.reels{grid-template-columns:1fr}}
+.reel{background:var(--bg3);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s,border-color .3s}
+.reel:hover{transform:translateY(-5px);box-shadow:var(--shadow2);border-color:var(--accent-border)}
+.reel-frame{aspect-ratio:9/16;background:linear-gradient(160deg,var(--bg2),var(--bg3));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;text-align:center;border-bottom:1px solid var(--border);position:relative}
+.reel-frame .ic{font-size:26px;line-height:1}
+.reel-frame .cap{font-size:12.5px;color:var(--text2);line-height:1.5;font-weight:300}
+.reel-frame .tc{position:absolute;top:10px;left:10px;font-family:'JetBrains Mono';font-size:9.5px;font-weight:700;color:var(--accent-d);background:var(--accent-dim);border-radius:5px;padding:3px 7px}
+.reel-foot{padding:11px 14px;font-family:'JetBrains Mono';font-size:10.5px;color:var(--text3);display:flex;justify-content:space-between;gap:8px}
+.reel-foot b{color:var(--ink)}
+/* лицо-константа */
+.lock{display:flex;align-items:center;gap:22px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--shadow);max-width:760px;margin:0 auto;flex-wrap:wrap}
+.lock-face{width:96px;height:96px;border-radius:22px;background:linear-gradient(150deg,var(--accent-l),var(--accent-d));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-accent);position:relative}
+.lock-face::after{content:'';position:absolute;inset:-9px;border-radius:28px;border:1.5px dashed var(--accent-border)}
+.lock-face svg{width:44px;height:44px;stroke:#fff;fill:none;stroke-width:1.8}
+.lock-txt{flex:1;min-width:220px}
+.lock-txt b{font-family:'Space Grotesk';font-size:16px;color:var(--ink);display:block;margin-bottom:6px}
+.lock-txt p{font-size:13.5px;color:var(--text2);line-height:1.6;font-weight:300}
+/* площадки */
+.plats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+@media(max-width:760px){.plats{grid-template-columns:repeat(2,1fr)}}
+.plat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:18px;text-align:center;transition:transform .25s,border-color .25s}
+.plat:hover{transform:translateY(-3px);border-color:var(--accent-border)}
+.plat .pn{font-family:'Space Grotesk';font-weight:600;font-size:14.5px;color:var(--ink);margin-bottom:5px}
+.plat .ph{font-family:'JetBrains Mono';font-size:11px;color:var(--accent-d)}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">M</span> Mira vs Time</a>
+  <div class="nav-links">
+    <a href="#format">Формат</a>
+    <a href="#lico">Лицо</a>
+    <a href="#konveyer">Конвейер</a>
+    <a href="#epizod">Эпизод 01</a>
+    <a href="#grabli">Грабли</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark round">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/><path d="M3.5 12a8.5 8.5 0 0 1 2.6-6.1"/></svg>
+    </div>
+    <div class="hero-badge wip"><span class="dot"></span>эпизод 01 собран · запуск впереди</div>
+    <h1>Mira <span class="grad">vs Time</span></h1>
+    <div class="hero-tag">Влог из горящей Москвы 1812 года</div>
+    <p class="hero-sub">Сквозная AI-героиня проваливается в исторические катастрофы и ведёт оттуда влог от первого лица — зная, чем всё кончится, и не в силах это изменить. Формат снимается без съёмочной группы, но требует того, чего у нейросетей нет по умолчанию: одного и того же лица во всех кадрах.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#konveyer">Как это собирается →</a>
+      <a class="btn btn-ghost" href="#grabli">Что пошло не так</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>82 с</strong><span>эпизод 01</span></div>
+      <div class="hero-stat"><strong>13</strong><span>клипов в ролике</span></div>
+      <div class="hero-stat"><strong>9:16</strong><span>вертикаль</span></div>
+      <div class="hero-stat"><strong>4</strong><span>площадки</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ФОРМАТ -->
+<section class="tinted" id="format">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Формат</div>
+      <h2>Не пересказ истории, а присутствие в ней</h2>
+      <p class="section-intro">Обычный исторический контент рассказывает о событии со стороны. Здесь героиня стоит внутри него: идёт по опустевшему городу, трогает ещё тёплый хлеб в брошенной избе, разговаривает с поджигателем. Зритель смотрит не лекцию, а репортаж из места, куда попасть нельзя.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="num">01</div>
+        <h3>Петля Кассандры</h3>
+        <p>Героиня знает, чем закончится, и это знание — двигатель сюжета. Она предупреждает тех, кто не может её услышать, и идёт к финалу, который нельзя отменить.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">02</div>
+        <h3>Первое лицо и настоящее время</h3>
+        <p>Речь строится как влог: «так, ребята, я только что оказалась в Москве». Никакого закадрового диктора — только человек, который сам не до конца понимает, куда попал.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">03</div>
+        <h3>Факты выверены, домыслы помечены</h3>
+        <p>Сюжет строится на реальной хронологии. Там, где источники спорят, в тексте прямо звучит «по преданию» — иначе формат превращается в красивую выдумку.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ЛИЦО -->
+<section class="section" id="lico">
+  <div class="section-head reveal">
+    <div class="kicker">Главная сложность</div>
+    <h2>Нейросеть каждый раз рисует другого человека</h2>
+    <p class="section-intro">Именно на этом ломается большинство попыток сделать AI-персонажа. Модель не помнит героиню между генерациями: в одном кадре она старше, в другом другой формы лицо, в третьем другой оттенок кожи — и сквозного героя не получается.</p>
+  </div>
+  <div class="lock reveal">
+    <div class="lock-face">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    </div>
+    <div class="lock-txt">
+      <b>Лицо-константа</b>
+      <p>Референсы героини прикладываются к каждой генерации без исключения, костюм зафиксирован отдельным набором, а движение делается не «с нуля», а от уже утверждённого старт-кадра. Персонаж перестаёт плыть от сцены к сцене — и только после этого формат вообще становится возможен.</p>
+    </div>
+  </div>
+  <div class="rows" style="margin-top:34px">
+    <div class="row reveal"><span class="rk">лок</span><div><div class="rt">Референсы лица</div><div class="rd">Два эталонных кадра идут в каждую генерацию как обязательное вложение — это дешевле и надёжнее, чем обучать отдельную модель.</div></div></div>
+    <div class="row reveal"><span class="rk">лок</span><div><div class="rt">Костюм эпизода</div><div class="rd">Одежда фиксируется на весь эпизод отдельным набором кадров: иначе героиня переодевается между сценами одного дня.</div></div></div>
+    <div class="row reveal"><span class="rk">лок</span><div><div class="rt">Старт-кадр вместо текста</div><div class="rd">Видео генерируется из готовой картинки, а не из описания. Так лицо на входе уже правильное, и модели остаётся только оживить его.</div></div></div>
+    <div class="row reveal"><span class="rk">лок</span><div><div class="rt">Короткие клипы</div><div class="rd">Четыре, шесть или восемь секунд. На длинном клипе лицо начинает уплывать к середине — это лечится не настройками, а длиной.</div></div></div>
+  </div>
+</section>
+
+<!-- КОНВЕЙЕР -->
+<section class="tinted" id="konveyer">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Конвейер</div>
+      <h2>Сначала голос, потом картинка</h2>
+      <p class="section-intro">Порядок здесь неочевидный и важный: озвучка делается первой. Она задаёт точную длительность каждой реплики, и уже под неё нарезаются сцены. Если сначала сгенерировать красивое видео, а потом положить на него речь, ролик рассыпается на несовпадениях.</p>
+    </div>
+    <div class="flow reveal">
+      <div class="flow-row"><div class="flow-box"><span class="flow-tag">СЦЕНАРИЙ</span><div><div class="fb-t">Реплики и раскадровка</div><div class="fb-d">Сюжет режется на сцены, длинные реплики делятся на два шота</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">ГОЛОС</span><div><div class="fb-t">Озвучка первой</div><div class="fb-d">Задаёт хронометраж: дальше всё режется под неё, а не наоборот</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box"><span class="flow-tag">КАДР</span><div><div class="fb-t">Старт-кадры сцен</div><div class="fb-d">Генерация картинок с приложенными референсами лица и костюма</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box"><span class="flow-tag">ДВИЖЕНИЕ</span><div><div class="fb-t">Оживление кадра</div><div class="fb-d">Из картинки — короткий клип с движением камеры и героини, плюс синхронизация губ</div></div></div></div>
+      <div class="flow-conn"></div>
+      <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">СБОРКА</span><div><div class="fb-t">Монтаж вертикали</div><div class="fb-d">Тринадцать клипов, звук и шумы сцены, вшитые субтитры, финальная рамка серии</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ЭПИЗОД -->
+<section class="section" id="epizod">
+  <div class="section-head reveal">
+    <div class="kicker">Эпизод 01</div>
+    <h2>«Пожар Москвы 1812» — восемьдесят две секунды</h2>
+    <p class="section-intro">Героиня попадает в сентябрь 1812-го: город отдали без боя, Наполеон ждёт ключи, а выходить к нему некому. Дальше — пожар, который жители устроили сами, и финал у холма, с которого «величайший полководец» смотрит на пепел.</p>
+  </div>
+  <div class="reels">
+    <div class="reel reveal">
+      <div class="reel-frame"><span class="tc">00:00</span><span class="ic">🏙️</span><span class="cap">Пустой город: ни людей, ни звуков — только ветер по улицам</span></div>
+      <div class="reel-foot"><span>хук</span><b>2 с</b></div>
+    </div>
+    <div class="reel reveal">
+      <div class="reel-frame"><span class="tc">00:14</span><span class="ic">🍞</span><span class="cap">Брошенная изба: хлеб ещё тёплый — ушли только что</span></div>
+      <div class="reel-foot"><span>улика</span><b>8 с</b></div>
+    </div>
+    <div class="reel reveal">
+      <div class="reel-frame"><span class="tc">00:38</span><span class="ic">🔥</span><span class="cap">Поджигатель со спины и первый огонь по кварталу</span></div>
+      <div class="reel-foot"><span>поворот</span><b>6 с</b></div>
+    </div>
+    <div class="reel reveal">
+      <div class="reel-frame"><span class="tc">01:12</span><span class="ic">⛰️</span><span class="cap">Холм, фигура Наполеона со спины, панч в финале</span></div>
+      <div class="reel-foot"><span>пейофф</span><b>6 с</b></div>
+    </div>
+  </div>
+  <div class="demo-note reveal">Схема сцен эпизода. Сам ролик собран целиком — вертикаль 9:16, 82 секунды, со звуком и вшитыми субтитрами</div>
+  <!-- ЯКОРЬ ДЛЯ ВИДЕО: сюда встанет ссылка на ролик, когда он будет выложен в облако -->
+
+  <div class="split" style="margin-top:56px">
+    <div class="reveal">
+      <div class="kicker">Драматургия</div>
+      <h2 style="font-size:clamp(24px,3.4vw,34px)">Кольцо: купола — пожар — пепел</h2>
+      <ul class="split-list">
+        <li><span class="chk">✓</span><span><b>Первые две секунды</b> — заявка формата и места. Здесь решается, досмотрят ролик или пролистают.</span></li>
+        <li><span class="chk">✓</span><span><b>Улика вместо объяснения</b> — тёплый хлеб говорит «ушли минуту назад» лучше любой фразы диктора.</span></li>
+        <li><span class="chk">✓</span><span><b>Немые сцены</b> — два клипа идут без реплик: горящий город не нуждается в комментарии.</span></li>
+        <li><span class="chk">✓</span><span><b>Вопрос в финале</b> — «куда отправить меня дальше?» превращает просмотр в комментарии, а комментарии в охват.</span></li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <div class="kicker">Четыре площадки</div>
+      <h2 style="font-size:clamp(24px,3.4vw,34px)">Один ролик, четыре упаковки</h2>
+      <p class="section-intro" style="margin-bottom:22px">Файл один, а заголовок, описание и теги — свои под каждую площадку, включая время публикации. Собрано отдельным листом, где клик по блоку копирует готовый текст.</p>
+      <div class="plats">
+        <div class="plat"><div class="pn">YouTube</div><div class="ph">Shorts</div></div>
+        <div class="plat"><div class="pn">TikTok</div><div class="ph">вертикаль</div></div>
+        <div class="plat"><div class="pn">VK</div><div class="ph">Клипы</div></div>
+        <div class="plat"><div class="pn">Instagram</div><div class="ph">Reels</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ГРАБЛИ -->
+<section class="tinted" id="grabli">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Грабли</div>
+      <h2>Что выяснилось только на практике</h2>
+      <p class="section-intro">Ни один из этих пунктов не написан в документации моделей. Всё это вылезло на сборке эпизода и стоило перегенераций — поэтому и записано отдельно, чтобы второй раз не наступать.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="tagline">речь</div>
+        <h3>Модель переписывает реплику</h3>
+        <p>Генератор видео с речью произносит не тот текст, который дали, а свой пересказ. Лечится жёсткой фиксацией фразы — либо сцена делается немой, а голос накладывается отдельно.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">лицо</div>
+        <h3>Лицо плывёт к концу клипа</h3>
+        <p>Чем длиннее сгенерированный кусок, тем сильнее героиня превращается в другого человека. Отсюда правило коротких клипов и обязательный старт-кадр.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">длительность</div>
+        <h3>Длина не любая</h3>
+        <p>Клип нельзя заказать «на 5,5 секунды» — доступны только фиксированные значения. Это приходится учитывать ещё на этапе нарезки реплик, а не при монтаже.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">текст в кадре</div>
+        <h3>Надписи получаются кривыми</h3>
+        <p>Любая попытка попросить текст внутри картинки даёт нечитаемые буквы. Смысл несут только образы, а подписи добавляются на монтаже.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">звук</div>
+        <h3>Тишина выдаёт подделку</h3>
+        <p>Сгенерированное видео немое. Без шагов, ветра, гула пожара сцена мгновенно читается как картинка — поэтому под каждый кадр расписана своя звуковая карта.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">площадки</div>
+        <h3>Правила разные</h3>
+        <p>Одна площадка требует пометки об ИИ, другая болезненно относится к историческим сюжетам. Это учитывается в описаниях, а не выясняется после блокировки.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- СТЕК -->
+<section class="section">
+  <div class="section-head reveal" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Технологии</div>
+    <h2 style="margin:0 auto">Стек</h2>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-item reveal"><div class="si-layer">Голос</div><div class="si-name">ElevenLabs</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Старт-кадры</div><div class="si-name">Nano Banana Pro</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Оживление</div><div class="si-name">Seedance · Kling</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Перегенерация</div><div class="si-name">Veo 3.1</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Музыка и шумы</div><div class="si-name">Suno · SFX-карта</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Сборка</div><div class="si-name">ffmpeg</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Сквозной герой — это дисциплина, а не промпт.</h2>
+    <p>Красивый кадр нейросеть выдаёт с первой попытки. Один и тот же человек в сорока кадрах подряд получается только там, где заведены локи, порядок и правила, от которых нельзя отступать ради красивого кадра.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/#projects">← Смотреть другие проекты</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/told-after-dark.html">Told After Dark</a>
+    <a href="/video-update.html">Апдейт видеокурсов</a>
+  </div>
+  <div class="copy">Mira vs Time · AI-инфлюенсер по истории · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>
