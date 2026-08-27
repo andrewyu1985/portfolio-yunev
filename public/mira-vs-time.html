@@ -32,6 +32,12 @@
 .reel-frame .tc{position:absolute;top:10px;left:10px;font-family:'JetBrains Mono';font-size:9.5px;font-weight:700;color:var(--accent-d);background:var(--accent-dim);border-radius:5px;padding:3px 7px}
 .reel-foot{padding:11px 14px;font-family:'JetBrains Mono';font-size:10.5px;color:var(--text3);display:flex;justify-content:space-between;gap:8px}
 .reel-foot b{color:var(--ink)}
+/* блок «смотреть» */
+.watch{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;background:var(--bg3);border:1px solid var(--accent-border);border-radius:var(--r);padding:28px 30px;box-shadow:var(--shadow);margin-top:26px}
+.watch-txt{flex:1;min-width:260px}
+.watch-txt b{font-family:'Space Grotesk';font-size:17px;color:var(--ink);display:block;margin-bottom:7px}
+.watch-txt p{font-size:13.5px;color:var(--text2);line-height:1.6;font-weight:300}
+
 /* лицо-константа */
 .lock{display:flex;align-items:center;gap:22px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--shadow);max-width:760px;margin:0 auto;flex-wrap:wrap}
 .lock-face{width:96px;height:96px;border-radius:22px;background:linear-gradient(150deg,var(--accent-l),var(--accent-d));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-accent);position:relative}
@@ -188,7 +194,14 @@
     </div>
   </div>
   <div class="demo-note reveal">Схема сцен эпизода. Сам ролик собран целиком — вертикаль 9:16, 82 секунды, со звуком и вшитыми субтитрами</div>
-  <!-- ЯКОРЬ ДЛЯ ВИДЕО: сюда встанет ссылка на ролик, когда он будет выложен в облако -->
+
+  <div class="watch reveal">
+    <div class="watch-txt">
+      <b>Эпизод целиком — в канале проекта</b>
+      <p>Готовый ролик выложен в Telegram-канале Mira vs Time. Там же появляются следующие эпизоды и материалы со съёмок, которых не было.</p>
+    </div>
+    <a class="btn btn-primary" href="https://t.me/miravstime" target="_blank" rel="noopener">Смотреть в Telegram →</a>
+  </div>
 
   <div class="split" style="margin-top:56px">
     <div class="reveal">
