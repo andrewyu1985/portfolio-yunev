@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# зеркало на reg.ru (scripts/deploy_ru.py)
+.deploy-ru-manifest.json

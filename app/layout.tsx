@@ -71,7 +71,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen antialiased">
         {children}
-        <Analytics />
+        {/* в статической копии для reg.ru аналитики Vercel нет */}
+        {process.env.STATIC_EXPORT !== '1' && <Analytics />}
       </body>
     </html>
   )
