@@ -14,7 +14,7 @@
 |---|---|---|
 | `/` | Главная в трёх дизайнах с переключателем вверху: «Классика», «Газета», «Чертёж» | `app/page.tsx`, `components/`, `components/designs/` |
 | `/?design=newspaper`, `/?design=blueprint` | Прямые ссылки на «Газету» и «Чертёж» | `components/designs/registry.ts` |
-| `/cinema`, `/cinema/archive` | Кино-версия портфолио (4-й пункт переключателя — ссылка): 3D-прокрутка, GSAP + Lenis | `app/cinema/`, `components/cinema/`, стили с префиксом `.cn-` |
+| `/cinema`, `/cinema/archive` | Версия «Ателье» (2-й пункт переключателя, сразу после классики — ссылка): 3D-прокрутка, GSAP + Lenis | `app/cinema/`, `components/cinema/`, стили с префиксом `.cn-` |
 | `/*.html` | Страницы-презентации проектов, статичный HTML | `public/`, общий каркас `public/presentation.css` + `public/presentation.js` |
 
 ## Данные
@@ -31,7 +31,7 @@
 
 - `components/designs/DesignShell.tsx` — клиентская оболочка. Классика приходит из `app/page.tsx` готовым серверным слотом и попадает в статический HTML как раньше; её компоненты не менялись.
 - «Газета» и «Чертёж» грузятся лениво через `import()` только при выборе (вместе со своими шрифтами) и рендерятся вместо классики. Смена — View Transition с круговым раскрытием от нажатой кнопки; при `prefers-reduced-motion` мгновенно.
-- `components/designs/DesignSwitcher.tsx` + `shell.css` — полоса над меню: подпись «4 варианта дизайна этой страницы» и радиогруппа; на телефоне — строка «Эта страница в 4 вариантах дизайна — переключите:» над кнопками. «Кино» — обычная ссылка на `/cinema` (`LINK_DESIGNS`). На `/cinema` та же полоса статичной копией — `components/cinema/DesignBar.tsx`.
+- `components/designs/DesignSwitcher.tsx` + `shell.css` — полоса над меню: подпись «4 варианта дизайна этой страницы» и радиогруппа; на телефоне — строка «Эта страница в 4 вариантах дизайна — переключите:» над кнопками. «Ателье» — обычная ссылка на `/cinema` (`LINK_DESIGNS`); порядок пунктов задаёт `SWITCHER_ITEMS`. На `/cinema` та же полоса статичной копией — `components/cinema/DesignBar.tsx`.
 - `components/designs/registry.ts` — список дизайнов (`DESIGNS`, `LINK_DESIGNS`, `DESIGN_COUNT`) и `DESIGN_BOOT_SCRIPT`: скрипт в `<head>` (`app/layout.tsx`) до отрисовки ставит `data-design` на `<html>` по `?design=…`, чтобы прямая ссылка не мигала классикой. На `<html>` поэтому стоит `suppressHydrationWarning`.
 - Выбор хранится только в адресе (`history.replaceState`), localStorage не используется.
 

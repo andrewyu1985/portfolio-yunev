@@ -1,11 +1,11 @@
-import { DESIGNS, DESIGN_COUNT, LINK_DESIGNS } from '@/components/designs/registry'
+import { DESIGN_COUNT, SWITCHER_ITEMS } from '@/components/designs/registry'
 import '@/components/designs/shell.css'
 
 // Та же полоса переключателя, что на главной, только статичная:
-// «Кино» включено, остальные варианты — ссылки на главную с нужным дизайном.
+// «Ателье» включено, остальные варианты — ссылки на главную с нужным дизайном.
 export default function DesignBar() {
-  const activeIdx = DESIGNS.length // «Кино» стоит после трёх дизайнов главной
-  const others = DESIGNS.map(d => `«${d.label}»`)
+  const activeIdx = SWITCHER_ITEMS.findIndex(d => d.kind === 'link')
+  const others = SWITCHER_ITEMS.filter(d => d.kind === 'design').map(d => `«${d.label}»`)
   const othersText = `${others.slice(0, -1).join(', ')} и ${others[others.length - 1]}`
 
   return (
@@ -22,14 +22,13 @@ export default function DesignBar() {
 
         <nav className="ds-seg" style={{ ['--i' as string]: activeIdx, ['--n' as string]: DESIGN_COUNT }} aria-label="Вариант дизайна страницы">
           <span className="ds-thumb" aria-hidden />
-          {DESIGNS.map(d => (
-            <a key={d.id} href={d.id === 'classic' ? '/' : `/?design=${d.id}`} className="ds-opt ds-opt-link" title={`${d.label} — ${d.tagline}`}>
+          {SWITCHER_ITEMS.map(d => d.kind === 'link' ? (
+            <a key={d.id} href={d.href} className="ds-opt ds-opt-link" data-on aria-current="page" title={`${d.label} — ${d.tagline}`}>
               <span className={`ds-glyph ds-glyph-${d.id}`} aria-hidden />
               <span className="ds-label">{d.label}</span>
             </a>
-          ))}
-          {LINK_DESIGNS.map(d => (
-            <a key={d.id} href={d.href} className="ds-opt ds-opt-link" data-on aria-current="page" title={`${d.label} — ${d.tagline}`}>
+          ) : (
+            <a key={d.id} href={d.id === 'classic' ? '/' : `/?design=${d.id}`} className="ds-opt ds-opt-link" title={`${d.label} — ${d.tagline}`}>
               <span className={`ds-glyph ds-glyph-${d.id}`} aria-hidden />
               <span className="ds-label">{d.label}</span>
             </a>

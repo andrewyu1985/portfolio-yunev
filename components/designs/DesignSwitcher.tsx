@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { DESIGNS, DESIGN_COUNT, LINK_DESIGNS, type DesignId } from './registry'
+import { DESIGN_COUNT, SWITCHER_ITEMS, type DesignId } from './registry'
 
 interface Props {
   active: DesignId
@@ -16,8 +16,8 @@ const listOf = (labels: string[]) =>
 
 export default function DesignSwitcher({ active, pending, onSelect, onIntent }: Props) {
   const optRefs = useRef<Partial<Record<DesignId, HTMLLabelElement | null>>>({})
-  const activeIdx = DESIGNS.findIndex(d => d.id === active)
-  const others = [...DESIGNS.filter(d => d.id !== active), ...LINK_DESIGNS].map(d => d.label)
+  const activeIdx = SWITCHER_ITEMS.findIndex(d => d.kind === 'design' && d.id === active)
+  const others = SWITCHER_ITEMS.filter(d => d.kind === 'link' || d.id !== active).map(d => d.label)
 
   const originOf = (id: DesignId) => {
     const el = optRefs.current[id]
@@ -41,7 +41,12 @@ export default function DesignSwitcher({ active, pending, onSelect, onIntent }: 
         <fieldset className="ds-seg" style={{ ['--i' as string]: activeIdx, ['--n' as string]: DESIGN_COUNT }}>
           <legend className="ds-sr">Вариант дизайна страницы</legend>
           <span className="ds-thumb" aria-hidden />
-          {DESIGNS.map(d => (
+          {SWITCHER_ITEMS.map(d => d.kind === 'link' ? (
+            <a key={d.id} href={d.href} className="ds-opt ds-opt-link" title={`${d.label} — ${d.tagline}`}>
+              <span className={`ds-glyph ds-glyph-${d.id}`} aria-hidden />
+              <span className="ds-label">{d.label}</span>
+            </a>
+          ) : (
             <label
               key={d.id}
               ref={el => { optRefs.current[d.id] = el }}
@@ -64,12 +69,6 @@ export default function DesignSwitcher({ active, pending, onSelect, onIntent }: 
               <span className={`ds-glyph ds-glyph-${d.id}`} aria-hidden />
               <span className="ds-label">{d.label}</span>
             </label>
-          ))}
-          {LINK_DESIGNS.map(d => (
-            <a key={d.id} href={d.href} className="ds-opt ds-opt-link" title={`${d.label} — ${d.tagline}`}>
-              <span className={`ds-glyph ds-glyph-${d.id}`} aria-hidden />
-              <span className="ds-label">{d.label}</span>
-            </a>
           ))}
         </fieldset>
       </div>

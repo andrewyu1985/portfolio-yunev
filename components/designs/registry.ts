@@ -25,10 +25,18 @@ export interface LinkDesignMeta {
 }
 
 export const LINK_DESIGNS: LinkDesignMeta[] = [
-  { id: 'cinema', label: 'Кино', tagline: 'кино-версия с 3D-прокруткой', href: '/cinema' },
+  { id: 'cinema', label: 'Ателье', tagline: 'бумажный макет и 3D-прокрутка', href: '/cinema' },
 ]
 
 export const DESIGN_COUNT = DESIGNS.length + LINK_DESIGNS.length
+
+// Порядок пунктов в переключателе: «Ателье» идёт сразу за классикой
+export type SwitcherItem = ({ kind: 'design' } & DesignMeta) | ({ kind: 'link' } & LinkDesignMeta)
+export const SWITCHER_ITEMS: SwitcherItem[] = [
+  { kind: 'design', ...DESIGNS[0] },
+  { kind: 'link', ...LINK_DESIGNS[0] },
+  ...DESIGNS.slice(1).map(d => ({ kind: 'design' as const, ...d })),
+]
 
 export const isDesignId = (v: unknown): v is DesignId =>
   v === 'classic' || v === 'newspaper' || v === 'blueprint'

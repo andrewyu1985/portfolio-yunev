@@ -14,7 +14,7 @@ export default function Nav({ archive = false }: { archive?: boolean }) {
 
   return (
     <header className={`cn-nav${scrolled ? ' is-scrolled' : ''}`}>
-      <a href="/cinema" className="cn-nav__mark" aria-label="Андрей Юнев — на главную кино-версии">
+      <a href="/cinema" className="cn-nav__mark" aria-label="Андрей Юнев — на главную версии «Ателье»">
         <span className="cn-nav__dot" aria-hidden />
         Андрей Юнев
       </a>
