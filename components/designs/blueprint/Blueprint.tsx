@@ -80,7 +80,7 @@ function Hero() {
             <span className="bp-pos-flag" aria-hidden="true">1</span>
           </div>
           <figcaption>
-            <span className="bp-poz">поз. 1</span> — {person.lastName} {person.firstName.charAt(0)}.
+            <span className="bp-poz">поз.&nbsp;1</span> — {person.lastName} {person.firstName.charAt(0)}.
           </figcaption>
         </figure>
 
