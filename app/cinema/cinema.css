@@ -89,14 +89,12 @@ html.lenis, html.lenis body { height: auto; }
   position: fixed; inset: 0 0 auto 0; z-index: 50;
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
   padding: 14px var(--gutter);
-  transition: background .4s, backdrop-filter .4s, box-shadow .4s;
-}
-.cn-nav.is-scrolled {
-  background: oklch(0.965 0.012 85 / 0.82);
+  background: oklch(0.965 0.012 85 / 0.86);
   backdrop-filter: blur(14px) saturate(1.2);
   -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  box-shadow: 0 1px 0 oklch(0.84 0.016 80 / 0.7);
+  transition: box-shadow .4s;
 }
+.cn-nav.is-scrolled { box-shadow: 0 1px 0 oklch(0.84 0.016 80 / 0.7); }
 .cn-nav__mark { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 1.05rem; letter-spacing: 0.01em; }
 .cn-nav__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 4px var(--blue-bg); }
 .cn-nav__links { display: flex; gap: clamp(16px, 3vw, 36px); font-size: 0.92rem; }
@@ -106,55 +104,56 @@ html.lenis, html.lenis body { height: auto; }
 .cn-nav__links a:hover::after { transform: scaleX(1); }
 .cn-nav__cta { justify-self: end; }
 
-/* ── Титульный кадр ── */
+/* ── Титульный кадр: кадр сверху, титры на чистом фоне под ним ── */
 .cn-hero {
   position: relative; min-height: 100svh; min-height: 100dvh;
-  display: grid; align-items: end;
-  overflow: hidden; perspective: 1400px;
+  display: grid; grid-template-rows: minmax(0, 56svh) auto;
 }
-.cn-hero__stage { position: absolute; inset: -4% -4%; transform-style: preserve-3d; will-change: transform; }
-.cn-hero__img { width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%; will-change: transform, filter; }
+.cn-hero__frame { position: relative; overflow: hidden; perspective: 1400px; background: var(--bg-2); }
+.cn-hero__stage { position: absolute; inset: -3% -3%; transform-style: preserve-3d; will-change: transform; }
+.cn-hero__img { width: 100%; height: 100%; object-fit: cover; object-position: 55% 45%; will-change: transform, filter; }
 .cn-hero__veil { position: absolute; inset: 0; background: var(--bg); opacity: 0; pointer-events: none; }
-.cn-hero::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to top, oklch(0.965 0.012 85) 0%, oklch(0.965 0.012 85 / 0.92) 24%, oklch(0.965 0.012 85 / 0.55) 42%, oklch(0.965 0.012 85 / 0) 68%);
-}
-@media (max-width: 640px) {
-  .cn-hero::before { background: linear-gradient(to top, oklch(0.965 0.012 85) 0%, oklch(0.965 0.012 85 / 0.9) 34%, oklch(0.965 0.012 85 / 0) 60%); }
-  .cn-hero__img { object-position: 60% 30%; }
-}
 .cn-hero__grain {
   position: absolute; inset: 0; pointer-events: none; opacity: 0.35; mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.25 0 0 0 0 0.2 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 .cn-hero__body {
   position: relative; z-index: 2;
-  padding: 0 var(--gutter) clamp(72px, 12vh, 140px);
+  display: grid; grid-template-columns: 1fr auto; align-items: end; align-content: end; gap: var(--sp-5) var(--sp-7);
+  padding: clamp(28px, 4vh, 48px) var(--gutter) clamp(28px, 5vh, 56px);
   max-width: 1400px; width: 100%; margin: 0 auto;
 }
 .cn-hero__title {
+  grid-column: 1 / -1;
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(3.2rem, 11.5vw, 11rem);
-  line-height: 0.92; letter-spacing: -0.02em;
-  margin: 0 0 var(--sp-5); perspective: 900px;
+  font-size: clamp(3rem, 9.6vw, 9rem);
+  line-height: 0.94; letter-spacing: -0.02em;
+  margin: 0 0 var(--sp-3); perspective: 900px;
   display: flex; flex-wrap: wrap; column-gap: 0.28em;
 }
 .cn-hero__word { display: inline-flex; overflow: hidden; padding-bottom: 0.06em; }
 .cn-hero__ch { display: inline-block; transform-origin: 50% 100%; will-change: transform, opacity; }
 .cn-hero__sub {
-  max-width: 34ch; margin: 0 0 var(--sp-5);
-  font-size: clamp(1.05rem, 1.6vw, 1.35rem); line-height: 1.45; color: var(--ink);
+  max-width: 36ch; margin: 0;
+  font-size: clamp(1.1rem, 1.7vw, 1.45rem); line-height: 1.4; color: var(--ink-2);
 }
-.cn-hero__meta { display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-6); font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
+.cn-hero__meta { display: flex; flex-direction: column; gap: var(--sp-2); font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
 .cn-hero__meta span::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); margin-right: 10px; vertical-align: middle; }
 .cn-hero__scroll {
-  position: absolute; right: var(--gutter); bottom: 28px; z-index: 3;
-  display: flex; align-items: center; gap: 12px;
-  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2);
+  position: absolute; right: var(--gutter); top: calc(56svh - 44px); z-index: 3;
+  display: flex; align-items: center; gap: 12px; padding: 8px 14px; border-radius: 999px;
+  background: oklch(0.965 0.012 85 / 0.85); backdrop-filter: blur(8px);
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
 }
-.cn-hero__scroll-line { width: 44px; height: 1.5px; background: var(--ink-2); overflow: hidden; position: relative; }
+.cn-hero__scroll-line { width: 44px; height: 1.5px; background: var(--ink-3); overflow: hidden; position: relative; }
 .cn-hero__scroll-line::after { content: ''; position: absolute; inset: 0; background: var(--blue); transform: translateX(-100%); animation: cn-slide 2.2s var(--ease) infinite; }
 @keyframes cn-slide { 0% { transform: translateX(-100%); } 60%, 100% { transform: translateX(100%); } }
+@media (max-width: 760px) {
+  .cn-hero { grid-template-rows: minmax(0, 44svh) auto; }
+  .cn-hero__body { grid-template-columns: 1fr; align-items: start; align-content: start; gap: var(--sp-4); }
+  .cn-hero__meta { flex-direction: row; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5); }
+  .cn-hero__scroll { display: none; }
+}
 
 /* ── Манифест ── */
 .cn-mani { padding: clamp(96px, 14vw, 200px) var(--gutter); max-width: 1400px; margin: 0 auto; }
@@ -317,7 +316,6 @@ html.lenis, html.lenis body { height: auto; }
   .cn-nav { grid-template-columns: 1fr auto; padding: 12px var(--gutter); }
   .cn-nav__links { display: none; }
   .cn-nav__cta { min-height: 38px; padding: 0 16px; font-size: 0.88rem; }
-  .cn-hero__scroll { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
