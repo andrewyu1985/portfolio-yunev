@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { DESIGNS, type DesignId } from './registry'
+import { DESIGNS, DESIGN_COUNT, LINK_DESIGNS, type DesignId } from './registry'
 
 interface Props {
   active: DesignId
@@ -10,10 +10,14 @@ interface Props {
   onIntent: (id: DesignId) => void
 }
 
+const quote = (s: string) => `«${s}»`
+const listOf = (labels: string[]) =>
+  labels.length <= 1 ? labels.join('') : `${labels.slice(0, -1).map(quote).join(', ')} и ${quote(labels[labels.length - 1])}`
+
 export default function DesignSwitcher({ active, pending, onSelect, onIntent }: Props) {
   const optRefs = useRef<Partial<Record<DesignId, HTMLLabelElement | null>>>({})
   const activeIdx = DESIGNS.findIndex(d => d.id === active)
-  const others = DESIGNS.filter(d => d.id !== active)
+  const others = [...DESIGNS.filter(d => d.id !== active), ...LINK_DESIGNS].map(d => d.label)
 
   const originOf = (id: DesignId) => {
     const el = optRefs.current[id]
@@ -26,15 +30,15 @@ export default function DesignSwitcher({ active, pending, onSelect, onIntent }: 
     <div className="ds-bar" data-active={active}>
       <div className="ds-bar-in">
         <p className="ds-caption">
-          <span className="ds-caption-k">3 варианта дизайна этой страницы</span>
+          <span className="ds-caption-k">{DESIGN_COUNT} варианта дизайна этой страницы</span>
           <span className="ds-caption-v">
-            Та же страница ещё в двух стилях — «{others[0].label}» и «{others[1].label}»
+            Та же страница ещё в трёх стилях — {listOf(others)}
             <span className="ds-arrow" aria-hidden> →</span>
           </span>
-          <span className="ds-caption-m">Эта страница в 3 вариантах дизайна — переключите:</span>
+          <span className="ds-caption-m">Эта страница в {DESIGN_COUNT} вариантах дизайна — переключите:</span>
         </p>
 
-        <fieldset className="ds-seg" style={{ ['--i' as string]: activeIdx }}>
+        <fieldset className="ds-seg" style={{ ['--i' as string]: activeIdx, ['--n' as string]: DESIGN_COUNT }}>
           <legend className="ds-sr">Вариант дизайна страницы</legend>
           <span className="ds-thumb" aria-hidden />
           {DESIGNS.map(d => (
@@ -60,6 +64,12 @@ export default function DesignSwitcher({ active, pending, onSelect, onIntent }: 
               <span className={`ds-glyph ds-glyph-${d.id}`} aria-hidden />
               <span className="ds-label">{d.label}</span>
             </label>
+          ))}
+          {LINK_DESIGNS.map(d => (
+            <a key={d.id} href={d.href} className="ds-opt ds-opt-link" title={`${d.label} — ${d.tagline}`}>
+              <span className={`ds-glyph ds-glyph-${d.id}`} aria-hidden />
+              <span className="ds-label">{d.label}</span>
+            </a>
           ))}
         </fieldset>
       </div>

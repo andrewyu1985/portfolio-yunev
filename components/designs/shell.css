@@ -46,7 +46,7 @@
 .ds-seg {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(var(--n, 3), 1fr);
   border: 0;
   margin: 0;
   min-width: 0;
@@ -61,7 +61,7 @@
   top: 4px;
   bottom: 4px;
   left: 4px;
-  width: calc((100% - 8px) / 3);
+  width: calc((100% - 8px) / var(--n, 3));
   border-radius: 999px;
   background: #fff;
   box-shadow: 0 1px 2px rgb(40 40 30 / 0.12), 0 4px 12px rgb(40 40 30 / 0.08);
@@ -90,6 +90,8 @@
   white-space: nowrap;
 }
 .ds-opt:hover { color: #1d1d1a; }
+.ds-opt-link { text-decoration: none; }
+.ds-opt-link:focus-visible { outline: 2px solid oklch(0.50 0.26 265); outline-offset: 1px; }
 .ds-opt[data-on] { color: #111110; }
 .ds-opt:has(.ds-input:focus-visible) { outline: 2px solid oklch(0.50 0.26 265); outline-offset: 1px; }
 
@@ -123,6 +125,15 @@
     linear-gradient(#1f4fa3 0.8px, transparent 0.8px),
     linear-gradient(90deg, #1f4fa3 0.8px, transparent 0.8px);
   background-size: 4px 4px;
+}
+.ds-glyph-cinema {
+  width: 14px; height: 11px; border-radius: 2px;
+  border: 1.3px solid #1b1a17;
+  background:
+    linear-gradient(oklch(0.55 0.23 262), oklch(0.55 0.23 262)) center / 5px 4px no-repeat,
+    repeating-linear-gradient(to right, #1b1a17 0 1.5px, transparent 1.5px 3.5px) top / 100% 1.6px no-repeat,
+    repeating-linear-gradient(to right, #1b1a17 0 1.5px, transparent 1.5px 3.5px) bottom / 100% 1.6px no-repeat,
+    #f3efe4;
 }
 .ds-opt[data-pending] .ds-glyph { animation: ds-pulse 0.8s ease-in-out infinite; }
 @keyframes ds-pulse { 50% { opacity: 0.25; transform: scale(0.8); } }
@@ -182,7 +193,7 @@ html[data-design="blueprint"] .ds-boot {
     color: #1d1d1a;
   }
   .ds-seg { width: 100%; }
-  .ds-opt { min-height: 44px; padding: 0 6px; font-size: 0.9rem; gap: 7px; }
+  .ds-opt { min-height: 44px; padding: 0 4px; font-size: 0.8rem; gap: 5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Nav from '@/components/cinema/Nav'
+import DesignBar from '@/components/cinema/DesignBar'
 import Smooth from '@/components/cinema/Smooth'
 import { allProjects, person } from '@/components/cinema/data'
 
@@ -14,6 +15,7 @@ export default function CinemaArchive() {
   return (
     <>
       <Smooth />
+      <DesignBar />
       <Nav archive />
       <main id="top" className="cn-arch">
         <header className="cn-arch__head">

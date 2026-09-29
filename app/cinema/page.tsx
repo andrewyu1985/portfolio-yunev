@@ -1,5 +1,6 @@
 import Smooth from '@/components/cinema/Smooth'
 import Nav from '@/components/cinema/Nav'
+import DesignBar from '@/components/cinema/DesignBar'
 import Hero from '@/components/cinema/Hero'
 import Manifesto from '@/components/cinema/Manifesto'
 import Strip from '@/components/cinema/Strip'
@@ -13,6 +14,7 @@ export default function CinemaHome() {
   return (
     <>
       <Smooth />
+      <DesignBar />
       <Nav />
       <main id="top">
         <Hero />

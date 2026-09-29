@@ -15,6 +15,21 @@ export const DESIGNS: DesignMeta[] = [
   { id: 'blueprint', label: 'Чертёж',   tagline: 'инженерный лист с основной надписью' },
 ]
 
+// Четвёртый вариант живёт на своём адресе (свои шрифты, свой layout),
+// поэтому в переключателе это ссылка, а не радиокнопка.
+export interface LinkDesignMeta {
+  id: 'cinema'
+  label: string
+  tagline: string
+  href: string
+}
+
+export const LINK_DESIGNS: LinkDesignMeta[] = [
+  { id: 'cinema', label: 'Кино', tagline: 'кино-версия с 3D-прокруткой', href: '/cinema' },
+]
+
+export const DESIGN_COUNT = DESIGNS.length + LINK_DESIGNS.length
+
 export const isDesignId = (v: unknown): v is DesignId =>
   v === 'classic' || v === 'newspaper' || v === 'blueprint'
 
