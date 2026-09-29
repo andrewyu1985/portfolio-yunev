@@ -101,8 +101,8 @@ function Rig({ mobile }: { mobile: boolean }) {
   const { camera } = useThree()
   useEffect(() => {
     // на телефоне камера смотрит выше диска — диск уходит в нижнюю половину экрана, под карточку
-    camera.position.set(0, mobile ? 0.95 : 0.15, mobile ? 8.4 : 6.4)
-    camera.lookAt(0, mobile ? 0.95 : 0, 0)
+    camera.position.set(0, mobile ? 0.7 : 0.15, mobile ? 9.4 : 6.4)
+    camera.lookAt(0, mobile ? 0.7 : 0, 0)
   }, [camera, mobile])
   return null
 }

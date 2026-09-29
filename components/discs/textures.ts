@@ -116,7 +116,8 @@ export async function frontTexture(d: Disc): Promise<THREE.CanvasTexture> {
   ctx.save()
   ctx.beginPath(); ctx.arc(R, R, R, 0, Math.PI * 2); ctx.clip()
   if (img) {
-    const s = Math.max(SIZE / img.width, SIZE / img.height)
+    // небольшой перезаход за край: у части обложек модель нарисовала белую рамку или круг
+    const s = Math.max(SIZE / img.width, SIZE / img.height) * 1.1
     const w = img.width * s, h = img.height * s
     ctx.drawImage(img, (SIZE - w) / 2, (SIZE - h) / 2, w, h)
   } else {
