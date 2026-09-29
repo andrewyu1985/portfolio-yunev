@@ -245,6 +245,7 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
     <a href="#messaging">Чат</a>
     <a href="#mobile">Приложение</a>
     <a href="#security">Безопасность</a>
+    <a href="#migration">Переезд</a>
     <a href="#stack">Стек</a>
   </div>
   <a class="nav-back" href="/#projects">← к проектам</a>
@@ -480,9 +481,35 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
       </div>
       <div class="sec-card reveal" style="grid-column:span 2;background:linear-gradient(135deg,rgba(245,158,11,0.10),rgba(245,158,11,0.02));border-color:var(--amber-border)">
         <span class="sc-badge">daily · 04:00 MSK</span>
-        <h4>Ежедневный бэкап на Яндекс&nbsp;Диск</h4>
-        <p>Каждую ночь вся база данных и все материалы чата автоматически архивируются (zstd) и выгружаются на Яндекс Диск через зашифрованное соединение. Ротация 30 дней, каждый снимок полный — переписка и файлы защищены от утечек, сбоев и потери сервера.</p>
+        <h4>Ежедневный бэкап в облако Backblaze&nbsp;B2</h4>
+        <p>Каждую ночь база данных, зашифрованная копия настроек, сертификаты и конфиги сайта уходят в облако датированным снимком, а файлы чата — зеркалом, которое досылает только изменения. Снимки хранятся 14 дней. Восстановление не теоретическое: оно отрепетировано в изолированном контейнере — все таблицы совпали построчно, все файлы по контрольным суммам.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- MIGRATION -->
+<section class="section" id="migration">
+  <div class="section-head reveal" style="text-align:center">
+    <div class="kicker" style="justify-content:center">Переезд · сентябрь 2026</div>
+    <h2 style="margin:0 auto">Сервер переехал — участники не заметили</h2>
+    <p class="section-intro" style="margin:14px auto 0">Чат исправно работал с компьютеров и домашнего интернета, но за 13 дней к нему не пришло ни одного запроса с российского мобильного интернета: соединения от операторов до зарубежного сервера обрывались на первых килобайтах. Решение — перенести прод на сервер в Москве, не потеряв ни сообщения, ни файла.</p>
+  </div>
+  <div class="sec-grid">
+    <div class="sec-card reveal">
+      <span class="sc-badge">диагноз</span>
+      <h4>Сначала замер, потом переезд</h4>
+      <p>Журналы сервера разобраны по сетям: с компьютеров — сотни запросов в день, с мобильных операторов — ноль, а попытки с телефона рвутся после первых килобайт. Приложение исправно, рвётся путь до сервера — значит, лечить нужно расположение сервера, а не код.</p>
+    </div>
+    <div class="sec-card reveal">
+      <span class="sc-badge">один порт на двоих</span>
+      <h4>443 делится по имени сайта</h4>
+      <p>На новом сервере порт 443 уже занимал другой сервис. Nginx разводит трафик по имени сайта, не расшифровывая его, а настоящий адрес посетителя передаётся дальше через PROXY protocol — иначе защита от перебора паролей молча перестала бы работать.</p>
+    </div>
+    <div class="sec-card reveal">
+      <span class="sc-badge">сверено</span>
+      <h4>18 из 18 таблиц, 121 из 121 файла</h4>
+      <p>Перед переключением — полная копия, проверенная восстановлением. После — построчная сверка базы и контрольные суммы каждого файла. Старый сервер сутки держали как точку отката и только потом зачистили.</p>
     </div>
   </div>
 </section>
@@ -493,21 +520,21 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
     <div class="section-head reveal" style="text-align:center">
       <div class="kicker" style="justify-content:center">Архитектура</div>
       <h2 style="margin:0 auto">Контейнеризованный продакшн</h2>
-      <p class="section-intro" style="margin:14px auto 0">Монорепо на pnpm, всё крутится в Docker Compose, HTTPS через Let's Encrypt, деплой по push в main.</p>
+      <p class="section-intro" style="margin:14px auto 0">Монорепо на pnpm, всё крутится в Docker Compose, HTTPS через Let's Encrypt. Сервер в Москве, порт 443 делится с соседним сервисом по имени сайта.</p>
     </div>
     <div class="arch-flow reveal">
       <div class="arch-row"><div class="arch-box"><span class="arch-tag">CLIENT</span><div><div class="ab-t">Next.js 14 · PWA</div><div class="ab-d">Адаптивный фронтенд, устанавливается на телефон</div></div></div></div>
       <div class="arch-conn"></div>
-      <div class="arch-row"><div class="arch-box"><span class="arch-tag">EDGE</span><div><div class="ab-t">Nginx + HTTPS</div><div class="ab-d">Reverse proxy, TLS Let's Encrypt, маршрутизация /api и /</div></div></div></div>
+      <div class="arch-row"><div class="arch-box"><span class="arch-tag">EDGE</span><div><div class="ab-t">Nginx · HTTPS · разделение 443 по SNI</div><div class="ab-d">Маршрутизация по имени сайта без расшифровки трафика; адрес посетителя передаётся через PROXY protocol</div></div></div></div>
       <div class="arch-conn"></div>
       <div class="arch-row"><div class="arch-box accent"><span class="arch-tag">API</span><div><div class="ab-t">NestJS 10 + Fastify · Socket.IO</div><div class="ab-d">Бизнес-логика, real-time события, auth, модерация</div></div></div></div>
       <div class="arch-conn"></div>
       <div class="arch-row" style="gap:14px;flex-wrap:wrap">
         <div class="arch-box" style="flex:1 1 180px"><span class="arch-tag">DATA</span><div><div class="ab-t">PostgreSQL 16</div><div class="ab-d">Drizzle ORM</div></div></div>
-        <div class="arch-box" style="flex:1 1 180px"><span class="arch-tag">FILES</span><div><div class="ab-t">MinIO (S3)</div><div class="ab-d">ClamAV + AES-256</div></div></div>
+        <div class="arch-box" style="flex:1 1 180px"><span class="arch-tag">FILES</span><div><div class="ab-t">Том на диске сервера</div><div class="ab-d">ClamAV + AES-256-GCM</div></div></div>
       </div>
       <div class="arch-conn"></div>
-      <div class="arch-row"><div class="arch-box accent"><span class="arch-tag">BACKUP</span><div><div class="ab-t">Яндекс Диск · ежедневно 04:00 MSK</div><div class="ab-d">Автоматический pg_dump + архив всех материалов (rclone/WebDAV), ротация 30 дней</div></div></div></div>
+      <div class="arch-row"><div class="arch-box accent"><span class="arch-tag">BACKUP</span><div><div class="ab-t">Backblaze B2 · ежедневно 04:00 MSK</div><div class="ab-d">Снимок базы, настроек и сертификатов + зеркало файлов по изменениям (rclone), глубина 14 дней</div></div></div></div>
     </div>
   </div>
 </section>
@@ -525,12 +552,12 @@ footer .copy{font-size:12.5px;color:var(--text3);font-family:'JetBrains Mono'}
     <div class="stack-item reveal"><div class="si-layer">Real-time</div><div class="si-name">Socket.IO</div></div>
     <div class="stack-item reveal"><div class="si-layer">Frontend</div><div class="si-name">Next.js 14</div></div>
     <div class="stack-item reveal"><div class="si-layer">UI</div><div class="si-name">Tailwind CSS</div></div>
-    <div class="stack-item reveal"><div class="si-layer">Хранилище</div><div class="si-name">MinIO (S3)</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Хранилище</div><div class="si-name">Диск сервера</div></div>
     <div class="stack-item reveal"><div class="si-layer">Антивирус</div><div class="si-name">ClamAV</div></div>
     <div class="stack-item reveal"><div class="si-layer">MFA</div><div class="si-name">TOTP · otplib</div></div>
     <div class="stack-item reveal"><div class="si-layer">Proxy</div><div class="si-name">Nginx + HTTPS</div></div>
     <div class="stack-item reveal"><div class="si-layer">Инфра</div><div class="si-name">Docker Compose</div></div>
-    <div class="stack-item reveal"><div class="si-layer">CI/CD</div><div class="si-name">GitHub Actions</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Бэкап</div><div class="si-name">rclone · Backblaze B2</div></div>
   </div>
 </section>
 

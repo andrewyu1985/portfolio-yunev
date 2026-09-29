@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-монтажёр эфиров — ролики и рилсы из одной записи</title>
+<meta name="description" content="Конвейер, который превращает двухчасовой эфир «Ответы на вопросы» в ролик на каждый вопрос и вертикальные рилсы комплектом: видео, обложка и описание для площадок.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#faf8fe; --bg2:#f2eefb; --bg3:#ffffff;
+  --accent:#7e22ce; --accent-d:#581c87; --accent-l:#c084fc; --accent-2:#4d7c0f;
+  --accent-dim:rgba(126,34,206,0.08); --accent-border:rgba(126,34,206,0.26);
+  --lime:#a3e635; --lime-dim:rgba(163,230,53,0.22);
+  --shadow-accent:0 12px 34px rgba(126,34,206,0.24);
+  --nav-bg:rgba(250,248,254,0.78); --nav-bg-scrolled:rgba(250,248,254,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(126,34,206,0.12), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(163,230,53,0.16), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(192,132,252,0.15), transparent 55%);
+}
+/* два «телефона»: схема кадра и финальный экран */
+.phones{display:grid;grid-template-columns:repeat(2,minmax(0,280px));gap:28px;justify-content:center;margin-top:8px}
+@media(max-width:600px){.phones{grid-template-columns:minmax(0,260px)}}
+.ph-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.ph-cap{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);font-weight:700}
+.phone{position:relative;width:100%;aspect-ratio:9/16;border-radius:30px;border:7px solid #fff;box-shadow:var(--shadow2);overflow:hidden;background:linear-gradient(160deg,#efe7ff 0%,#fdf2ff 45%,#fff6e8 100%)}
+.phone>img{width:100%;height:100%;object-fit:cover}
+.ph-top{position:absolute;top:14px;left:50%;transform:translateX(-50%);background:#fff;border-radius:100px;padding:4px 12px;font-family:'Space Grotesk';font-weight:700;font-size:10.5px;letter-spacing:.06em;color:var(--accent-d);box-shadow:var(--shadow);white-space:nowrap}
+.ph-word{position:absolute;top:57%;left:-6%;right:-6%;text-align:center;font-family:'Space Grotesk';font-weight:700;font-size:64px;letter-spacing:.02em;color:rgba(255,255,255,0.78);line-height:1;text-shadow:0 2px 20px rgba(126,34,206,0.10)}
+.ph-card{position:absolute;top:13%;left:50%;transform:translateX(-50%) rotate(-3deg);width:52%;background:#fff;border-radius:16px;padding:6px;box-shadow:0 10px 26px rgba(80,40,140,0.18)}
+.ph-card img{border-radius:11px;width:100%;aspect-ratio:1/1;object-fit:cover}
+.ph-chip{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(2deg);background:var(--accent);color:#fff;font-family:'Space Grotesk';font-weight:600;font-size:10px;border-radius:100px;padding:4px 10px;white-space:nowrap}
+.ph-spk{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:78%}
+.ph-spk svg{width:100%;height:auto;display:block}
+.ph-sub{position:absolute;bottom:11%;left:50%;transform:translateX(-50%);background:#fff;border-radius:12px;padding:7px 12px;font-family:'Space Grotesk';font-weight:700;font-size:15px;color:var(--ink);white-space:nowrap;box-shadow:0 8px 20px rgba(60,30,110,0.16)}
+.ph-sub mark{background:var(--lime);color:var(--ink);border-radius:6px;padding:0 5px}
+/* галерея иллюстраций */
+.gallery{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:34px}
+@media(max-width:900px){.gallery{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.gallery{grid-template-columns:repeat(2,1fr);gap:10px}}
+.gallery img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s}
+.gallery img:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:var(--shadow2)}
+/* ссылки на ролики */
+.vids{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+@media(max-width:860px){.vids{grid-template-columns:1fr}}
+.vid{display:flex;flex-direction:column;background:var(--bg3);border:1px solid var(--accent-border);border-radius:var(--r);padding:26px 24px;box-shadow:var(--shadow);text-decoration:none;transition:transform .3s,box-shadow .3s,border-color .3s}
+.vid:hover{transform:translateY(-5px);box-shadow:var(--shadow2);border-color:var(--accent)}
+.vid-tag{font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;border-radius:100px;padding:5px 12px;align-self:flex-start;margin-bottom:18px;color:var(--accent-2);background:var(--lime-dim)}
+.vid-play{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:16px;background:linear-gradient(140deg,var(--accent-l),var(--accent-d));box-shadow:var(--shadow-accent);transition:transform .3s}
+.vid:hover .vid-play{transform:scale(1.08)}
+.vid-play svg{width:22px;height:22px;fill:#fff;margin-left:3px}
+.vid-t{font-family:'Space Grotesk';font-size:19px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.3}
+.vid-d{font-size:15px;color:var(--text2);line-height:1.6;flex:1}
+.vid-go{margin-top:18px;font-family:'JetBrains Mono';font-size:13px;font-weight:700;color:var(--accent-d);transition:transform .25s;display:inline-block}
+.vid:hover .vid-go{transform:translateX(4px)}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">М</span> ИИ-монтажёр</a>
+  <div class="nav-links">
+    <a href="#zadacha">Задача</a>
+    <a href="#konveyer">Конвейер</a>
+    <a href="#kadr">Кадр</a>
+    <a href="#proverki">Проверки</a>
+    <a href="#rezultat">Результат</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/></svg>
+    </div>
+    <div class="hero-badge"><span class="dot"></span>работает · первый выпуск в публикации</div>
+    <h1>ИИ-<span class="grad">монтажёр</span></h1>
+    <div class="hero-tag">Эфир → ролик на каждый вопрос → рилсы комплектом</div>
+    <p class="hero-sub">Раз в месяц онлайн-школа выходит в двухчасовой эфир «Ответы на вопросы». Из одной записи нужно получить отдельный ролик на каждый вопрос и вертикальные рилсы для четырёх площадок — каждый с обложкой и описанием. Конвейер берёт на себя механику монтажа, а человеку оставляет решения: какой момент взять и хорош ли результат.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#rezultat">Смотреть результат →</a>
+      <a class="btn btn-ghost" href="#konveyer">Как устроен конвейер</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>1:52:30</strong><span>длина эфира</span></div>
+      <div class="hero-stat"><strong>9</strong><span>вопросов</span></div>
+      <div class="hero-stat"><strong>13</strong><span>рилсов в выпуске</span></div>
+      <div class="hero-stat"><strong>~30 мин</strong><span>машинного времени на два рилса</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ЗАДАЧА -->
+<section class="tinted" id="zadacha">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Задача</div>
+      <h2>Один эфир — много форматов</h2>
+      <p class="section-intro">Длинный разговор хорош вживую, но в ленте его не досмотрят. Поэтому эфир режется на короткие самостоятельные вещи — каждая под свою площадку и свою задачу.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="num">01</div>
+        <h3>Ролик на вопрос</h3>
+        <p>Горизонтальный ролик начинается с зачитанного вопроса. Паузы и служебные фразы эфира вырезаны, плашки выходят по графику: проект, консультация, подписка, книга. Все плашки — в нижней части кадра, на лицо не ложится ничего.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">02</div>
+        <h3>Рилсы по 45–55 секунд</h3>
+        <p>Из ответа берутся два самостоятельных момента: сильное начало, законченная мысль, никаких повисших «если…». Источник — только исходник эфира: в чужих готовых нарезках плашки съедают лучшие кадры.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">03</div>
+        <h3>Комплект, а не файл</h3>
+        <p>Рилс сдаётся тремя файлами с одним именем: видео, обложка и страница с описанием для YouTube Shorts, Rutube, VK Клипов и Дзена. Рилс без обложки считается не сданным.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КОНВЕЙЕР -->
+<section class="section" id="konveyer">
+  <div class="section-head reveal">
+    <div class="kicker">Конвейер</div>
+    <h2>Скрипты делают механику, человек — решения</h2>
+    <p class="section-intro">Процесс разложен на двадцать шагов, почти у каждого — свой скрипт и свой отчёт. Там, где нужен вкус или смысл, конвейер останавливается и ждёт решения человека — эти этапы выделены цветом.</p>
+  </div>
+  <div class="flow reveal">
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ВЫПУСК</span><div><div class="fb-t">Распознавание всего эфира</div><div class="fb-d">Речь размечается по словам и фразам, список вопросов сопоставляется с записью</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ГРАНИЦЫ</span><div><div class="fb-t">Где начинается и кончается вопрос</div><div class="fb-d">По тексту и энергии звука — от первого слова зачитанного вопроса до начала следующего</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">МОМЕНТЫ</span><div><div class="fb-t">Два момента на вопрос</div><div class="fb-d">Решение человека: хук, законченная мысль, 45–55 секунд без потери смысла</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ЧИСТКА</span><div><div class="fb-t">Склейки по энергии звука</div><div class="fb-d">Распознавание сдвигает тихие слова на 0,3–0,5 с, поэтому граница ищется по звуку, а каждая склейка прослушивается отдельно</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ВЫРЕЗКА</span><div><div class="fb-t">Спикер отделяется от комнаты</div><div class="fb-d">Маска на каждом кадре, вычитание чистого фона, мягкое растворение торса к низу кадра</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">СЦЕНАРИЙ</span><div><div class="fb-t">Шесть–восемь сцен</div><div class="fb-d">Решение человека: хук, слово каждой сцены, где встанут две-три иллюстрации</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ВЁРСТКА</span><div><div class="fb-t">Сцены, иллюстрации, субтитры</div><div class="fb-d">Фоны, крупные слова, 3D-иллюстрации и караоке-субтитры собираются как веб-вёрстка и рендерятся в видео</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ПРИЁМКА</span><div><div class="fb-t">Машинная проверка</div><div class="fb-d">Громкость, стыки, финал; лист кадров для глаз человека</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">КОМПЛЕКТ</span><div><div class="fb-t">Обложка и описания</div><div class="fb-d">Человек выбирает кадр лица для обложки, описания пишутся под правила каждой площадки, комплект проверяется на полноту</div></div></div></div>
+  </div>
+  <div class="demo-note reveal">При готовых решениях машинное время — около получаса на два рилса. Тяжёлые шаги — маски и рендер — запускаются с повышенным приоритетом: иначе Windows замедляет фоновые задачи в 10–20 раз</div>
+</section>
+
+<!-- КАДР -->
+<section class="tinted" id="kadr">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Кадр</div>
+      <h2>Спикер на сцене, а не на фоне своей комнаты</h2>
+      <p class="section-intro">Первую версию рилсов — плашки поверх исходного видео — забраковали как устаревшую. Вторая собрана как вёрстка: спикер вырезан из кадра и поставлен на светлый фон, который меняется от сцены к сцене.</p>
+    </div>
+    <div class="split">
+      <div class="reveal">
+        <div class="phones">
+          <div class="ph-wrap">
+            <div class="phone" aria-label="Схема кадра рилса">
+              <span class="ph-top">ЮНЕВЕРСУМ</span>
+              <div class="ph-card"><span class="ph-chip">листает чужую жизнь</span><img src="/onv/i5.jpg" alt="3D-иллюстрация: девушка на диване листает ленту" loading="lazy"></div>
+              <div class="ph-word">ЛЕНТА</div>
+              <div class="ph-spk"><svg viewBox="0 0 200 150" aria-hidden="true"><defs><linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9d8bc4" stop-opacity=".55"/><stop offset="1" stop-color="#9d8bc4" stop-opacity=".12"/></linearGradient></defs><circle cx="100" cy="52" r="30" fill="url(#fade)"/><path d="M28 150c4-38 34-58 72-58s68 20 72 58z" fill="url(#fade)"/></svg></div>
+              <div class="ph-sub">А <mark>КТО-ТО</mark> ЛИСТАЕТ</div>
+            </div>
+            <div class="ph-cap">сцена · схема</div>
+          </div>
+          <div class="ph-wrap">
+            <div class="phone"><img src="/onv/final.jpg" alt="Финальный экран рилса с QR-кодом чата школы" loading="lazy"></div>
+            <div class="ph-cap">финал · QR</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <ul class="split-list">
+          <li><span class="chk">✓</span><span><b>Фон меняется по сценам</b> — два рилса одного вопроса не похожи друг на друга.</span></li>
+          <li><span class="chk">✓</span><span><b>Крупное слово сцены</b> стоит за спикером, как заголовок того, о чём он сейчас говорит.</span></li>
+          <li><span class="chk">✓</span><span><b>Ключевая мысль — иллюстрацией</b>: пластилиновая 3D-картинка нарисована под конкретный рилс.</span></li>
+          <li><span class="chk">✓</span><span><b>Караоке-субтитры</b> подсвечивают слово, которое звучит прямо сейчас.</span></li>
+          <li><span class="chk">✓</span><span><b>Конец без стоп-кадра</b>: экран с QR выезжает по последнему слову поверх живого хвоста клипа.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gallery reveal">
+      <img src="/onv/i1.jpg" alt="3D-иллюстрация: женщина сажает яблоню" loading="lazy">
+      <img src="/onv/i2.jpg" alt="3D-иллюстрация: песочные часы с соком" loading="lazy">
+      <img src="/onv/i3.jpg" alt="3D-иллюстрация: иллюзия о принце на коне" loading="lazy">
+      <img src="/onv/i4.jpg" alt="3D-иллюстрация: врач на горе книг" loading="lazy">
+      <img src="/onv/i5.jpg" alt="3D-иллюстрация: девушка листает ленту" loading="lazy">
+      <img src="/onv/i6.jpg" alt="3D-иллюстрация: девушка с рацией у радиоприёмника" loading="lazy">
+    </div>
+    <div class="demo-note reveal">32 иллюстрации к шести вопросам нарисованы нейросетью в одном стиле: единое описание манеры копируется в каждый запрос. На схеме кадра спикер показан силуэтом</div>
+  </div>
+</section>
+
+<!-- ПРОВЕРКИ -->
+<section class="section" id="proverki">
+  <div class="section-head reveal">
+    <div class="kicker">Проверки</div>
+    <h2>Каждая проверка — след реальной ошибки</h2>
+    <p class="section-intro">Ни одна проверка не придумана заранее: каждая появилась после конкретного провала. Журнал граблей — 36 записей — превращается в правила, а правила в скрипты, которые не дадут сдать рилс с той же ошибкой.</p>
+  </div>
+  <div class="tbl-wrap reveal">
+    <table class="tbl">
+      <thead><tr><th>Что проверяется</th><th>Какую ошибку ловит</th><th>Как</th></tr></thead>
+      <tbody>
+        <tr><td>Громкость</td><td>Рилс тише соседних в ленте</td><td class="n">−14 LUFS, выравнивание автоматом</td></tr>
+        <tr><td>Склейки</td><td>Съеденный конец слова, начало с «а» или «то есть»</td><td class="n">каждая граница на слух отдельно</td></tr>
+        <tr><td>Вырезка</td><td>Буквы логотипа у виска и в стёклах очков</td><td class="n">снимок головы крупным планом</td></tr>
+        <tr><td>Сценарий</td><td>Элемент появляется после конца своей сцены</td><td class="n">валидатор останавливает сборку</td></tr>
+        <tr><td>Финал</td><td>Стоп-кадр с открытым ртом перед QR</td><td class="n">QR поверх живого хвоста клипа</td></tr>
+        <tr><td>Комплект</td><td>Рилс без обложки, отчёт в папке сдачи</td><td class="n">три файла с одним именем</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- РЕЗУЛЬТАТ -->
+<section class="tinted" id="rezultat">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Результат</div>
+      <h2>Первый выпуск уже в ленте</h2>
+      <p class="section-intro">Эфир 15 сентября: шесть вопросов из девяти прошли через конвейер, сдано 13 рилсов — каждый с обложкой и описанием. Ролики выходят на YouTube-канале школы.</p>
+    </div>
+    <div class="vids reveal">
+      <a class="vid" href="https://www.youtube.com/shorts/dwRj7qjNdJI" target="_blank" rel="noopener">
+        <span class="vid-tag">Shorts · 1,2 тыс. просмотров</span>
+        <span class="vid-play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+        <span class="vid-t">Главная причина, почему разваливаются браки</span>
+        <span class="vid-d">Вертикальный рилс: сцены, иллюстрации, караоке-субтитры и финальный экран с QR</span>
+        <span class="vid-go">Смотреть →</span>
+      </a>
+      <a class="vid" href="https://www.youtube.com/shorts/t5cFqB13fcQ" target="_blank" rel="noopener">
+        <span class="vid-tag">Shorts · 809 просмотров</span>
+        <span class="vid-play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+        <span class="vid-t">Принять — не значит сдаться</span>
+        <span class="vid-d">Второй момент выпуска: другая тема — другие фоны и другие иллюстрации</span>
+        <span class="vid-go">Смотреть →</span>
+      </a>
+      <a class="vid" href="https://www.youtube.com/watch?v=bPt9p5t28to" target="_blank" rel="noopener">
+        <span class="vid-tag">Ролик на вопрос · 16:49</span>
+        <span class="vid-play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+        <span class="vid-t">Можно ли в браке развивать супруга</span>
+        <span class="vid-d">Горизонтальный ролик: вопрос, ответ без пауз и служебных фраз, плашки по графику</span>
+        <span class="vid-go">Смотреть →</span>
+      </a>
+    </div>
+    <div class="demo-note reveal">Ролики открываются на YouTube. Просмотры — на 28 сентября 2026 года</div>
+  </div>
+</section>
+
+<!-- СКИЛЛ -->
+<section class="section">
+  <div class="section-head reveal">
+    <div class="kicker">Воспроизводимость</div>
+    <h2>Инструкция, по которой работает любой агент</h2>
+    <p class="section-intro">Конвейер живёт не в памяти одной сессии, а в документах и скриптах — поэтому следующий выпуск собирается по тем же правилам, что и первый.</p>
+  </div>
+  <div class="cards c2">
+    <div class="card reveal">
+      <div class="tagline">скилл Claude Code</div>
+      <h3>20 шагов, 22 скрипта</h3>
+      <p>Весь процесс оформлен скиллом: шаги с командами, справочники по выбору моментов, сценарию и комплекту, журнал граблей и полный сданный пример вопроса. Вопросы с четвёртого по шестой собраны уже по нему.</p>
+    </div>
+    <div class="card reveal">
+      <div class="tagline">правила заказчика</div>
+      <h3>Записаны в начало</h3>
+      <p>Деньги на иллюстрации — около двадцати центов на вопрос, и тратятся только с разрешения. Новый формат — сначала пробник. Готовое не перезаписывается: любая правка — новая версия файла.</p>
+    </div>
+  </div>
+</section>
+
+<!-- СТЕК -->
+<section class="tinted">
+  <div class="section">
+    <div class="section-head reveal" style="text-align:center">
+      <div class="kicker" style="justify-content:center">Технологии</div>
+      <h2 style="margin:0 auto">Стек</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-item reveal"><div class="si-layer">Распознавание</div><div class="si-name">Deepgram</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Звук и склейки</div><div class="si-name">ffmpeg · NumPy</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Маски спикера</div><div class="si-name">ONNX Runtime · OpenCV</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Вёрстка и рендер</div><div class="si-name">HyperFrames</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Иллюстрации</div><div class="si-name">Nano Banana 2</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Конвейер</div><div class="si-name">Python · Claude Code</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Эфир записывается один раз — работает весь месяц.</h2>
+    <p>Один двухчасовой разговор превращается в ролики на каждый вопрос и ленту коротких видео — с одинаковым качеством от выпуска к выпуску.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/#projects">← Смотреть другие проекты</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/video-update.html">Апдейт видеокурсов</a>
+    <a href="/told-after-dark.html">Told After Dark</a>
+  </div>
+  <div class="copy">ИИ-монтажёр эфиров · Ролики и рилсы из одной записи · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Навигатор — игровая оболочка тренинга</title>
-<meta name="description" content="Навигатор — оболочка для психологического тренинга: десять остановок, настоящие письменные упражнения, шифрование ответов на своём сервере и закрытый кабинет куратора.">
+<title>Игра «Навигатор» — оболочка для готовой методологии</title>
+<meta name="description" content="Игра «Навигатор» — оболочка для готовой методологии: десять остановок, настоящие письменные упражнения, игровой персонаж, голос автора на экранах, шифрование ответов на своём сервере и закрытый кабинет куратора.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -20,6 +20,8 @@
               radial-gradient(ellipse 50% 40% at 85% 80%, rgba(13,148,136,0.12), transparent 55%),
               radial-gradient(ellipse 45% 40% at 12% 75%, rgba(74,222,128,0.12), transparent 55%);
 }
+/* колонки не распирает широкая таблица на телефоне */
+.split>*{min-width:0}
 /* лента остановок */
 .road{position:relative;margin-top:12px;padding:34px 0 10px}
 .road::before{content:'';position:absolute;top:52px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent-l),var(--accent),var(--accent-2));border-radius:3px;opacity:.55}
@@ -65,6 +67,7 @@
 <nav id="nav">
   <a class="nav-logo" href="/#projects"><span class="nav-mark">Н</span> Навигатор</a>
   <div class="nav-links">
+    <a href="#vhod">Вход в игру</a>
     <a href="#put">Путь</a>
     <a href="#ekran">Экран шага</a>
     <a href="#privacy">Приватность</a>
@@ -82,10 +85,10 @@
     <div class="hero-mark round">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.2 8.8l-2.1 5-5 2.1 2.1-5z"/></svg>
     </div>
-    <div class="hero-badge wip"><span class="dot"></span>в разработке</div>
+    <div class="hero-badge wip"><span class="dot"></span>в разработке · шаги 1–9 собраны</div>
     <h1>Нави<span class="grad">гатор</span></h1>
-    <div class="hero-tag">Оболочка для готового тренинга</div>
-    <p class="hero-sub">Психологический тренинг существовал как методология и живые встречи. Задача была не «сделать курс», а построить оболочку: десять остановок, на каждой человек выполняет настоящее письменное упражнение, а не кликает по вариантам. Экран только даёт задание и бережно хранит написанное.</p>
+    <div class="hero-tag">Игровая оболочка для готовой методологии</div>
+    <p class="hero-sub">Методология существовала как десять шагов и живые встречи автора. Задача была не «сделать курс», а построить оболочку: десять остановок, на каждой человек выполняет настоящее письменное упражнение, а не кликает по вариантам. Экран только даёт задание и бережно хранит написанное. С сентября продукт по решению автора называется игрой.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#ekran">Как выглядит шаг →</a>
       <a class="btn btn-ghost" href="#privacy">Три правила приватности</a>
@@ -94,7 +97,33 @@
       <div class="hero-stat"><strong>10</strong><span>остановок</span></div>
       <div class="hero-stat"><strong>3</strong><span>правила приватности</span></div>
       <div class="hero-stat"><strong>AES-256</strong><span>на ответах</span></div>
-      <div class="hero-stat"><strong>13</strong><span>сборок для показа</span></div>
+      <div class="hero-stat"><strong>26</strong><span>сборок для показа</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ВХОД В ИГРУ -->
+<section class="section" id="vhod">
+  <div class="section-head reveal">
+    <div class="kicker">Вход в игру</div>
+    <h2>Прежде чем писать, человеку нужно понять, куда он идёт</h2>
+    <p class="section-intro">Вводный экран и первые шаги пересобраны по разметке и голосовым записям автора: вместо списков и схем — короткий мультфильм, живой голос и игровой персонаж, через которого проще говорить о своём.</p>
+  </div>
+  <div class="cards">
+    <div class="card reveal">
+      <div class="tagline">вводный экран</div>
+      <h3>Мультфильм на 84 секунды</h3>
+      <p>Сюжет взят из двух голосовых автора: человек в тумане, кнопка «Начать игру», проступающая местность, карта в руках, три маршрута и выбор своего. Кадры нарисованы нейросетью в одном стиле, четыре сцены с действием героя оживлены. Первая версия была собрана кодом из векторной графики.</p>
+    </div>
+    <div class="card reveal">
+      <div class="tagline">голос автора</div>
+      <h3>Записи прямо на экранах</h3>
+      <p>Автор объясняет шаг своим голосом, рядом лежит расшифровка. Формулировки вопросов берутся с записей дословно: оболочка ничего не пересказывает за автора.</p>
+    </div>
+    <div class="card reveal">
+      <div class="tagline">шаг 1</div>
+      <h3>Игровой персонаж</h3>
+      <p>Не фишка на поле, а проекция самого человека. Все вопросы первого шага задаются про персонажа — говорить о чужой проблеме психологически легче, чем о своей. Карточка героя растёт сбоку и никогда не пустует: пока ответа нет, в ней стоит пример.</p>
     </div>
   </div>
 </section>
@@ -111,7 +140,7 @@
       <div class="stops">
         <div class="stop"><div class="dot"></div><div class="n">01</div><div class="l">вход</div></div>
         <div class="stop"><div class="dot"></div><div class="n">02</div><div class="l">свободный ход</div></div>
-        <div class="stop"><div class="dot"></div><div class="n">03</div><div class="l">развилка</div></div>
+        <div class="stop paid"><div class="dot"></div><div class="n">03</div><div class="l">развилка</div></div>
         <div class="stop paid"><div class="dot"></div><div class="n">04</div><div class="l">застава</div></div>
         <div class="stop paid"><div class="dot"></div><div class="n">05</div><div class="l">разбор</div></div>
         <div class="stop paid"><div class="dot"></div><div class="n">06</div><div class="l">сборка</div></div>
@@ -126,7 +155,7 @@
       <div class="ar">→</div>
       <div class="st"><b>После шага</b>И видит, чем этот шаг закончится. Граница между шагами показана явно, чтобы работа не сливалась в поток экранов.</div>
     </div>
-    <div class="demo-note reveal">Подписи остановок — механика оболочки. Содержание методологии принадлежит автору тренинга и здесь не раскрывается</div>
+    <div class="demo-note reveal">Первые два шага бесплатны, с третьего начинается платная часть игры — это видно на каждом её экране. Подписи остановок — механика оболочки, содержание методологии принадлежит автору и здесь не раскрывается</div>
   </div>
 </section>
 
@@ -266,6 +295,8 @@
       <div class="row reveal"><span class="rk">убрано</span><div><div class="rt">Баллы и оценки</div><div class="rd">Упражнение нельзя пройти «правильно». Система не оценивает написанное — это принципиально, иначе человек начнёт писать для системы.</div></div></div>
       <div class="row reveal"><span class="rk">изменено</span><div><div class="rt">Порядок шагов</div><div class="rd">Тяжёлый разбор прошлого уехал с третьего места на пятое: сначала настрой и разбор того, что есть. К прошлому человек приходит трезвее — и проходит его легче.</div></div></div>
       <div class="row reveal"><span class="rk">добавлено</span><div><div class="rt">Остановка перед каждым шагом</div><div class="rd">Экран «Сейчас → После шага». Граница между шагами показана явно, чтобы работа не сливалась в бесконечную ленту.</div></div></div>
+      <div class="row reveal"><span class="rk">добавлено</span><div><div class="rt">Касса после второго шага</div><div class="rd">Первые два шага — создание персонажа, точки А и Б — бесплатны. С третьего игра платная, и это видно сразу: значок в шапке, лист в золотой рамке, свой плеер записей.</div></div></div>
+      <div class="row reveal"><span class="rk">добавлено</span><div><div class="rt">«Назад» с любого экрана</div><div class="rd">Вернуться на предыдущий экран можно всегда, а не только начать заново. Написанное при этом не стирается.</div></div></div>
       <div class="row reveal"><span class="rk">правило</span><div><div class="rt">Методология не додумывается</div><div class="rd">Всё, чего нет в каноне автора, помечается как добавка и требует утверждения. Оболочка не имеет права дописывать содержание за автора.</div></div></div>
     </div>
   </div>
@@ -326,6 +357,7 @@
     <div class="stack-item reveal"><div class="si-layer">База</div><div class="si-name">PostgreSQL</div></div>
     <div class="stack-item reveal"><div class="si-layer">Шифрование</div><div class="si-name">AES-256-GCM</div></div>
     <div class="stack-item reveal"><div class="si-layer">3D-вариант</div><div class="si-name">Babylon.js</div></div>
+    <div class="stack-item reveal"><div class="si-layer">Мультфильм</div><div class="si-name">Nano Banana · Kling</div></div>
     <div class="stack-item reveal"><div class="si-layer">Запуск</div><div class="si-name">Docker</div></div>
   </div>
 </section>
@@ -348,7 +380,7 @@
     <a href="/private-chat.html">Private Chat</a>
     <a href="/hermes-system.html">Hermes System</a>
   </div>
-  <div class="copy">Навигатор · Игровая оболочка тренинга · Андрей Юнев · 2026</div>
+  <div class="copy">Игра «Навигатор» · Оболочка для готовой методологии · Андрей Юнев · 2026</div>
 </footer>
 
 <script src="/presentation.js"></script>
