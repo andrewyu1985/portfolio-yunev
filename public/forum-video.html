@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ролик для стенда — понятно без звука</title>
+<meta name="description" content="Имиджевый ролик для стенда технологического холдинга на отраслевом форуме: 102 секунды, понятно без звука, фирменный стиль заказчика. Графика нарисована кодом кадр за кадром, пять версий до финала.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#f6f9fc; --bg2:#eaf1f8; --bg3:#ffffff;
+  --accent:#0369a1; --accent-d:#0c4a6e; --accent-l:#38bdf8; --accent-2:#7c3aed;
+  --accent-dim:rgba(3,105,161,0.08); --accent-border:rgba(3,105,161,0.26);
+  --shadow-accent:0 12px 34px rgba(3,105,161,0.24);
+  --nav-bg:rgba(246,249,252,0.78); --nav-bg-scrolled:rgba(246,249,252,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(3,105,161,0.12), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(124,58,237,0.10), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(56,189,248,0.15), transparent 55%);
+}
+.split>*{min-width:0}
+
+/* карточка-ссылка на ролик */
+.vid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;align-items:center;max-width:920px;margin:0 auto;background:var(--bg3);border:1px solid var(--accent-border);border-radius:var(--r);padding:30px 32px;box-shadow:var(--shadow);text-decoration:none;transition:transform .3s,box-shadow .3s,border-color .3s}
+.vid:hover{transform:translateY(-5px);box-shadow:var(--shadow2);border-color:var(--accent)}
+.vid-play{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(140deg,var(--accent-l),var(--accent-d));box-shadow:var(--shadow-accent);transition:transform .3s}
+.vid:hover .vid-play{transform:scale(1.08)}
+.vid-play svg{width:32px;height:32px;fill:#fff;margin-left:4px}
+.vid-body{display:flex;flex-direction:column;min-width:0}
+.vid-tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;border-radius:100px;padding:5px 12px;align-self:flex-start;margin-bottom:14px;color:var(--accent-2);background:rgba(124,58,237,0.09)}
+.vid-t{font-family:'Space Grotesk',sans-serif;font-size:clamp(19px,2.4vw,24px);font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.25}
+.vid-d{font-size:15px;color:var(--text2);line-height:1.6;font-weight:400}
+.vid-go{margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--accent-d);transition:transform .25s;display:inline-block}
+.vid:hover .vid-go{transform:translateX(4px)}
+@media(max-width:560px){.vid{grid-template-columns:minmax(0,1fr);padding:24px 20px;gap:16px}.vid-play{width:64px;height:64px}.vid-play svg{width:26px;height:26px}}
+
+/* стоп-кадры */
+.frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:34px}
+@media(max-width:860px){.frames{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.frames{grid-template-columns:minmax(0,1fr)}}
+.frame{background:var(--bg3);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s}
+.frame:hover{transform:translateY(-4px);box-shadow:var(--shadow2)}
+.frame img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.frame figcaption{padding:12px 15px 15px;font-size:14px;color:var(--text2);line-height:1.55;font-weight:400}
+.frame .tc{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--accent-d);background:var(--accent-dim);border-radius:6px;padding:2px 7px;margin-right:6px}
+
+/* схема титра: светлый макет кадра 16:9 */
+.shot{container-type:inline-size;position:relative;aspect-ratio:16/9;border-radius:16px;border:1px solid var(--accent-border);box-shadow:var(--shadow2);overflow:hidden;background:linear-gradient(150deg,#dcebf6 0%,#f4f9fd 55%,#ece6fc 100%)}
+.shot-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(3,105,161,0.20) 1px,transparent 1.3px);background-size:18px 18px}
+.shot-traces{position:absolute;inset:0;width:100%;height:100%}
+.shot-traces path{fill:none;stroke:rgba(3,105,161,0.28);stroke-width:1.2}
+.shot-traces circle{fill:var(--bg3);stroke:rgba(3,105,161,0.38);stroke-width:1.2}
+.shot-logo{position:absolute;top:7.4%;right:6.25%;width:13%;aspect-ratio:2.4/1;border:1.5px dashed var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:clamp(8px,1.15cqw,11px);font-weight:700;color:var(--accent-d);background:rgba(255,255,255,0.6)}
+.shot-block{position:absolute;left:6.25%;bottom:10.2%;right:24%}
+.shot-kick{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.45cqw,13px);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;display:flex;align-items:center;gap:6px}
+.shot-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(16px,4.6cqw,40px);line-height:1.06;color:var(--ink);margin-top:1.3cqw;letter-spacing:-.02em}
+.shot-line{display:flex;align-items:center;gap:6px;margin:1.3cqw 0}
+.shot-line span.bar{width:4.7cqw;min-width:22px;height:3px;border-radius:2px;background:var(--accent)}
+.shot-chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--accent);border-radius:6px;padding:.45cqw 1cqw;font-size:clamp(9px,1.3cqw,12px);font-weight:600;color:var(--accent-d);background:rgba(255,255,255,0.55)}
+.pin{flex-shrink:0;width:clamp(16px,2.4cqw,21px);height:clamp(16px,2.4cqw,21px);border-radius:50%;background:var(--accent-2);color:#fff;font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.25cqw,11px);font-weight:700;display:inline-flex;align-items:center;justify-content:center;letter-spacing:0;line-height:1}
+.legend{list-style:none;display:grid;gap:9px;margin-top:20px}
+.legend li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--text2);line-height:1.5;font-weight:400}
+.legend li .pin{width:21px;height:21px;font-size:11px;margin-top:1px}
+.legend b{color:var(--ink);font-weight:600}
+
+/* таблица версий: финал подсвечен */
+table.tbl.vers{min-width:660px}
+table.tbl tr.fin td{background:var(--accent-dim)}
+table.tbl td.v{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--accent-d);white-space:nowrap}
+.quote{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,2.6vw,26px);font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">Ф</span> Ролик для форума</a>
+  <div class="nav-links">
+    <a href="#zadacha">Задача</a>
+    <a href="#rolik">Ролик</a>
+    <a href="#bez-zvuka">Без звука</a>
+    <a href="#sborka">Сборка</a>
+    <a href="#versii">Версии</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <svg viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="12.5" rx="2"/><path d="M10.2 7.7v5.1l4.4-2.55z"/><path d="M8 20.5h8M12 16.5v4"/></svg>
+    </div>
+    <div class="hero-badge"><span class="dot"></span>готов · финальная версия 5</div>
+    <h1>Ролик для <span class="grad">стенда</span></h1>
+    <div class="hero-tag">102 секунды · понятно без звука · фирменный стиль</div>
+    <p class="hero-sub">Технологический холдинг в микроэлектронике показывал на отраслевом форуме свою инженерную компанию. Нужен был ролик для экрана стенда: крутится в цикле, считывается без звука и выглядит частью фирменной коммуникации холдинга. Он собран из офисной съёмки и фото экспоната, а вся графика — титры, схемы, переходы — нарисована кодом кадр за кадром.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://disk.360.yandex.ru/i/BcU1Xtpd3x0Txg" target="_blank" rel="noopener">Смотреть ролик →</a>
+      <a class="btn btn-ghost" href="#sborka">Как собран</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>1:42</strong><span>финальный хронометраж</span></div>
+      <div class="hero-stat"><strong>5</strong><span>версий до финала</span></div>
+      <div class="hero-stat"><strong>27</strong><span>сцен в монтаже</span></div>
+      <div class="hero-stat"><strong>235</strong><span>файлов исходной съёмки</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ЗАДАЧА -->
+<section class="tinted" id="zadacha">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Задача</div>
+      <h2>Экран на стенде, зритель на ходу</h2>
+      <p class="section-intro">Ролик идёт на экране стенда по кругу, и зритель подходит в любой момент цикла. Поэтому главное условие техзадания записано отдельной строкой: ролик должен быть полностью понятен без звука.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="num">01</div>
+        <h3>80–90 секунд в цикле</h3>
+        <p>Горизонтальный ролик 16:9, не ниже Full HD, для циклического показа. Драматургия задана заранее: кто мы → что создаём → конкретное доказательство → кооперация внутри группы → от компонента к рыночному продукту.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">02</div>
+        <h3>Смысл — в картинке и титрах</h3>
+        <p>Один экран — одна мысль, ключевой титр — 5–8 слов, никаких длинных субтитров внизу. Закадровый текст — дополнительный слой, а не основной носитель информации.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">03</div>
+        <h3>Часть фирменного стиля</h3>
+        <p>Ролик должен восприниматься частью единой коммуникации холдинга: фирменные цвета и шрифт из брендбука, графические сетки, переходы и темп его корпоративного ролика.</p>
+      </div>
+    </div>
+    <div class="demo-note reveal">Ещё два запрета из техзадания: не превращать ролик ни в каталог изделий, ни в видео про офис — и не заявлять о серийности там, где сейчас опытный образец</div>
+  </div>
+</section>
+
+<!-- РОЛИК -->
+<section class="section" id="rolik">
+  <div class="section-head reveal">
+    <div class="kicker">Ролик</div>
+    <h2>Финальная версия — 1:42</h2>
+    <p class="section-intro">Пятая версия в универсальной сборке: без привязки к конкретному мероприятию, с озвучкой и музыкальной подложкой. Full HD, 25 кадров в секунду. Кадры ниже — стоп-кадры этого же файла.</p>
+  </div>
+  <a class="vid reveal" href="https://disk.360.yandex.ru/i/BcU1Xtpd3x0Txg" target="_blank" rel="noopener">
+    <span class="vid-play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+    <span class="vid-body">
+      <span class="vid-tag">Яндекс Диск · 1:42 · Full HD</span>
+      <span class="vid-t">Ролик для стенда — версия 5</span>
+      <span class="vid-d">Озвучка, музыкальная подложка и финал без названия форума. Файл открывается на Яндекс Диске в новой вкладке.</span>
+      <span class="vid-go">Смотреть ролик →</span>
+    </span>
+  </a>
+  <div class="frames reveal">
+    <figure class="frame">
+      <img src="/forum/f1.jpg" alt="Макросъёмка печатной платы, поверх неё титр «Наука → Инженерия → Производство»" loading="lazy">
+      <figcaption><span class="tc">0:08</span>Первый блок: три слова со стрелками поверх макросъёмки платы — формула компании за пару секунд</figcaption>
+    </figure>
+    <figure class="frame">
+      <img src="/forum/f2.jpg" alt="Вскрытый корпус СВЧ-фильтра с настроечными винтами, тот же титр из трёх слов" loading="lazy">
+      <figcaption><span class="tc">0:12</span>Та же формула над корпусом фильтра — следующим кадром блок уходит в световую вспышку</figcaption>
+    </figure>
+    <figure class="frame">
+      <img src="/forum/f3.jpg" alt="Кадр портфеля разработок: кикер направления, заголовок «СВЧ-фильтры и дуплексеры» и плашка статуса" loading="lazy">
+      <figcaption><span class="tc">0:25</span>Портфель разработок: кикер направления, заголовок и плашка статуса «опытные образцы · испытания»</figcaption>
+    </figure>
+    <figure class="frame">
+      <img src="/forum/f4.jpg" alt="Ряд синих настроечных приводов экспоната крупным планом, титр о демонстрационной конфигурации" loading="lazy">
+      <figcaption><span class="tc">0:56</span>Быстрая нарезка фото экспоната с наездом камеры: видео работающих механизмов в исходниках не было</figcaption>
+    </figure>
+    <figure class="frame">
+      <img src="/forum/f5.jpg" alt="Два монитора с моделью фильтра и графиком характеристик, титр «ВАЦ + ПО: контроль S-параметров»" loading="lazy">
+      <figcaption><span class="tc">1:10</span>Один заголовок на кадр; низ и левый край затемнены, чтобы титр читался поверх любой съёмки</figcaption>
+    </figure>
+    <figure class="frame">
+      <img src="/forum/f6.jpg" alt="Фотография интерьера офиса на графитовом фоне с тонкими дорожками и подписью под ней" loading="lazy">
+      <figcaption><span class="tc">1:29</span>Слайд-шоу офиса: фото целиком, без обрезки, на фирменном графитовом фоне с дорожками</figcaption>
+    </figure>
+  </div>
+  <div class="demo-note reveal">Во всём ролике в правом верхнем углу стоит логотип заказчика, поэтому стоп-кадры на этой странице обрезаны по правому краю</div>
+</section>
+
+<!-- БЕЗ ЗВУКА -->
+<section class="tinted" id="bez-zvuka">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Без звука</div>
+      <h2>Смысл читается глазами</h2>
+      <p class="section-intro">Первые три версии были немыми вовсе — звук появился только в четвёртой. Поэтому каждый приём ниже работает на экране, где звука нет, а голос лишь добавляет подробности к тому, что уже видно.</p>
+    </div>
+    <div class="split">
+      <div class="reveal">
+        <div class="shot" aria-label="Схема титра в кадре: кикер, заголовок, линия, плашка статуса и логотип в углу">
+          <div class="shot-dots"></div>
+          <svg class="shot-traces" viewBox="0 0 320 180" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 42h70l18 18h60"/><path d="M200 0v30l16 16h104"/><path d="M250 180v-40l20-20h50"/><path d="M120 180v-22l14-14h46"/>
+            <circle cx="148" cy="60" r="2.6"/><circle cx="216" cy="46" r="2.6"/><circle cx="270" cy="120" r="2.6"/><circle cx="180" cy="144" r="2.6"/>
+          </svg>
+          <div class="shot-logo"><span class="pin">5</span>логотип</div>
+          <div class="shot-block">
+            <div class="shot-kick"><span class="pin">1</span>Портфель разработок</div>
+            <div class="shot-title">Одна мысль<br>на один экран <span class="pin">2</span></div>
+            <div class="shot-line"><span class="bar"></span><span class="pin">3</span></div>
+            <span class="shot-chip">опытный образец · испытания<span class="pin">4</span></span>
+          </div>
+        </div>
+        <ul class="legend">
+          <li><span class="pin">1</span><span><b>Кикер</b> — раздел ролика, 24 px капсом, появляется первым</span></li>
+          <li><span class="pin">2</span><span><b>Заголовок</b> — одна мысль в одну-две строки, 54–96 px на кадре 1080p</span></li>
+          <li><span class="pin">3</span><span><b>Линия-акцент</b> вырастает до 90 px следом за заголовком</span></li>
+          <li><span class="pin">4</span><span><b>Плашка статуса</b> — фактическая стадия разработки</span></li>
+          <li><span class="pin">5</span><span><b>Логотип</b> — в углу с 8-й секунды до финальной плашки</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <ul class="split-list">
+          <li><span class="chk">✓</span><span><b>Одна мысль — один экран.</b> Большинство заголовков стоят в одном месте — внизу слева, в 120 px от края кадра; ключевые цифры вынесены отдельным экраном кеглем 230 px.</span></li>
+          <li><span class="chk">✓</span><span><b>Статус — плашкой.</b> У каждой разработки подписана стадия: концепция, разработка, опытный образец, испытания. Заявлений о серийности нет.</span></li>
+          <li><span class="chk">✓</span><span><b>Главы — вспышками.</b> Шесть световых переходов отделяют смысловые блоки, и смена темы видна даже краем глаза.</span></li>
+          <li><span class="chk">✓</span><span><b>Логотип всё время в углу.</b> Кто подошёл в середине цикла, сразу видит, чей это стенд.</span></li>
+          <li><span class="chk">✓</span><span><b>Петля без шва.</b> Ролик выходит из затемнения за 0,6 с и уходит в него за 0,7 с — перезапуск цикла выглядит как обычная склейка.</span></li>
+          <li><span class="chk">✓</span><span><b>Съёмка — фон для титров.</b> Футаж чуть охлаждён и приглушён по насыщенности, поэтому оранжевые акценты графики читаются поверх.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- СБОРКА -->
+<section class="section" id="sborka">
+  <div class="section-head reveal">
+    <div class="kicker">Сборка</div>
+    <h2>Монтаж, написанный кодом</h2>
+    <p class="section-intro">Вместо монтажной программы — сценарий на Python. Таймлайн, титры, источники и анимация описаны в одном файле, каждый кадр графики рисуется программно и сразу уходит в видеокодер. Правка титра — это перерендер одной сцены, а не пересборка проекта. Выделены этапы, где решает человек.</p>
+  </div>
+  <div class="flow reveal">
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ИСХОДНИКИ</span><div><div class="fb-t">235 файлов съёмки</div><div class="fb-d">179 файлов съёмки офиса (171 видео и 8 фото) и 56 фотографий экспоната. Плюс 3D-ролик заказчика о продуктах связи, его корпоративный ролик как образец стиля, брендбук и презентация проектов</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">ОТБОР</span><div><div class="fb-t">В ролик вошёл 21 файл</div><div class="fb-d">10 видео офиса и 11 фотографий, во второй версии — ещё три фото офиса. Брались инженер с реальным изделием, руки, платы, приборы; проходы по коридору и пустые переговорные техзадание исключало</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">СЦЕНАРИЙ</span><div><div class="fb-t">27 сцен в одной функции</div><div class="fb-d">Драматургия — кто мы, портфель разработок, главный экспонат, кооперация, модель, финал — разложена в таймлайн: у каждой сцены время, источник, кикер, заголовок и статус</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ГРАФИКА</span><div><div class="fb-t">Кадры рисуются на Python</div><div class="fb-d">Графитовый фон с точечной сеткой и дорожками, титры с плавным появлением, стрелки, счётчик, цепочки карточек — Pillow и NumPy, 25 кадров в секунду. Фото оживлены движением камеры</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">РЕНДЕР</span><div><div class="fb-t">Сцены параллельно, склейка без пережатия</div><div class="fb-d">Каждая сцена рендерится отдельным процессом, кадры потоком уходят в аппаратный кодер NVENC. Готовые сцены склеиваются ffmpeg без перекодирования</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ЗВУК</span><div><div class="fb-t">Голос и подложка</div><div class="fb-d">Синтезированная озвучка выровнена в −16 LUFS и начинается на 3-й секунде. Музыкальная подложка под голосом приглушается автоматически сайдчейн-компрессором. Итог — −14,8 LUFS</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">ПРИЁМКА</span><div><div class="fb-t">Раскадровка на странице</div><div class="fb-d">К немым версиям — страница с роликом и стоп-кадром каждой сцены. Правки идут через монтажный план: сначала согласуется план, потом пересборка</div></div></div></div>
+  </div>
+  <div class="demo-note reveal">Три ключа сборки: один перерендеривает только выбранные сцены, второй убирает название форума из заставки и финала, третий удлиняет сцену под озвучку и сдвигает всё, что идёт после неё</div>
+</section>
+
+<!-- ВЕРСИИ -->
+<section class="tinted" id="versii">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Версии</div>
+      <h2>Пять версий меньше чем за сутки</h2>
+      <p class="section-intro">Готовое не перезаписывалось: каждая правка — новый файл рядом с предыдущим. Первая версия собрана 22 сентября в 17:14, пятая — 23 сентября в 11:57. Решение о звуке менялось по ходу: сначала заказчик выбрал немой ролик только в Full HD, затем добавил озвучку, а следом и музыку.</p>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl vers">
+        <thead><tr><th>Версия</th><th>Длина</th><th>Звук</th><th>Что изменилось</th></tr></thead>
+        <tbody>
+          <tr><td class="v">v1</td><td class="n">89,96 с</td><td>нет</td><td>Весь ролик по драматургии техзадания: 25 сцен, графика в фирменном стиле, титры поверх офисной съёмки и фото экспоната</td></tr>
+          <tr><td class="v">v2</td><td class="n">97,96 с</td><td>нет</td><td>В начале — заставка на 7 секунд; по комментарию заказчика добавлено слайд-шоу офиса, мозаика офиса пересобрана из других кадров, схема «от компонента к рыночному продукту» сокращена с 9 до 5 секунд. Сцен стало 27</td></tr>
+          <tr><td class="v">v3</td><td class="n">97,96 с</td><td>нет</td><td>Универсальная сборка: название форума убрано из заставки и финальной плашки — ролик можно показывать и после мероприятия</td></tr>
+          <tr><td class="v">v4</td><td class="n">102,48 с</td><td>голос</td><td>Озвучка с 0:03 до 1:41. Чтобы текст поместился, быстрая нарезка экспоната удлинена с 3 до 7,5 секунды, всё после неё сдвинуто на 4,5 секунды. Две сборки — форумная и универсальная</td></tr>
+          <tr class="fin"><td class="v">v5</td><td class="n">102,48 с</td><td>голос + музыка</td><td>Музыкальная подложка с автоматическим приглушением под голосом, стерео, итоговая громкость −14,8 LUFS. Две сборки — форумная и универсальная; универсальная — финал</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="demo-note reveal">Все версии — Full HD 1920×1080, 25 кадров в секунду. Длительности сняты с готовых файлов</div>
+    <div class="cards c2" style="margin-top:30px">
+      <div class="card reveal">
+        <div class="tagline">отзыв заказчика</div>
+        <div class="quote">«Классно получилось!»</div>
+        <p>О четвёртой версии — первой, где появился голос.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">отзыв заказчика</div>
+        <div class="quote">«Озвучка и ударения с паузами отлично»</div>
+        <p>О пробах голоса — ещё до сборки четвёртой версии.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- РЕШЕНИЯ -->
+<section class="section" id="resheniya">
+  <div class="section-head reveal">
+    <div class="kicker">Решения</div>
+    <h2>Почему сделано именно так</h2>
+    <p class="section-intro">Большая часть решений — ответ на ограничения материала и на правило не обещать зрителю больше, чем есть на самом деле.</p>
+  </div>
+  <div class="rows">
+    <div class="row reveal"><span class="rk">материал</span><div><div class="rt">Движение механизмов — из фотографий</div><div class="rd">Техзадание просило показать работу приводов экспоната, но видео с ними в исходниках не нашлось. Эти сцены собраны из фото с движением камеры и быстрой нарезкой; живая съёмка встанет на их место без пересборки остального ролика.</div></div></div>
+    <div class="row reveal"><span class="rk">честность</span><div><div class="rt">В кадре — только свои показатели</div><div class="rd">Из общего 3D-ролика холдинга взяты только те секунды, где цифры относятся к этой компании. Статусы разработок подписаны по фактической презентации проектов.</div></div></div>
+    <div class="row reveal"><span class="rk">графика</span><div><div class="rt">Нет фото — есть рендер</div><div class="rd">Фотографии ключевой микросхемы не было. Её стилизованное изображение нарисовано тем же кодом, что и остальная графика, поэтому не выбивается из стиля.</div></div></div>
+    <div class="row reveal"><span class="rk">голос</span><div><div class="rt">Длина текста — по темпу диктора</div><div class="rd">Выбранный голос читает 13,5–14 знаков в секунду. Полный текст звучал 119 секунд, сокращённый заказчиком — 104; ускорение ×1,06 уложило его в 98 секунд, а под речь удлинена одна сцена.</div></div></div>
+    <div class="row reveal"><span class="rk">голос</span><div><div class="rt">Ударения — прямо в тексте</div><div class="rd">Чтобы синтез не ошибался в терминах, ударения размечены знаком акута в самом тексте — 123 отметки в финальной редакции. Аббревиатуры записаны так, как их произносят: «эс-вэ-че» вместо «СВЧ».</div></div></div>
+    <div class="row reveal"><span class="rk">выбор</span><div><div class="rt">Десять голосов на слух</div><div class="rd">Заказчику дали прослушать десять русских голосов на двух моделях синтеза. Голоса старой модели он назвал «роботизированными» — финальный выбран среди новой.</div></div></div>
+    <div class="row reveal"><span class="rk">формат</span><div><div class="rt">Две сборки из одного кода</div><div class="rd">Форумная и универсальная версии отличаются одним ключом сборки: он убирает название мероприятия из заставки и финальной плашки. Заставку при этом не замазывали, а перерисовали слой в слой.</div></div></div>
+  </div>
+</section>
+
+<!-- СТЕК -->
+<section class="tinted">
+  <div class="section">
+    <div class="section-head reveal" style="text-align:center">
+      <div class="kicker" style="justify-content:center">Технологии</div>
+      <h2 style="margin:0 auto">Стек</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-item reveal"><div class="si-layer">Сценарий и графика</div><div class="si-name">Python · Pillow · NumPy</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Кодирование</div><div class="si-name">ffmpeg · NVENC · x264</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Озвучка</div><div class="si-name">ElevenLabs v3</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Сведение</div><div class="si-name">loudnorm · сайдчейн</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Шрифт брендбука</div><div class="si-name">Montserrat</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Фон заставки</div><div class="si-name">OpenAI image_gen</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Конвейер</div><div class="si-name">Claude Code</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Сначала немой — потом со звуком.</h2>
+    <p>Когда смысл держат картинка и титры, голос и музыка ложатся сверху и ничего не ломают: один и тот же монтаж работает и в шумном зале, и там, где звук включён.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/#projects">← Смотреть другие проекты</a>
+      <a class="btn btn-ghost" href="https://disk.360.yandex.ru/i/BcU1Xtpd3x0Txg" target="_blank" rel="noopener">Смотреть ролик →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/onv-montage.html">ИИ-монтажёр эфиров</a>
+    <a href="/video-update.html">Апдейт видеокурсов</a>
+  </div>
+  <div class="copy">Ролик для отраслевого форума · 102 секунды без звука и со звуком · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>

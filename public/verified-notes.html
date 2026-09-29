@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Конспекты книг с машинной проверкой цитат</title>
+<meta name="description" content="Методичка «Как читать книги и делать конспекты» и скилл Claude Code book-to-verified-notes: у каждой цитаты конспекта есть страница, а booktool.py verify сверяет её с текстом книги. 13 конспектов, 2 586 цитат, ни одной ненайденной.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#fbfaf5; --bg2:#f1efe4; --bg3:#ffffff;
+  --accent:#047857; --accent-d:#064e3b; --accent-l:#34d399; --accent-2:#b45309;
+  --accent-dim:rgba(4,120,87,0.08); --accent-border:rgba(4,120,87,0.26);
+  --shadow-accent:0 12px 34px rgba(4,120,87,0.22);
+  --nav-bg:rgba(251,250,245,0.78); --nav-bg-scrolled:rgba(251,250,245,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(4,120,87,0.11), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(180,83,9,0.10), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(52,211,153,0.16), transparent 55%);
+}
+/* сетки без переполнения на узком экране */
+.cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:860px){.cards,.cards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.cards,.cards.c2{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:380px){.cards.c4{grid-template-columns:minmax(0,1fr)}}
+.split{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+@media(max-width:840px){.split{grid-template-columns:minmax(0,1fr)}}
+.split>*{min-width:0}
+.sub-head{margin-top:60px}
+.sub-head h2{font-size:clamp(24px,3.6vw,34px)}
+.card .big{flex-wrap:wrap}
+.card .big.ok-c{color:var(--green)}
+.card code,.row code,.section-intro code,.qi-n code{font-family:'JetBrains Mono',monospace;font-size:.88em;background:var(--accent-dim);color:var(--accent-d);border-radius:5px;padding:1px 5px;overflow-wrap:anywhere}
+
+/* фрагмент конспекта */
+.nmock{background:var(--bg3);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--r);padding:24px 24px 20px;box-shadow:var(--shadow2)}
+.nm-cap{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);font-weight:700;margin-bottom:12px}
+.nm-h{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:var(--ink);margin-bottom:12px;line-height:1.3}
+.nm-p{font-family:Georgia,'Times New Roman',serif;font-size:16.5px;line-height:1.8;color:var(--text)}
+.nm-q{background:var(--accent-dim);border-bottom:2px solid var(--accent-l);border-radius:3px;padding:1px 2px}
+.nm-a{font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:700;color:var(--accent-d);background:rgba(52,211,153,0.28);border:1px solid var(--accent-border);border-radius:6px;padding:0 6px;white-space:nowrap}
+.nm-do{display:block;margin-top:12px;font-family:'Inter',sans-serif;font-size:14.5px;line-height:1.6;color:var(--text2)}
+.nm-do b{color:var(--accent-d);font-weight:600}
+.nm-pass{margin-top:16px;padding-top:14px;border-top:1px dashed var(--border2);font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--text2);line-height:1.6}
+.nm-num{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;vertical-align:super;margin:0 2px}
+
+/* скан страницы */
+.scan{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow2)}
+.scan img{width:100%;height:auto;display:block;border-bottom:1px solid var(--border)}
+.scan figcaption{padding:14px 18px;font-size:14px;color:var(--text2);line-height:1.55}
+.scan figcaption b{font-family:'Space Grotesk',sans-serif;color:var(--ink);font-weight:600;display:block;margin-bottom:3px;font-size:15px}
+
+/* вывод verify: светлый моноблок */
+.vout{background:#ffffff;border:1px solid var(--accent-border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;min-width:0}
+.vout-bar{display:flex;justify-content:space-between;gap:6px 12px;flex-wrap:wrap;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--text2);letter-spacing:.03em}
+.vout-bar b{color:var(--accent-d);font-weight:700}
+.vout pre{margin:0;padding:16px 18px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.65;color:var(--ink);font-weight:400;white-space:pre;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.vout .v-ok{color:var(--green);font-weight:700}
+.vout .v-bad{color:var(--red);font-weight:700}
+.vout .v-dim{color:var(--text3)}
+.vout .v-hd{color:var(--accent-d);font-weight:700}
+@media(max-width:600px){.vout pre{font-size:11.5px;padding:14px}}
+
+/* входные цитаты учебного прогона */
+.qlist{display:flex;flex-direction:column;gap:12px}
+.qi{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;box-shadow:var(--shadow)}
+.qi-k{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:100px;padding:3px 10px;margin-bottom:8px}
+.qi.good .qi-k{color:var(--green);background:var(--green-dim)}
+.qi.fake .qi-k,.qi.wrong .qi-k{color:var(--red);background:var(--red-dim)}
+.qi-t{font-family:Georgia,'Times New Roman',serif;font-size:15.5px;line-height:1.6;color:var(--text)}
+.qi-t .nm-a{font-size:12.5px}
+.qi-n{font-size:14px;color:var(--text2);margin-top:6px;line-height:1.55}
+.lead-in{font-size:16px;color:var(--text2);line-height:1.65;margin-bottom:18px}
+.lead-in b{color:var(--ink);font-weight:600}
+
+/* цитата-свидетельство */
+.witness{background:var(--bg3);border:1px solid var(--border);border-left:4px solid var(--accent-2);border-radius:var(--r);padding:22px 24px;box-shadow:var(--shadow);margin-top:18px}
+.witness p{font-size:16px;line-height:1.65;color:var(--text)}
+.witness q{font-family:Georgia,'Times New Roman',serif;font-style:italic;color:var(--ink)}
+.witness .w-src{display:block;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text3)}
+
+/* таблицы */
+table.tbl.wide{min-width:660px}
+table.tbl td.warn{color:var(--accent-2);font-weight:600}
+table.tbl td.na{color:var(--text2)}
+table.tbl td.gen b{color:var(--ink);font-weight:600}
+table.tbl td.gen span{display:block;font-size:13px;color:var(--text3)}
+table.tbl tr.sum td{background:var(--accent-dim);font-weight:600;color:var(--ink)}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">К</span> Конспекты</a>
+  <div class="nav-links">
+    <a href="#problema">Проблема</a>
+    <a href="#metodichka">Методичка</a>
+    <a href="#konspekt">Конспект</a>
+    <a href="#priemka">Приёмка</a>
+    <a href="#korpus">Корпус</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <svg viewBox="0 0 24 24"><path d="M2.5 5.5C5 4.3 8.6 4.4 12 6.3v13.2c-3.4-1.9-7-2-9.5-.8z"/><path d="M21.5 5.5C19 4.3 15.4 4.4 12 6.3v13.2c3.4-1.9 7-2 9.5-.8z"/><path d="M14.6 12.6l1.9 1.9 3.3-3.8"/></svg>
+    </div>
+    <div class="hero-badge"><span class="dot"></span>работает · 2 586 цитат сверено</div>
+    <h1>Конспект, который <span class="grad">можно проверить</span></h1>
+    <div class="hero-tag">Методичка · скилл Claude Code · машинная приёмка</div>
+    <p class="hero-sub">Конспект, собранный на глаз, выглядит одинаково убедительно — и когда цитаты в нём настоящие, и когда это пересказ в кавычках. Здесь у каждого тезиса стоит дословная цитата с номером страницы, а скрипт <b>booktool.py verify</b> находит её в тексте книги и не принимает конспект, если цитаты нет или страница не та.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#korpus">Результат по корпусу →</a>
+      <a class="btn btn-ghost" href="#konspekt">Как устроен конспект</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>13</strong><span>конспектов</span></div>
+      <div class="hero-stat"><strong>2 586</strong><span>цитат с якорем страницы</span></div>
+      <div class="hero-stat"><strong>0</strong><span>не найдено в книгах</span></div>
+      <div class="hero-stat"><strong>1 981</strong><span>страница источников</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРОБЛЕМА -->
+<section class="tinted" id="problema">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Проблема</div>
+      <h2>Уверенность в конспекте ничего не говорит о его верности</h2>
+      <p class="section-intro">Это измерено до того, как появился скилл. Три агента конспектировали одну и ту же книгу — 108 страниц, 40 323 слова — без каких-либо правил, с тремя разными формулировками задачи. Ни один не запустил проверку.</p>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl">
+        <thead><tr><th>Без скилла</th><th>«тщательный»</th><th>«в спешке»</th><th>«на год вперёд»</th></tr></thead>
+        <tbody>
+          <tr><td>Сжатие</td><td class="n">26,2% — пересказ</td><td class="n">12,4%</td><td class="n">22,0%</td></tr>
+          <tr><td>Цитат с номером страницы</td><td class="n">11</td><td class="n">0</td><td class="n">0</td></tr>
+          <tr><td>Из них выдуманных</td><td class="bad">5 из 11</td><td class="na">—</td><td class="na">—</td></tr>
+          <tr><td>Десятых долей книги без единой ссылки</td><td class="n">0</td><td class="bad">9 из 10</td><td class="bad">7 из 10</td></tr>
+          <tr><td>Запустил проверку</td><td class="bad">нет</td><td class="bad">нет</td><td class="bad">нет</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="witness reveal">
+      <p>Самый добросовестный прочитал книгу целиком, писал собственные проверочные скрипты и отчитался: <q>Выдуманного в конспекте, насколько я могу судить, нет</q>. Машина нашла пять несуществующих цитат — пересказы, близкие к тексту, поставленные в кавычки.</p>
+      <span class="w-src">из измеренного baseline в описании скилла</span>
+    </div>
+    <div class="cards" style="margin-top:22px">
+      <div class="card reveal">
+        <div class="tagline">тихий сбой</div>
+        <h3>Ошибки не видно</h3>
+        <p>Когда книга не помещается в окно модели, сообщения об ошибке нет. Получается уверенный конспект по той части, что поместилась, плюс то, что модель знает о книге из обучения.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">внешнее измерение</div>
+        <h3>Верно не всё даже у лучших</h3>
+        <p>В исследовании FABLES (Kim и др., 2024), которое разбирает методичка, читатели книг разметили 3 158 утверждений из машинных конспектов: верными признаны от 68,7% до 90,9% в зависимости от модели.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">страница — тоже факт</div>
+        <h3>Подлинная цитата с чужой страницей</h3>
+        <p>Бесполезна так же, как выдуманная: через год к этому месту книги не вернуться. Поэтому номер страницы проверяется отдельно от текста цитаты.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- МЕТОДИЧКА -->
+<section class="section" id="metodichka">
+  <div class="section-head reveal">
+    <div class="kicker">Методичка</div>
+    <h2>Как читать: девять шагов от файла до конспекта</h2>
+    <p class="section-intro">«Как читать книги и делать конспекты» — одна самодостаточная страница из девяти разделов: основы, конвейер, отсечение, устройство конспекта, работа с ИИ, жанры, приёмка, разбор Поварнина и справочник. Полный конвейер нужен не каждой книге: для большинства честный ответ — прочитать один раз и записать пять предложений. Все шаги разворачивают для книг, которые собираются применять.</p>
+  </div>
+  <div class="flow reveal">
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ПАСПОРТ</span><div><div class="fb-t">0. Паспорт файла</div><div class="fb-d">Формат, текстовый слой, смещение нумерации страниц. Скан уходит в распознавание, битая кодировка — в починку</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ЦЕЛЬ</span><div><div class="fb-t">1. Цель и бюджет</div><div class="fb-d">Две строки до того, как открыта книга: кем читаю, какое решение приму и к какому сроку; часы — по своей скорости</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">РАЗВЕДКА</span><div><div class="fb-t">2. Разведка, 20–40 минут по таймеру</div><div class="fb-d">Письменное решение из четырёх: целиком, частями, не читать или заменить другим источником</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">КАРТА</span><div><div class="fb-t">3. Карта книги</div><div class="fb-d">Доли объёма глав и 5–8 фактических вопросов с письменными догадками</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ФИЛЬТР</span><div><div class="fb-t">4. Фильтр</div><div class="fb-d">Каждому разделу — «плотно», «скимминг» или «пропуск»; у каждого пропуска причина в логе отсева</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">СБОР</span><div><div class="fb-t">5. Сбор с якорями</div><div class="fb-d">Каждая единица — утверждение, дословная цитата и номер страницы</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">СЖАТИЕ</span><div><div class="fb-t">6. Сжатие</div><div class="fb-d">Ядро конспекта по канонической форме; цитаты переносятся копированием, а не по памяти</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">ПРИЁМКА</span><div><div class="fb-t">7. Приёмка</div><div class="fb-d">Сначала машина — verify, потом человек; единый чек-лист из 15 пунктов</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ПОВТОРЫ</span><div><div class="fb-t">8. Удержание</div><div class="fb-d">Карточки для интервальных повторений, возвраты на 3–5-й день и через месяц, действия с датой</div></div></div></div>
+  </div>
+  <div class="demo-note reveal">Цветом выделены шаги, на которых держится проверяемость: якорь ставится при сборе, а сверяется при приёмке</div>
+
+  <div class="cards" style="margin-top:40px">
+    <div class="card reveal">
+      <div class="tagline">пометки</div>
+      <h3>У каждого утверждения — уровень доказанности</h3>
+      <p>Больше двухсот пометок: [измерено], [следует из измеренного], [инженерное решение], [Поварнин, 1924]. Числа без источника из текста убраны — на их месте стоят проверяемые признаки.</p>
+    </div>
+    <div class="card reveal">
+      <div class="tagline">рамка</div>
+      <h3>Разовый протокол, а не дисциплина на годы</h3>
+      <p>Польза от обучения стратегиям чтения набирается за несколько занятий и дальше почти не растёт (Willingham &amp; Lovette, 2014). Поэтому порядок осваивают один раз, а не тренируют годами.</p>
+    </div>
+    <div class="card reveal">
+      <div class="tagline">первоисточник</div>
+      <h3>Поварнин — и три спора с ним</h3>
+      <p>Брошюра С. И. Поварнина «Как читать книги» распознана целиком и разобрана отдельным разделом. Расхождения с современными данными решены заранее: отбор — до чтения, перечитывание — после попытки вспомнить, конспект — хранилище для припоминания.</p>
+    </div>
+  </div>
+</section>
+
+<!-- КОНСПЕКТ -->
+<section class="tinted" id="konspekt">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Конспект</div>
+      <h2>Каждый тезис держится на якоре</h2>
+      <p class="section-intro">Якорь — дословная цитата в ёлочках и номер страницы вплотную за ней. Формат менять нельзя: от него зависит машинная сверка. Пример ниже — по брошюре Поварнина в издании 1971 года; текст находится в общественном достоянии, цитата сверена по скану.</p>
+    </div>
+    <div class="split">
+      <div class="reveal">
+        <div class="nmock">
+          <div class="nm-cap">фрагмент конспекта · формат якоря</div>
+          <div class="nm-h">С. И. Поварнин. Как читать книги (1971)</div>
+          <p class="nm-p"><span class="nm-num">1</span>Идеал — не один верный способ чтения, а свободное владение всеми. <span class="nm-num">2</span><span class="nm-q">«Идеальный читатель должен одинаково совершенно владеть всеми способами чтения и легко приспособляться к любой цели чтения.»</span> <span class="nm-num">3</span><span class="nm-a">(с. 12)</span><span class="nm-do"><span class="nm-num">4</span><b>Что делать:</b> перед книгой назвать цель и выбрать под неё способ чтения.</span></p>
+          <div class="nm-pass">Паспорт: напечатанная страница = страница файла −1<br>(команда offset: 10 совпадений из 11)</div>
+        </div>
+        <ul class="split-list">
+          <li><span class="chk">1</span><span><b>Тезис своими словами</b> — мысль, ради которой взята цитата.</span></li>
+          <li><span class="chk">2</span><span><b>Дословная цитата</b> копируется из извлечённого текста, а не набирается по памяти. Сокращать многоточием и «причёсывать» нельзя: сверка такого не прощает.</span></li>
+          <li><span class="chk">3</span><span><b>Страница файла, а не напечатанная.</b> Сверка идёт по маркерам <b>[[стр. N]]</b> извлечённого текста; печатный номер пересчитывается одной строкой паспорта.</span></li>
+          <li><span class="chk">4</span><span><b>Что делать</b> — действие, которое следует из тезиса.</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <figure class="scan">
+          <img src="/notes/povarnin-p12.jpg" width="736" height="296" alt="Скан страницы брошюры Поварнина 1971 года: раздел «Идеал чтения», цитата выделена зелёным, внизу напечатан номер 11" loading="lazy">
+          <figcaption><b>Страница 12 файла, напечатан номер 11</b>Отсюда смещение −1 в паспорте. Скан из 82 страниц распознан встроенным движком Windows 11; доля мусорных слов — 0,07%.</figcaption>
+        </figure>
+        <div class="rows" style="margin-top:18px">
+          <div class="row"><span class="rk">скобки</span><div><div class="rt">Дефект распознавания можно пометить</div><div class="rd">Пропавшую букву или лишнюю точку берут в квадратные скобки — сверка найдёт цитату в обоих видах. Заменять слово нельзя даже в скобках.</div></div></div>
+          <div class="row"><span class="rk">ёлочки</span><div><div class="rt">Только вокруг настоящих цитат</div><div class="rd">Названия глав, термины и свои формулировки — без ёлочек, иначе приёмка засчитает их как непроверенные цитаты.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head sub-head reveal">
+      <div class="kicker">Глубина</div>
+      <h2>Конспект заменяет книгу, а не анонсирует её</h2>
+      <p class="section-intro">Достоверности мало: конспект на 5% от книги в 400 страниц достоверен и бесполезен — он умещается в пять прокруток экрана, и главы в нём неразличимы. Поэтому у скилла второе железное правило — планка глубины, и её тоже проверяет машина.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal"><div class="num">01</div><h3>15–22% объёма книги</h3><p>Глава за главой, с обязательным разделом «По главам». Ниже 12% приёмка отказывает, выше 30% — это уже переписывание книги.</p></div>
+      <div class="card reveal"><div class="num">02</div><h3>Цитата на каждые две страницы</h3><p>Реже — значит, книга прочитана бегло. Смысл планки: по конспекту книгу можно восстановить, не открывая оригинал.</p></div>
+      <div class="card reveal"><div class="num">03</div><h3>Списки целиком, схемы картинками</h3><p>Двенадцать пунктов автора — двенадцать пунктов в конспекте. Схемы, карты и таблицы переносятся изображением со ссылкой на страницу.</p></div>
+      <div class="card reveal"><div class="num">04</div><h3>Аббревиатуры раскрыты</h3><p>Сокращение, ни разу не расшифрованное в конспекте, — дыра. Приёмка находит такие сама.</p></div>
+      <div class="card reveal"><div class="num">05</div><h3>Вопросы с ответами, абзацы до 900 знаков</h3><p>К вопросам самопроверки нужны ответы, иначе свериться не с чем. Сплошной текст с экрана не читается.</p></div>
+      <div class="card reveal"><div class="num">06</div><h3>Излагать, а не спорить</h3><p>Разделы «Что автор не доказал» и «Чего в книге нет» удалены из бланков, и приёмка отказывает, если они вернулись: читатель делает выводы сам.</p></div>
+    </div>
+    <div class="cards c2" style="margin-top:16px">
+      <div class="card reveal">
+        <div class="tagline">было · мемуары на 496 страниц</div>
+        <h3>Первая версия конспекта</h3>
+        <p>Достоверна, но тонка: одна цитата на семь страниц книги, около 5% её объёма.</p>
+        <div class="big">71 <span>цитата · 4 496 слов</span></div>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">стало · та же книга</div>
+        <h3>После новой планки</h3>
+        <p>Одна цитата на 1,3 страницы, сжатие 17,5% — в пределах целевого коридора.</p>
+        <div class="big ok-c">388 <span>цитат · 15 826 слов</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРИЁМКА -->
+<section class="section" id="priemka">
+  <div class="section-head reveal">
+    <div class="kicker">Машинная приёмка</div>
+    <h2>Конспект не сдан, пока verify не сказал «ПРИНЯТО»</h2>
+    <p class="section-intro">Это первое железное правило скилла. Команда <code>booktool.py verify конспект.md книга.txt</code> читает конспект и извлечённый текст книги с маркерами страниц, ничего в них не меняет и возвращает вердикт: код 0 — принято, 1 — на доработку.</p>
+  </div>
+  <div class="rows">
+    <div class="row reveal"><span class="rk">цитата</span><div><div class="rt">Есть ли она в книге дословно</div><div class="rd">После нормализации — регистр, ё и е, кавычки, тире, мягкие переносы — ищется точное вхождение, затем совпадение без пробелов, съеденных распознаванием, затем нечёткое сравнение. Ниже 0,90 схожести — «НЕ НАЙДЕНЫ».</div></div></div>
+    <div class="row reveal"><span class="rk">страница</span><div><div class="rt">На той ли странице она стоит</div><div class="rd">Место цитаты переводится в номер страницы по маркерам; расхождение больше чем на одну страницу — «НЕВЕРНАЯ СТРАНИЦА». Повторяющаяся фраза проверяется по всем вхождениям.</div></div></div>
+    <div class="row reveal"><span class="rk">объём</span><div><div class="rt">Коридор сжатия</div><div class="rd">12–30% от объёма книги, цель 15–22%. К источнику короче 2 000 слов коридор не применяется: памятку нельзя сжать.</div></div></div>
+    <div class="row reveal"><span class="rk">покрытие</span><div><div class="rt">Нет ли слепых зон</div><div class="rd">Книга делится на 20 равных участков, короткая — на 10. Участок без цитат — пробел, меньше трёх цитат — «тощий участок». Закрытое записью в логе отсева приёмка показывает отдельной строкой: это заявка, а не доказательство.</div></div></div>
+    <div class="row reveal"><span class="rk">форма</span><div><div class="rt">Полнота и читаемость</div><div class="rd">Запрещённые разделы, нерасшифрованные аббревиатуры, вопросы без ответов, абзацы длиннее 900 знаков, слова в цитатах, разорванные мягким переносом из PDF, слишком мало цитат на объём книги.</div></div></div>
+    <div class="row reveal"><span class="rk">вход</span><div><div class="rt">Годится ли сам источник</div><div class="rd">Если текст книги — глифы вместо букв из-за битой кодировки PDF, verify отказывается работать: цитаты из мусора совпали бы сами с собой.</div></div></div>
+  </div>
+
+  <div class="section-head sub-head reveal">
+    <div class="kicker">Учебный прогон</div>
+    <h2>Три цитаты, две ошибки подложены</h2>
+  </div>
+  <div class="split">
+    <div class="reveal">
+      <p class="lead-in">Конспект по Поварнину из трёх якорей. Одна цитата настоящая. Вторая — <b>близкий пересказ в кавычках</b>, третья — <b>подлинная цитата с чужой страницей</b>. Глазом обе ошибки не видны.</p>
+      <div class="qlist">
+        <div class="qi good">
+          <span class="qi-k">найдена</span>
+          <div class="qi-t">«Идеальный читатель должен одинаково совершенно владеть всеми способами чтения и легко приспособляться к любой цели чтения.» <span class="nm-a">(с. 12)</span></div>
+          <div class="qi-n">Дословно, страница верна.</div>
+        </div>
+        <div class="qi fake">
+          <span class="qi-k">пересказ в кавычках</span>
+          <div class="qi-t">«Способ чтения всегда определяется тем, зачем мы читаем книгу.» <span class="nm-a">(с. 8)</span></div>
+          <div class="qi-n">У Поварнина на этой странице: «Способ чтения зависит от цели чтения и всецело ею обусловливается». Смысл тот же, но это не цитата.</div>
+        </div>
+        <div class="qi wrong">
+          <span class="qi-k">чужая страница</span>
+          <div class="qi-t">«Отчетливое чтение — обязательное условие хорошего чтения.» <span class="nm-a">(с. 31)</span></div>
+          <div class="qi-n">Цитата подлинная, но стоит на странице 13 файла.</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="vout">
+        <div class="vout-bar"><span><b>booktool.py verify</b> · учебный прогон</span><span>код возврата 1</span></div>
+<pre><span class="v-hd">ПРИЁМКА КОНСПЕКТА</span>
+Цитат с якорем «(с. N)»:   3
+  дословно совпали:        <span class="v-ok">2</span>
+  совпали до склеек OCR:   0   <span class="v-dim">(пробелы съедены распознаванием)</span>
+  совпали неточно (0.90+): 0
+  НЕ НАЙДЕНЫ в источнике:  <span class="v-bad">1</span>   <span class="v-dim">&lt;-- это выдумка или чужой текст</span>
+  НЕВЕРНАЯ СТРАНИЦА:       <span class="v-bad">1</span>   <span class="v-dim">&lt;-- цитата настоящая, ссылка врёт</span>
+
+<span class="v-bad">НЕ НАЙДЕНЫ (первые 10):</span>
+  [0.00] Способ чтения всегда определяется тем,
+         зачем мы читаем книгу....
+
+<span class="v-bad">НЕВЕРНАЯ СТРАНИЦА (первые 10):</span>
+  указано с.31, на самом деле с.13:
+  Отчетливое чтение — обязательное условие хорошего чтения....
+
+ВЕРДИКТ: <span class="v-bad">НА ДОРАБОТКУ</span></pre>
+      </div>
+      <div class="demo-note">Фрагмент настоящего вывода. Опущены строки об объёме и покрытии — на трёх цитатах книга, конечно, не покрыта; длинные строки перенесены</div>
+    </div>
+  </div>
+
+  <div class="section-head sub-head reveal">
+    <div class="kicker">Как выглядит «принято»</div>
+    <h2>Вывод по одной из книг корпуса</h2>
+  </div>
+  <div class="split">
+    <div class="reveal">
+      <div class="vout">
+        <div class="vout-bar"><span><b>booktool.py verify</b> · мемуары, 496 страниц</span><span>код возврата 0</span></div>
+<pre><span class="v-hd">ПРИЁМКА КОНСПЕКТА</span>
+Источник:  90 444 слов
+Конспект:  15 826 слов
+Сжатие:    17.5% от оригинала
+           <span class="v-dim">-> норма (коридор 12–30%, цель 15–22%).</span>
+
+Цитат с якорем «(с. N)»:   388
+  плотность:               одна цитата на 1.3 стр. книги
+                           <span class="v-dim">(нужно не реже 1 на 2 -> 248 цитат)</span>
+  дословно совпали:        <span class="v-ok">374</span>
+  совпали до склеек OCR:   <span class="v-ok">14</span>   <span class="v-dim">(пробелы съедены распознаванием)</span>
+  совпали неточно (0.90+): 0
+  НЕ НАЙДЕНЫ в источнике:  <span class="v-ok">0</span>   <span class="v-dim">&lt;-- это выдумка или чужой текст</span>
+  НЕВЕРНАЯ СТРАНИЦА:       <span class="v-ok">0</span>   <span class="v-dim">&lt;-- цитата настоящая, ссылка врёт</span>
+
+Покрытие книги цитатами:
+  <span class="v-ok">равномерно, слепых зон нет</span>
+
+Полнота и читаемость:
+  <span class="v-ok">разделы на месте, аббревиатуры раскрыты, абзацы читаемы</span>
+
+ВЕРДИКТ: <span class="v-ok">ПРИНЯТО</span></pre>
+      </div>
+      <div class="demo-note">Прогон 29 сентября 2026 года. Опущены строки о коротких цитатах и кавычках без якоря; длинные строки перенесены</div>
+    </div>
+    <div class="reveal">
+      <div class="cards c2" style="grid-template-columns:minmax(0,1fr)">
+        <div class="card">
+          <div class="tagline">граница метода</div>
+          <h3>Чего verify не проверяет</h3>
+          <p>Понята ли цитата верно и не вырвана ли из контекста; отобрано ли главное; не пропущено ли важное на странице, на которую ссылка всё-таки есть. Это остаётся человеку — закрытым пересказом и человеческой частью чек-листа.</p>
+        </div>
+        <div class="card">
+          <div class="tagline">внешнее измерение</div>
+          <h3>Половину ошибок строкой не поймать</h3>
+          <p>В том же FABLES значительную часть неверных утверждений не опровергнуть одной фразой из книги — только рассуждением по сюжету. Поэтому сверка цитат — необходимый, но заведомо неполный слой.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КОРПУС -->
+<section class="tinted" id="korpus">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Результат</div>
+      <h2>13 конспектов — ни одной ненайденной цитаты</h2>
+      <p class="section-intro">Весь корпус заново прогнан 29 сентября 2026 года текущей версией инструмента: verify — по каждому конспекту книги и её извлечённому тексту, slidecheck — по конспекту презентации. Источники разные: повесть, мемуары, деловые книги, монография, сборник примеров, учебные пособия, устав, памятка и презентация; на входе PDF с текстовым слоем, сканы, PDF с битой кодировкой и DJVU.</p>
+    </div>
+    <div class="cards c4">
+      <div class="card reveal"><div class="tagline">дословно</div><div class="big ok-c">2 555</div><p>цитат совпали с текстом книги буква в букву</p></div>
+      <div class="card reveal"><div class="tagline">до склеек OCR</div><div class="big ok-c">31</div><p>совпали с точностью до пробелов, съеденных распознаванием</p></div>
+      <div class="card reveal"><div class="tagline">не найдено</div><div class="big">0</div><p>цитат, которых нет в книге</p></div>
+      <div class="card reveal"><div class="tagline">чужая страница</div><div class="big">0</div><p>подлинных цитат с неверным номером страницы</p></div>
+    </div>
+    <div class="tbl-wrap reveal" style="margin-top:22px">
+      <table class="tbl wide">
+        <thead><tr><th>№</th><th>Источник</th><th>Страниц</th><th>Цитат</th><th>Сжатие</th><th>Вердикт</th></tr></thead>
+        <tbody>
+          <tr><td class="n">1</td><td class="gen"><b>Мемуары</b><span>PDF, текстовый слой</span></td><td class="n">496</td><td class="n">388</td><td class="n">17,5%</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">2</td><td class="gen"><b>Повесть</b><span>PDF, текстовый слой</span></td><td class="n">250</td><td class="n">494</td><td class="n">20,3%</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">3</td><td class="gen"><b>Мемуары</b><span>PDF, текстовый слой</span></td><td class="n">241</td><td class="n">389</td><td class="n">19,0%</td><td class="warn">НА ДОРАБОТКУ</td></tr>
+          <tr><td class="n">4</td><td class="gen"><b>Устав</b><span>PDF, текстовый слой</span></td><td class="n">201</td><td class="n">237</td><td class="n">15,9%</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">5</td><td class="gen"><b>Учебное пособие</b><span>PDF с битой кодировкой → починка</span></td><td class="n">178</td><td class="n">256</td><td class="n">29,1%</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">6</td><td class="gen"><b>Книга о лидерстве</b><span>PDF, текстовый слой</span></td><td class="n">164</td><td class="n">173</td><td class="n">12,5%</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">7</td><td class="gen"><b>Монография</b><span>PDF, слой распознан со скана</span></td><td class="n">114</td><td class="n">235</td><td class="n">25,0%</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">8</td><td class="gen"><b>Сборник разобранных примеров</b><span>PDF, текстовый слой</span></td><td class="n">108</td><td class="n">124</td><td class="n">16,2%</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">9</td><td class="gen"><b>Деловые притчи</b><span>PDF, текстовый слой</span></td><td class="n">80</td><td class="n">112</td><td class="n">16,7%</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">10</td><td class="gen"><b>Методическое пособие, машинопись</b><span>DJVU → распознавание</span></td><td class="n">77</td><td class="n">65</td><td class="n">20,5%</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">11</td><td class="gen"><b>Брошюра-наставление</b><span>PDF, текстовый слой</span></td><td class="n">57</td><td class="n">71</td><td class="n">17,8%</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">12</td><td class="gen"><b>Памятка</b><span>скан → распознавание</span></td><td class="n">15</td><td class="n">42</td><td class="na">759 слов — коридор не применяется</td><td class="ok">ПРИНЯТО</td></tr>
+          <tr><td class="n">13</td><td class="gen"><b>Презентация</b><span>153 слайда, чтение глазами</span></td><td class="na">—</td><td class="na">158 ссылок на слайды</td><td class="na">—</td><td class="na">охват принят, цитаты не сверяются</td></tr>
+          <tr class="sum"><td></td><td>Итого по 12 книгам</td><td class="n">1 981</td><td class="n">2 586</td><td class="n">12,5–29,1%</td><td>11 из 12 приняты</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="demo-note reveal">Названия книг не приводятся: большинство под охраной авторского права. Страниц — по файлу; диапазон сжатия — по 11 книгам, без памятки</div>
+    <div class="cards c2" style="margin-top:30px">
+      <div class="card reveal">
+        <div class="tagline">на доработку</div>
+        <h3>Одна книга: не прошла форма, цитаты верны</h3>
+        <p>Все 389 цитат найдены на своих страницах, сжатие 19,0%. Приёмку не прошли шесть абзацев длиннее 900 знаков (самый длинный — 1 027) и одна аббревиатура без расшифровки. Правила формата проверяются так же жёстко, как цитаты.</p>
+      </div>
+      <div class="card reveal">
+        <div class="tagline">презентация</div>
+        <h3>153 слайда: сверять нечего</h3>
+        <p>Текстовый слой нечитаем, содержание лежит в схемах. Слайды прочитаны глазами, вместо цитат стоят ссылки на номер слайда. slidecheck проверил охват: 143 слайда из 153 упомянуты. Конспект сам предупреждает читателя, что проверяемость здесь слабее.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КАК ДЕЛАЛСЯ -->
+<section class="section" id="kak">
+  <div class="section-head reveal">
+    <div class="kicker">Как делался</div>
+    <h2>Сначала измеренный провал, потом правило</h2>
+    <p class="section-intro">Скилл написан по методике разработки через тесты: сначала замерено, как агенты ошибаются без него, затем написаны правила ровно под эти ошибки, затем проверено, что ошибки ушли.</p>
+  </div>
+  <div class="cards">
+    <div class="card reveal"><div class="tagline">без скилла</div><h3>Провал</h3><p>Три агента, одна книга: у самого тщательного выдумана 5 цитат из 11, у двух других нет ни одного якоря. Проверку не запустил никто.</p></div>
+    <div class="card reveal"><div class="tagline">со скиллом</div><h3>Те же три сценария</h3><p>Все три конспекта приняты: 166 цитат, ни одной выдуманной.</p></div>
+    <div class="card reveal"><div class="tagline">новая книга</div><h3>Контрольный прогон</h3><p>Ещё два агента на книге, которой не было в тестах: приняты с первой попытки, без чтения исходного кода инструмента.</p></div>
+  </div>
+
+  <div class="section-head sub-head reveal">
+    <div class="kicker">Дефекты</div>
+    <h2>17 дефектов нашлись на живых книгах</h2>
+    <p class="section-intro">Ни один не был бы найден чтением кода — все вскрылись на реальных файлах в четыре волны. Каждый чинился кодом, а не оговоркой в документации.</p>
+  </div>
+  <div class="rows">
+    <div class="row reveal"><span class="rk">страница</span><div><div class="rt">Номер страницы не сверялся вовсе</div><div class="rd">Подлинной цитате можно было приписать любой номер. Теперь страница проверяется отдельно от текста.</div></div></div>
+    <div class="row reveal"><span class="rk">кодировка</span><div><div class="rt">Битая таблица ToUnicode проходила всю цепочку</div><div class="rd">Текст из глифов — «Ɍɚɤɬɢɱɟɫɤɚɹ» вместо «Тактическая» — совпадал сам с собой. Появилась команда fixcmap, а verify отказывается от такого входа.</div></div></div>
+    <div class="row reveal"><span class="rk">повторы</span><div><div class="rt">Повторяющаяся цитата привязывалась к первому вхождению</div><div class="rd">В уставах формулировки повторяются, и верная ссылка на второе место объявлялась враньём. Теперь проверяются все вхождения.</div></div></div>
+    <div class="row reveal"><span class="rk">отсев</span><div><div class="rt">Покрытие закрывалось логом отсева</div><div class="rd">Книгу можно было «покрыть» таблицей пропусков без единой цитаты. Теперь участок закрывает только якорь настоящей цитаты.</div></div></div>
+    <div class="row reveal"><span class="rk">разрыв</span><div><div class="rt">Цитата через разрыв страницы считалась выдумкой</div><div class="rd">Между её половинами стоят служебный маркер страницы и напечатанный номер. Теперь они снимаются перед сверкой, а карта страниц пересчитывается с учётом этого.</div></div></div>
+    <div class="row reveal"><span class="rk">промпт</span><div><div class="rt">Промпт разрешал «причесать» цитату</div><div class="rd">В одной книге не нашлась 21 цитата из 79: сборщики чинили разрывы строк и подгоняли словоформы. Промпт извлечения теперь это запрещает.</div></div></div>
+  </div>
+  <div class="demo-note reveal">Главный урок, вписанный в скилл: приёмка проверяет соответствие конспекта источнику, но ничего не знает о качестве источника — поэтому вход проверяется отдельно</div>
+</section>
+
+<!-- СТЕК -->
+<section class="tinted">
+  <div class="section">
+    <div class="section-head reveal" style="text-align:center">
+      <div class="kicker" style="justify-content:center">Технологии</div>
+      <h2 style="margin:0 auto">Стек</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-item reveal"><div class="si-layer">Инструменты</div><div class="si-name">Python 3.12</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Текст и страницы PDF</div><div class="si-name">PyMuPDF</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Нечёткая сверка</div><div class="si-name">difflib</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Распознавание сканов</div><div class="si-name">Windows OCR</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Файлы DJVU</div><div class="si-name">DjVuLibre</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Страница конспекта</div><div class="si-name">Markdown · Pillow</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Конвейер</div><div class="si-name">Скилл Claude Code</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Команд booktool</div><div class="si-name">12</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Проверяет не уверенность, а машина.</h2>
+    <p>Самый добросовестный агент без правил отчитался, что выдуманного нет, — и ошибся в пяти цитатах из одиннадцати. Со скиллом у каждой из 2 586 цитат есть страница, и каждая найдена в книге.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/#projects">← Смотреть другие проекты</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/audio-to-book.html">Из аудио — в книгу</a>
+    <a href="/deep-research-report.html">Обзор образовательных систем</a>
+  </div>
+  <div class="copy">Конспекты с проверкой цитат · Методичка и скилл Claude Code · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дизайн-система презентаций — .pptx по брендбуку из материалов</title>
+<meta name="description" content="Генератор презентаций в фирменном стиле заказчика: агент Claude Code читает доклад или папку материалов, подбирает экраны из каталога на 37 типов, собирает .pptx и сам проверяет вёрстку картинками.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#f5f9fa; --bg2:#e9f2f4; --bg3:#ffffff;
+  --accent:#0e7490; --accent-d:#164e63; --accent-l:#22d3ee; --accent-2:#475569;
+  --accent-dim:rgba(14,116,144,0.08); --accent-border:rgba(14,116,144,0.26);
+  --shadow-accent:0 12px 34px rgba(14,116,144,0.24);
+  --nav-bg:rgba(245,249,250,0.78); --nav-bg-scrolled:rgba(245,249,250,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(14,116,144,0.12), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(34,211,238,0.14), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(71,85,105,0.10), transparent 55%);
+}
+body{background:var(--bg)}
+/* в Space Grotesk нет кириллицы: без запасного семейства эти заголовки падали в засечный шрифт */
+.nav-mark,.card h3,.card h4,.card .big,.row .rt,.flow-box .fb-t,.stack-item .si-name,.cta h2{font-family:'Space Grotesk',sans-serif}
+.split>*{min-width:0}
+code{font-family:'JetBrains Mono',monospace;font-size:.88em;font-weight:500;color:var(--accent-d);background:var(--accent-dim);border-radius:5px;padding:1px 6px;overflow-wrap:anywhere}
+
+/* задание YAML */
+.yaml{margin:0}
+.yaml .mock-body{padding:20px 22px;overflow-x:auto}
+.yaml pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;color:var(--text);white-space:pre;margin:0}
+.yaml .yc{color:var(--text3)}
+.yaml .yk{color:var(--accent-d);font-weight:700}
+.yaml .ys{color:var(--accent-2)}
+@media(max-width:600px){.yaml .mock-body{padding:14px}.yaml pre{font-size:12px}}
+
+/* каталог экранов */
+.cat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media(max-width:760px){.cat-grid{grid-template-columns:minmax(0,1fr)}}
+.cat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:24px 22px;box-shadow:var(--shadow);transition:border-color .3s,box-shadow .3s}
+.cat:hover{border-color:var(--accent-border);box-shadow:var(--shadow2)}
+.cat-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.cat-range{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--accent-d);background:var(--accent-dim);border-radius:7px;padding:4px 9px}
+.cat-n{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--text2)}
+.cat h3{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:var(--ink);margin:10px 0 4px;line-height:1.3}
+.cat-mod{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text3);margin-bottom:16px}
+.codes{display:flex;flex-wrap:wrap;gap:7px}
+.code-chip{display:inline-flex;align-items:baseline;gap:7px;font-size:13px;line-height:1.35;color:var(--text2);background:var(--bg);border:1px solid var(--border);border-radius:100px;padding:5px 11px}
+.code-chip b{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--text3)}
+.code-chip.used{background:var(--accent-dim);border-color:var(--accent-border);color:var(--ink)}
+.code-chip.used b{color:var(--accent-d)}
+.cat-legend{display:flex;align-items:center;gap:9px;margin-top:18px;font-size:13.5px;color:var(--text2)}
+.cat-legend .code-chip{padding:3px 10px}
+.sub-h{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;color:var(--ink);margin:46px 0 16px}
+.split.top{align-items:start}
+.split.top .sub-h{margin-top:0}
+
+/* галерея слайдов */
+.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:8px}
+@media(max-width:700px){.shots{grid-template-columns:minmax(0,1fr);gap:16px}}
+.shot{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s,border-color .3s}
+.shot:hover{transform:translateY(-4px);box-shadow:var(--shadow2);border-color:var(--accent-border)}
+.shot a{display:block;text-decoration:none;color:inherit}
+.shot img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-bottom:1px solid var(--border)}
+.shot-cap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:13px 16px;flex-wrap:wrap}
+.shot-t{font-size:14.5px;color:var(--ink);font-weight:500}
+.shot-t b{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--accent-d);font-weight:700;margin-right:6px}
+.shot-n{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text3);white-space:nowrap}
+.vs{margin-top:34px}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">П</span> Дизайн-система</a>
+  <div class="nav-links">
+    <a href="#zadacha">Задача</a>
+    <a href="#konveyer">Конвейер</a>
+    <a href="#katalog">Каталог</a>
+    <a href="#proverki">Проверки</a>
+    <a href="#peredacha">Передача</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <svg viewBox="0 0 24 24"><rect x="2.5" y="3.5" width="19" height="13" rx="1.8"/><path d="M12 16.5v4M8 20.5h8"/><path d="M6.5 13v-2.5M10 13V7.5M13.5 13v-3.5M17 13V9"/></svg>
+    </div>
+    <div class="hero-badge"><span class="dot"></span>работает · передана исполнителю</div>
+    <h1>Дизайн-система <span class="grad">презентаций</span></h1>
+    <div class="hero-tag">Материалы → задание → .pptx по брендбуку</div>
+    <p class="hero-sub">Холдинг в микроэлектронике делает плотные инженерные презентации по строгому брендбуку. Система собирает такой .pptx из доклада или папки материалов: агент Claude Code читает исходник, подбирает под каждый раздел один из 37 типов экрана, пишет задание, собирает файл и смотрит на результат картинками. Правки человек называет по номерам слайдов.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#test">Смотреть слайды →</a>
+      <a class="btn btn-ghost" href="#konveyer">Как устроен конвейер</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>37</strong><span>типов экрана</span></div>
+      <div class="hero-stat"><strong>79</strong><span>проверок в самопроверке</span></div>
+      <div class="hero-stat"><strong>18</strong><span>слайдов на чужом докладе</span></div>
+      <div class="hero-stat"><strong>39</strong><span>фигур — медиана на слайд</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ЗАДАЧА -->
+<section class="tinted" id="zadacha">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Задача</div>
+      <h2>Шаблон не решает главного — плотности</h2>
+      <p class="section-intro">Корпоративная презентация холдинга — не «тезис на слайд». Каждый экран — сетка карточек с крупными цифрами, мини-графиками, списками и серой плашкой вывода, и всё в рамках брендбука. Мастер-слайды шаблона оставляют такую вёрстку ручной работе. Генераторы слайдов верстают по своей сетке: цвета и шрифт подставить можно, а правила брендбука — один оранжевый акцент, источник под цифрами, светлый титул — нет.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="num">01</div>
+        <h3>35–55 объектов на слайд</h3>
+        <p>Плотность задана правилом системы. Промежуточную разреженную версию — около двадцати объектов на слайд — заказчик вернул: именно плотность оказалась главным требованием.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">02</div>
+        <h3>Брендбук, а не вкус</h3>
+        <p>Светлый титул и перебивка, оранжевый — на одном смысловом блоке, строка источника под цифрами, ограничения по контрасту. Первая версия выдумала тёмную обложку: страницы брендбука о презентациях были прочитаны текстом, без просмотра макетов.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">03</div>
+        <h3>Собирает не автор</h3>
+        <p>Презентации делает другой человек со своим аккаунтом Claude. Значит, правила должны жить в файлах репозитория, а не в памяти одной сессии, — и ему не нужно знать ни кодов экранов, ни формата задания.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КОНВЕЙЕР -->
+<section class="section" id="konveyer">
+  <div class="section-head reveal">
+    <div class="kicker">Конвейер</div>
+    <h2>Агент решает, скрипты верстают</h2>
+    <p class="section-intro">Смысловая работа — какая цифра главная и какой вывод нужен — остаётся за агентом. Всё, что можно посчитать, — поля, кегли, сетку, цвета, строку источника — делают скрипты, читая один файл токенов. Выделенные этапы — решения агента.</p>
+  </div>
+  <div class="flow reveal">
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">ИСХОДНИК</span><div><div class="fb-t">Агент читает материалы сам</div><div class="fb-d">PDF, DOCX, MD, TXT: числа, сравнения, хронология, выводы. Автоматическому разбору смысл не доверяется</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ЧЕРНОВИК</span><div><div class="fb-t"><code>собрать.py --задание</code></div><div class="fb-d">Текст режется на разделы по кеглю заголовков, показатели и таблицы вынимаются в черновик YAML. Это заготовка: около двадцати объектов на слайд</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">ЗАДАНИЕ</span><div><div class="fb-t">Агент переписывает задание</div><div class="fb-d">Под каждый раздел — код экрана из каталога, заголовок, числа по показателям, вывод-утверждение. Скелет: титул, оглавление, блоки с перебивками, финал</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">СБОРКА</span><div><div class="fb-t"><code>build_from_brief.py</code></div><div class="fb-d">Геометрия, кегли и цвета берутся из <code>tokens.json</code>, модули экранов <code>ds_*.py</code> подключаются автоматически</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box accent"><span class="flow-tag">ПРЕВЬЮ</span><div><div class="fb-t"><code>pptx_preview.py</code> и взгляд агента</div><div class="fb-d">Каждый слайд рендерится в PNG, переполнение текста выводится списком. Агент открывает картинки: ничего не наезжает, нет пустой нижней трети, оранжевым выделено одно место, под цифрами источник</div></div></div></div>
+    <div class="flow-conn"></div>
+    <div class="flow-row"><div class="flow-box"><span class="flow-tag">ПРАВКИ</span><div><div class="fb-t">По номерам слайдов, обычными словами</div><div class="fb-d">«На слайде 3 добавь данные по расходу топлива». Задание правится, файл пересобирается новой версией — <code>_v2</code>, <code>_v3</code>; прежняя не затирается</div></div></div></div>
+  </div>
+  <div class="demo-note reveal">Цикл «правка задания → сборка → превью» повторяется, пока слайды не станут правильными. В инструкции агенту это записано как норма работы, а не признак ошибки</div>
+
+  <div class="split top" style="margin-top:54px">
+    <div class="reveal">
+      <div class="mock yaml">
+        <div class="mock-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="mock-url">задание.yaml · слайд 4 тестовой деки</span></div>
+        <div class="mock-body"><pre><span class="yc"># код экрана — контракт: какие данные и куда лягут</span>
+- <span class="yk">код:</span> П-11
+  <span class="yk">заголовок:</span> <span class="ys">"Куда уходит энергия топлива"</span>
+  <span class="yk">источник:</span> <span class="ys">"Источник: технический доклад, раздел 26…"</span>
+  <span class="yk">данные:</span>
+    <span class="yk">показатели:</span>
+      - [<span class="ys">"34"</span>, <span class="ys">"%"</span>, <span class="ys">"полезная работа на валу"</span>]
+      - [<span class="ys">"31"</span>, <span class="ys">"%"</span>, <span class="ys">"уносится с выпускными газами"</span>]
+      - [<span class="ys">"25"</span>, <span class="ys">"%"</span>, <span class="ys">"отводится системой охлаждения"</span>]
+      - [<span class="ys">"10"</span>, <span class="ys">"%"</span>, <span class="ys">"механические потери на трение"</span>]
+    <span class="yk">заголовок_вывода:</span> <span class="ys">"Что из этого следует"</span>
+    <span class="yk">пункты_вывода:</span>
+      - <span class="ys">"Потери делятся на фундаментальные и управляемые…"</span></pre></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="sub-h">Что берёт на себя сборка</div>
+      <ul class="split-list">
+        <li><span class="chk">✓</span><span><b>Сетка и типографика</b> — из одного файла токенов: поменял там, пересобрал задание — изменилась вся презентация.</span></li>
+        <li><span class="chk">✓</span><span><b>Списки одним текстовым блоком</b> с висячим отступом: строки разливает сам PowerPoint, и пункты не наезжают друг на друга.</span></li>
+        <li><span class="chk">✓</span><span><b>Линейка, строка источника и номер слайда</b> — на каждом содержательном экране: агенту остаётся вписать, откуда данные.</span></li>
+        <li><span class="chk">✓</span><span><b>Подсветка текущего раздела</b> в оглавлении — достаточно указать номер; экран оглавления ставится перед каждым блоком.</span></li>
+        <li><span class="chk">✓</span><span><b>Montserrat и маркер «•»</b>: квадратного «▪» в этом шрифте нет, и он подставлялся бы чужим глифом.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- КАТАЛОГ -->
+<section class="tinted" id="katalog">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Каталог экранов</div>
+      <h2>37 типов экрана в четырёх модулях</h2>
+      <p class="section-intro">Экраны вынуты из брендбука и корпоративных презентаций. Каждый — код и контракт: какие данные собрать и как они лягут на страницу. Каталог-образец в .pptx — 37 слайдов, в заметках к каждому написано, когда его брать. Текстовый каталог собирается из кода командой и руками не правится.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat reveal">
+        <div class="cat-h"><span class="cat-range">П-03…П-19</span><span class="cat-n">17 экранов</span></div>
+        <h3>Доказательство, структура, время, выбор</h3>
+        <div class="cat-mod">ds_base.py</div>
+        <div class="codes">
+          <span class="code-chip used"><b>03</b>Три колонки с выводами</span>
+          <span class="code-chip used"><b>04</b>Две диаграммы и вывод</span>
+          <span class="code-chip"><b>05</b>Колонки с плашками</span>
+          <span class="code-chip used"><b>06</b>Матрица «строки × колонки»</span>
+          <span class="code-chip"><b>07</b>Оргструктура</span>
+          <span class="code-chip used"><b>08</b>Дорожная карта</span>
+          <span class="code-chip"><b>09</b>Лестница слоёв</span>
+          <span class="code-chip"><b>10</b>Нумерованные шаги</span>
+          <span class="code-chip used"><b>11</b>Полоса показателей</span>
+          <span class="code-chip used"><b>12</b>Диаграмма и колонка цифр</span>
+          <span class="code-chip used"><b>13</b>Таблица во весь слайд</span>
+          <span class="code-chip"><b>14</b>Галерея логотипов</span>
+          <span class="code-chip used"><b>15</b>Квадрант 2×2</span>
+          <span class="code-chip"><b>16</b>Воронка</span>
+          <span class="code-chip"><b>17</b>Текст и фото</span>
+          <span class="code-chip"><b>18</b>Сравнение вариантов</span>
+          <span class="code-chip"><b>19</b>Цепочка ценности</span>
+        </div>
+      </div>
+      <div class="cat reveal">
+        <div class="cat-h"><span class="cat-range">П-21…П-26</span><span class="cat-n">6 экранов</span></div>
+        <h3>Паспорта проекта и изделия — самые плотные</h3>
+        <div class="cat-mod">ds_passport.py</div>
+        <div class="codes">
+          <span class="code-chip used"><b>21</b>Паспорт проекта</span>
+          <span class="code-chip used"><b>22</b>Технический паспорт</span>
+          <span class="code-chip used"><b>23</b>Функциональная схема</span>
+          <span class="code-chip used"><b>24</b>Лента уровней готовности</span>
+          <span class="code-chip used"><b>25</b>Сетка организаций</span>
+          <span class="code-chip"><b>26</b>Заголовок с выделением</span>
+        </div>
+      </div>
+      <div class="cat reveal">
+        <div class="cat-h"><span class="cat-range">П-31…П-36</span><span class="cat-n">6 экранов</span></div>
+        <h3>Титульные и навигационные</h3>
+        <div class="cat-mod">ds_title.py</div>
+        <div class="codes">
+          <span class="code-chip"><b>31</b>Титул с коллажем</span>
+          <span class="code-chip used"><b>32</b>Титул с графикой</span>
+          <span class="code-chip"><b>33</b>Перебивка с фото</span>
+          <span class="code-chip used"><b>34</b>Перебивка светлая</span>
+          <span class="code-chip used"><b>35</b>Оглавление</span>
+          <span class="code-chip used"><b>36</b>Финал</span>
+        </div>
+      </div>
+      <div class="cat reveal">
+        <div class="cat-h"><span class="cat-range">П-41…П-48</span><span class="cat-n">8 экранов</span></div>
+        <h3>Контентные раскладки брендбука</h3>
+        <div class="cat-mod">ds_content.py</div>
+        <div class="codes">
+          <span class="code-chip"><b>41</b>Диаграмма и панель</span>
+          <span class="code-chip"><b>42</b>График и крупные числа</span>
+          <span class="code-chip"><b>43</b>Таймлайн по годам</span>
+          <span class="code-chip"><b>44</b>Круговая инфографика</span>
+          <span class="code-chip"><b>45</b>Карта с указателями</span>
+          <span class="code-chip"><b>46</b>Тёмный слайд с фото</span>
+          <span class="code-chip"><b>47</b>Текст и коллаж</span>
+          <span class="code-chip"><b>48</b>Схема потоков</span>
+        </div>
+      </div>
+    </div>
+    <div class="cat-legend reveal"><span class="code-chip used"><b>08</b>подсвечено</span><span>— 17 экранов, которые агент взял в тестовую деку</span></div>
+
+    <div class="split top" style="margin-top:46px">
+      <div class="reveal">
+        <div class="sub-h">Выбор экрана по форме материала</div>
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>Экран</th><th>Когда брать</th><th>В тестовой деке</th></tr></thead>
+            <tbody>
+              <tr><td class="n">П-03</td><td>Тезис распадается на три доказательства</td><td>слайд 12</td></tr>
+              <tr><td class="n">П-11</td><td>3–5 цифр, которые надо запомнить</td><td>слайд 4</td></tr>
+              <tr><td class="n">П-06</td><td>Объекты сравниваются по одинаковым срезам</td><td>слайд 8</td></tr>
+              <tr><td class="n">П-13</td><td>Точные значения, которые сверяют построчно</td><td>слайд 15</td></tr>
+              <tr><td class="n">П-08</td><td>Этапы работ во времени</td><td>слайд 16</td></tr>
+              <tr><td class="n">П-15</td><td>Выбор по двум критериям</td><td>слайд 17</td></tr>
+              <tr><td class="n">П-22</td><td>Изделие или узел целиком на одном слайде</td><td>слайд 7</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="sub-h">Правила, которые нельзя нарушать</div>
+        <ul class="split-list">
+          <li><span class="chk">✓</span><span><b>Оранжевый — на одном смысловом блоке</b>, том, о котором вывод; тёплая заливка — не больше 14 % площади слайда.</span></li>
+          <li><span class="chk">✓</span><span><b>Титул и перебивка светлые.</b> Тёмный экран в системе один — П-46, контентный, с фотографиями.</span></li>
+          <li><span class="chk">✓</span><span><b>Под цифрами — строка источника</b>: откуда данные и на какую дату.</span></li>
+          <li><span class="chk">✓</span><span><b>Вывод — утверждение, а не тема</b>: «Две трети энергии топлива уходит в тепло», а не «Энергобаланс».</span></li>
+          <li><span class="chk">✓</span><span><b>Статус — словом</b>: концепция, макет, опытный образец, испытания.</span></li>
+          <li><span class="chk">✓</span><span><b>Белый на оранжевом</b> — только от 24 pt или жирным от 19 pt: контраст всего 3,4&nbsp;:&nbsp;1.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ТЕСТ -->
+<section class="section" id="test">
+  <div class="section-head reveal">
+    <div class="kicker">Проверка на чужом материале</div>
+    <h2>Доклад о двигателе — 18 слайдов</h2>
+    <p class="section-intro">Экраны снимались с корпоративных презентаций, а проверялись на материале, под который их никто не готовил: технический доклад о поршневом ДВС на 35 страниц. Задание на 511 строк собрало деку из 18 слайдов на 17 типах экрана — с техническим паспортом узла, функциональной схемой и лентой уровней готовности.</p>
+  </div>
+  <div class="shots">
+    <figure class="shot reveal"><a href="/pptx/s1.jpg" target="_blank" rel="noopener"><img src="/pptx/s1.jpg" alt="Слайд «Путь энергии: пять преобразований в одном цикле» — функциональная схема из пяти звеньев, у каждого список процессов и таблица параметров, внизу серая плашка вывода" loading="lazy" width="1280" height="720"><figcaption class="shot-cap"><span class="shot-t"><b>П-23</b>Функциональная схема</span><span class="shot-n">слайд 3 · 109 фигур</span></figcaption></a></figure>
+    <figure class="shot reveal"><a href="/pptx/s2.jpg" target="_blank" rel="noopener"><img src="/pptx/s2.jpg" alt="Слайд «Цилиндро-поршневая группа» — технический паспорт: четыре реквизита сверху и шесть нумерованных разделов от функциональной схемы до порядка оценки состояния" loading="lazy" width="1280" height="720"><figcaption class="shot-cap"><span class="shot-t"><b>П-22</b>Технический паспорт</span><span class="shot-n">слайд 7 · 85 фигур</span></figcaption></a></figure>
+    <figure class="shot reveal"><a href="/pptx/s3.jpg" target="_blank" rel="noopener"><img src="/pptx/s3.jpg" alt="Слайд «Порядок инженерной доводки двигателя» — дорожная карта из семи мероприятий по этапам, одно выделено оранжевым как критический узел" loading="lazy" width="1280" height="720"><figcaption class="shot-cap"><span class="shot-t"><b>П-08</b>Дорожная карта</span><span class="shot-n">слайд 16 · 56 фигур</span></figcaption></a></figure>
+    <figure class="shot reveal"><a href="/pptx/s4.jpg" target="_blank" rel="noopener"><img src="/pptx/s4.jpg" alt="Слайд «Четыре архетипа рабочего процесса» — матрица: Отто, Дизель, Аткинсон и Миллер, водородный двигатель по четырём срезам" loading="lazy" width="1280" height="720"><figcaption class="shot-cap"><span class="shot-t"><b>П-06</b>Матрица «строки × колонки»</span><span class="shot-n">слайд 8 · 47 фигур</span></figcaption></a></figure>
+    <figure class="shot reveal"><a href="/pptx/s5.jpg" target="_blank" rel="noopener"><img src="/pptx/s5.jpg" alt="Слайд «Водородный поршневой двигатель: уровни готовности технологии» — четыре стадии с зонами ответственности и лента уровней готовности" loading="lazy" width="1280" height="720"><figcaption class="shot-cap"><span class="shot-t"><b>П-24</b>Лента уровней готовности</span><span class="shot-n">слайд 13 · 46 фигур</span></figcaption></a></figure>
+    <figure class="shot reveal"><a href="/pptx/s6.jpg" target="_blank" rel="noopener"><img src="/pptx/s6.jpg" alt="Слайд «Инженерные направления» — сетка из трёх направлений: проекты, организации-партнёры, ведущая дисциплина и число разделов доклада" loading="lazy" width="1280" height="720"><figcaption class="shot-cap"><span class="shot-t"><b>П-25</b>Сетка организаций</span><span class="shot-n">слайд 14 · 98 фигур</span></figcaption></a></figure>
+  </div>
+
+  <div class="cards c2 vs">
+    <div class="card reveal">
+      <div class="tagline">автоматический черновик</div>
+      <h3><code>собрать.py</code> на том же докладе</h3>
+      <p>Одна команда без участия агента: 19 слайдов, из них 14 содержательных. Годится как заготовка — отдавать такой файл инструкция агенту запрещает.</p>
+      <div class="big">20 <span>фигур — медиана, разброс 15–23</span></div>
+    </div>
+    <div class="card reveal">
+      <div class="tagline">задание агента</div>
+      <h3>Переписанное задание</h3>
+      <p>13 содержательных слайдов из 18: паспорта, схемы, матрица, дорожная карта, квадрант. Самый плотный — функциональная схема.</p>
+      <div class="big">39 <span>фигур — медиана, максимум 109</span></div>
+    </div>
+  </div>
+  <div class="demo-note reveal">Целевой коридор системы — 35–55 фигур. Медиана в него попала, но не каждый слайд: шесть из тринадцати ниже 35, и у трёх из них диаграмма или таблица считается одной фигурой. Превью экспортированы из PowerPoint, логотип заказчика убран из копии файла</div>
+</section>
+
+<!-- ПРОВЕРКИ -->
+<section class="tinted" id="proverki">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Проверки</div>
+      <h2>Самопроверка: 79 проверок одной командой</h2>
+      <p class="section-intro"><code>selfcheck.py</code> запускается перед передачей и после любой правки модулей. Пять блоков, 79 проверок; последняя строка — «Комплект готов к передаче». Любой провал печатается списком и завершает запуск с кодом ошибки.</p>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table class="tbl">
+        <thead><tr><th>Что проверяется</th><th>Какую ошибку ловит</th><th>Как</th></tr></thead>
+        <tbody>
+          <tr><td>Реестр экранов</td><td>Экран без описания, демо-данных или строки источника</td><td class="n">37 × 7 обязательных полей</td></tr>
+          <tr><td>Каталог против кода</td><td>Код в документации, которого нет в модулях, и наоборот</td><td class="n">сверка множеств кодов</td></tr>
+          <tr><td>Сборка на порче</td><td>Падение на пустых колонках, пустых шагах, пункте в 400 знаков</td><td class="n">37 экранов × 6 наборов = 222 сборки</td></tr>
+          <tr><td>Задание-образец</td><td>Почти пустой слайд в собранном файле</td><td class="n">меньше 3 фигур — провал</td></tr>
+          <tr><td>Палитра</td><td>Цвет вне брендбука в готовом файле</td><td class="n">скан свежесобранного каталога</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="demo-note reveal">Палитра проверяется по собранному .pptx, а не по исходникам: в коде запрещённые цвета упоминаются в комментариях, и проверка по тексту давала ложную тревогу</div>
+    <div class="sub-h reveal">Что стоило ошибок</div>
+    <div class="rows">
+      <div class="row reveal"><span class="rk">превью</span><div><div class="rt">Рендер дважды показывал неправду</div><div class="rd">Форма фигуры определялась по общему типу, а он у всех автофигур одинаковый: круги и стрелки рисовались прямоугольниками. Кольцевые диаграммы рисовались столбцами. Оба раза это едва не привело к «починке» того, что не было сломано.</div></div></div>
+      <div class="row reveal"><span class="rk">каталог</span><div><div class="rt">Документация разошлась с кодом</div><div class="rd">Написанный руками каталог описывал коды П-01…П-20, а модули реализовывали П-21…П-48 — пересечение ноль. Теперь каталог генерируется из тех же модулей, что и презентация.</div></div></div>
+      <div class="row reveal"><span class="rk">списки</span><div><div class="rt">Пункты наезжали друг на друга</div><div class="rd">Высота списка считалась по длине строки, оценка врала на трёх слайдах сразу. Теперь пункты кладутся одним текстовым блоком, и переносы делает PowerPoint.</div></div></div>
+      <div class="row reveal"><span class="rk">обложка</span><div><div class="rt">Тёмный титул был выдумкой</div><div class="rd">Макеты титула и перебивок в брендбуке светлые; сплошной оранжевой заливки во весь экран в стиле нет нигде. Вывод записан в историю решений: структурный разбор файла не заменяет просмотр глазами.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ПЕРЕДАЧА -->
+<section class="section" id="peredacha">
+  <div class="section-head reveal">
+    <div class="kicker">Передача исполнителю</div>
+    <h2>Передаётся репозиторий, а не инструкция</h2>
+    <p class="section-intro">Первая версия инструкции требовала от исполнителя самому вызывать скрипты, выбирать экраны и писать YAML. Её заменили: у исполнителя тоже есть Claude, и разговаривать он должен с ним. Инструкция для агента лежит в <code>CLAUDE.md</code> в корне репозитория — Claude Code читает её сам при открытии папки.</p>
+  </div>
+  <div class="cards">
+    <div class="card reveal">
+      <div class="num">01</div>
+      <h3>Клонировать репозиторий</h3>
+      <p>Форк или <code>git clone</code> приватного репозитория. Брендбук и корпоративные деки заказчика в него не входят: цвета, шрифт, логотипы, паттерн и правила вёрстки уже извлечены в комплект.</p>
+    </div>
+    <div class="card reveal">
+      <div class="num">02</div>
+      <h3>Запустить <code>setup.ps1</code></h3>
+      <p>Один раз: находит Python 3.9+, ставит python-pptx, Pillow и PyYAML, устанавливает Montserrat в профиль пользователя без прав администратора и проверяет, что сборка запускается.</p>
+    </div>
+    <div class="card reveal">
+      <div class="num">03</div>
+      <h3>Сказать агенту</h3>
+      <p>Открыть папку в Claude Code: «Вот папка с материалами — собери презентацию». Агент ничего не уточняет заранее: собирает, показывает, правки принимает по номерам слайдов.</p>
+    </div>
+  </div>
+  <div class="sub-h reveal">Что лежит в комплекте</div>
+  <div class="rows">
+    <div class="row reveal"><span class="rk">агенту</span><div><div class="rt">CLAUDE.md</div><div class="rd">Алгоритм из семи шагов, выбор экрана по форме материала, формат задания, правила стиля, ловушки и список того, чего делать нельзя.</div></div></div>
+    <div class="row reveal"><span class="rk">человеку</span><div><div class="rt">README.md</div><div class="rd">Три шага: клонировать, установить, сказать. Как просить правки.</div></div></div>
+    <div class="row reveal"><span class="rk">вручную</span><div><div class="rt">ПОШАГОВО.md</div><div class="rd">Запасной путь в десять шагов — от установки Python до добавления своего типа экрана — и таблица типичных ошибок.</div></div></div>
+    <div class="row reveal"><span class="rk">памятка</span><div><div class="rt">README-исполнителю.md</div><div class="rd">Как собрать презентацию из задания без агента, правила стиля, что где лежит.</div></div></div>
+    <div class="row reveal"><span class="rk">история</span><div><div class="rt">ИСТОРИЯ.md</div><div class="rd">Решения, которые стоили ошибок: светлый титул, плотность, генерация каталога из кода, починка превью.</div></div></div>
+    <div class="row reveal"><span class="rk">примеры</span><div><div class="rt">Три готовые деки</div><div class="rd">Каталог-образец на 37 слайдов, тестовая дека по докладу о двигателе вместе с её заданием и концепция видеоролика.</div></div></div>
+  </div>
+</section>
+
+<!-- СТЕК -->
+<section class="tinted">
+  <div class="section">
+    <div class="section-head reveal" style="text-align:center">
+      <div class="kicker" style="justify-content:center">Технологии</div>
+      <h2 style="margin:0 auto">Стек</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-item reveal"><div class="si-layer">Агент</div><div class="si-name">Claude Code · CLAUDE.md</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Сборка .pptx</div><div class="si-name">Python · python-pptx</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Задание</div><div class="si-name">YAML · PyYAML</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Чтение материалов</div><div class="si-name">PyMuPDF · python-docx</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Превью</div><div class="si-name">Pillow</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Стиль</div><div class="si-name">tokens.json · Montserrat</div></div>
+      <div class="stack-item reveal"><div class="si-layer">Установка</div><div class="si-name">PowerShell</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Брендбук, записанный в код.</h2>
+    <p>Правила стиля, каталог экранов и порядок проверки лежат в репозитории — поэтому презентацию в фирменном стиле собирает любой исполнитель со своим агентом, а не только автор системы.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/#projects">← Смотреть другие проекты</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/video-update.html">Апдейт видеокурсов</a>
+    <a href="/audio-to-book.html">Из аудиокурса в книгу</a>
+  </div>
+  <div class="copy">Дизайн-система презентаций · .pptx по брендбуку из материалов · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>
