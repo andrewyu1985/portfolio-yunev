@@ -1,0 +1,8 @@
+/* Единственные глобальные правила «Газеты»: бумага под страницей,
+   чтобы при оверскролле и под полосой переключателя не проглядывал белый.
+   Действуют только пока на <html> стоит data-design="newspaper". */
+html[data-design="newspaper"],
+html[data-design="newspaper"] body {
+  background-color: #efe8d7;
+  color-scheme: light;
+}

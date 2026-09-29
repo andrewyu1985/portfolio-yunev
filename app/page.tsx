@@ -4,10 +4,11 @@ import Projects from '@/components/Projects'
 import About from '@/components/About'
 import Footer from '@/components/Footer'
 import RevealObserver from '@/components/RevealObserver'
+import DesignShell from '@/components/designs/DesignShell'
 
 export default function Home() {
   return (
-    <>
+    <DesignShell>
       <RevealObserver />
       <Nav />
       <main>
@@ -16,6 +17,6 @@ export default function Home() {
         <About />
       </main>
       <Footer />
-    </>
+    </DesignShell>
   )
 }
