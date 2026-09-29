@@ -13,7 +13,7 @@ interface Props {
 export default function DesignSwitcher({ active, pending, onSelect, onIntent }: Props) {
   const optRefs = useRef<Partial<Record<DesignId, HTMLLabelElement | null>>>({})
   const activeIdx = DESIGNS.findIndex(d => d.id === active)
-  const current = DESIGNS[activeIdx]
+  const others = DESIGNS.filter(d => d.id !== active)
 
   const originOf = (id: DesignId) => {
     const el = optRefs.current[id]
@@ -26,18 +26,23 @@ export default function DesignSwitcher({ active, pending, onSelect, onIntent }: 
     <div className="ds-bar" data-active={active}>
       <div className="ds-bar-in">
         <p className="ds-caption">
-          <span className="ds-caption-k">Одна страница · три дизайна</span>
-          <span className="ds-caption-v">{current.label} — {current.tagline}</span>
+          <span className="ds-caption-k">3 варианта дизайна этой страницы</span>
+          <span className="ds-caption-v">
+            Та же страница ещё в двух стилях — «{others[0].label}» и «{others[1].label}»
+            <span className="ds-arrow" aria-hidden> →</span>
+          </span>
+          <span className="ds-caption-m">Эта страница в 3 вариантах дизайна — переключите:</span>
         </p>
 
         <fieldset className="ds-seg" style={{ ['--i' as string]: activeIdx }}>
-          <legend className="ds-sr">Дизайн страницы</legend>
+          <legend className="ds-sr">Вариант дизайна страницы</legend>
           <span className="ds-thumb" aria-hidden />
           {DESIGNS.map(d => (
             <label
               key={d.id}
               ref={el => { optRefs.current[d.id] = el }}
               className="ds-opt"
+              title={`${d.label} — ${d.tagline}`}
               data-on={d.id === active || undefined}
               data-pending={d.id === pending || undefined}
               onPointerEnter={() => onIntent(d.id)}

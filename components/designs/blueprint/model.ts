@@ -30,7 +30,7 @@ const KNOWN: Record<string, { code: string; color: string }> = {
   'Автоматизация': { code: 'АВ', color: '#0B7566' },
   'Инфраструктура': { code: 'ИН', color: '#6A4BA6' },
   'Телеграм': { code: 'ТГ', color: '#0A7299' },
-  'Контент': { code: 'КН', color: '#A85A12' },
+  'AI Creator': { code: 'AC', color: '#A85A12' },
   'Приложения': { code: 'ПР', color: '#A12F6A' },
 }
 const SPARE = ['#3B6E2A', '#8A3B2E', '#2E5E8A', '#6B5A1E']
