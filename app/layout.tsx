@@ -64,6 +64,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ru" className={`${unbounded.variable} ${manrope.variable} ${jetbrains.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: DESIGN_BOOT_SCRIPT }} />
+        {/* со старого адреса *.vercel.app — на зеркало andrey-yunev.ru, если оно у посетителя открывается */}
+        <script src="/ru-mirror.js" async />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
