@@ -2,7 +2,7 @@
 
 import { Component, Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { CATEGORIES, DISCS, STATUS, TOTAL, person, projectHref, projectHrefLabel } from './data'
-import { warm } from './textures'
+import { warm, frontTexture, backTexture } from './textures'
 
 // three.js — только в браузере: модуль подгружается после монтирования
 const Scene = lazy(() => import('./Scene'))
@@ -15,6 +15,8 @@ class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean
 }
 
 const FLIP_MS = 900
+const preload = (list: { project: { id: string } }[]) =>
+  Promise.all((list as Parameters<typeof frontTexture>[0][]).flatMap(d => [frontTexture(d), backTexture(d)]))
 
 function Digits({ value }: { value: number }) {
   // Счётчик с «барабанными» цифрами
@@ -74,27 +76,28 @@ export default function DiscsApp() {
     else { setFlipped(false); setIndex(i) }
   }, [index])
 
-  const switchCat = useCallback((next: number) => {
-    if (next === cat || switching.current) return
+  // Смена категории: сначала обложки новой категории готовятся, потом — общий переворот.
+  // Список дисков подменяется ближе к середине поворота, а сами обложки на дисках
+  // сцена меняет в момент «ребром к зрителю» — резкой подмены не видно.
+  const flipTo = useCallback((next: number, i: number) => {
+    if (switching.current) return
     switching.current = true
     setIndexOpen(false)
     setFlipped(false)
-    setFlipTick(t => t + 1)
-    // на середине переворота диски смотрят спиной — подменяем список
-    window.setTimeout(() => { setCat(next); setIndex(0) }, FLIP_MS / 2)
-    window.setTimeout(() => { switching.current = false }, FLIP_MS)
-  }, [cat])
+    preload(DISCS[CATEGORIES[next].id]).catch(() => null).then(() => {
+      setFlipTick(t => t + 1)
+      window.setTimeout(() => { setCat(next); setIndex(i) }, FLIP_MS * 0.35)
+      window.setTimeout(() => { switching.current = false }, FLIP_MS)
+    })
+  }, [])
+
+  const switchCat = useCallback((next: number) => { if (next !== cat) flipTo(next, 0) }, [cat, flipTo])
 
   const jumpTo = useCallback((c: number, i: number) => {
     setIndexOpen(false)
     if (c === cat) { setFlipped(false); setIndex(i); return }
-    if (switching.current) return
-    switching.current = true
-    setFlipped(false)
-    setFlipTick(t => t + 1)
-    window.setTimeout(() => { setCat(c); setIndex(i) }, FLIP_MS / 2)
-    window.setTimeout(() => { switching.current = false }, FLIP_MS)
-  }, [cat])
+    flipTo(c, i)
+  }, [cat, flipTo])
 
   // Клавиатура
   useEffect(() => {

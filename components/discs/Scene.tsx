@@ -1,53 +1,63 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { Disc } from './data'
 import { frontTexture, backTexture } from './textures'
 
-// Сцена: ряд дисков, активный — в центре. Прокрутка сдвигает ряд, смена категории
-// переворачивает все диски: пока они спиной к зрителю, обложки подменяются.
+// Сцена: веер дисков внахлёст, активный — в центре. Диски живут в фиксированных «слотах»
+// и никогда не пересоздаются: при смене категории все слоты доворачиваются на пол-оборота,
+// а обложки подменяются в момент, когда диск стоит ребром к зрителю.
 
 export interface SceneProps {
   discs: Disc[]
   index: number
   flipped: boolean          // активный диск повёрнут оборотом (по клику/пробелу)
-  flipTick: number          // растёт при смене категории — запускает общий переворот
+  flipTick: number          // растёт при смене категории — каждый шаг добавляет пол-оборота
   drag: number              // смещение от перетаскивания, в единицах сцены
   onPick: (i: number) => void
   onReady: () => void
   mobile: boolean
 }
 
-const SPACING = 2.9
-const DAMP = 5.5
+export const SLOTS = 7
+const SPACING = 1.32
+const SPACING_MOBILE = 1.05
 
-function damp(cur: number, target: number, dt: number, k = DAMP) {
-  return THREE.MathUtils.damp(cur, target, k, dt)
-}
+const damp = (cur: number, target: number, dt: number, k = 5.5) => THREE.MathUtils.damp(cur, target, k, dt)
 
-function DiscMesh({ d, i, index, flipped, flipPhase, drag, onPick, mobile, onLoaded }: {
-  d: Disc; i: number; index: number; flipped: boolean; flipPhase: number; drag: number
+function Slot({ i, disc, index, flipped, flipTick, drag, onPick, mobile, onLoaded }: {
+  i: number; disc: Disc | null; index: number; flipped: boolean; flipTick: number; drag: number
   onPick: (i: number) => void; mobile: boolean; onLoaded: () => void
 }) {
   const group = useRef<THREE.Group>(null)
-  const [front, setFront] = useState<THREE.Texture | null>(null)
-  const [back, setBack] = useState<THREE.Texture | null>(null)
+  const frontMat = useRef<THREE.MeshPhysicalMaterial>(null)
+  const backMat = useRef<THREE.MeshPhysicalMaterial>(null)
+  const shown = useRef<Disc | null>(null)     // чьи обложки сейчас на диске
+  const pending = useRef<Disc | null>(null)   // чьи обложки ждут момента «ребром»
   const { pointer } = useThree()
-
-  useEffect(() => {
-    let alive = true
-    Promise.all([frontTexture(d), backTexture(d)]).then(([f, b]) => {
-      if (!alive) return
-      setFront(f); setBack(b); onLoaded()
-    })
-    return () => { alive = false }
-  }, [d, onLoaded])
 
   const geo = useMemo(() => new THREE.RingGeometry(0.115, 1, 160, 1), [])
   const rim = useMemo(() => new THREE.CylinderGeometry(1, 1, 0.022, 160, 1, true), [])
   const bore = useMemo(() => new THREE.CylinderGeometry(0.115, 0.115, 0.022, 64, 1, true), [])
+
+  useEffect(() => { pending.current = disc }, [disc])
+
+  // После каждого пол-оборота к зрителю смотрит другая сторона меша,
+  // поэтому при нечётной чётности обложка и этикетка меняются местами
+  const apply = (d: Disc, parity: number) => {
+    shown.current = d
+    pending.current = null
+    Promise.all([frontTexture(d), backTexture(d)]).then(([f, b]) => {
+      if (shown.current !== d) return
+      const fm = frontMat.current, bm = backMat.current
+      const [ft, bt] = parity ? [b, f] : [f, b]
+      if (fm) { fm.map = ft; fm.color.set('#ffffff'); fm.needsUpdate = true }
+      if (bm) { bm.map = bt; bm.color.set('#ffffff'); bm.needsUpdate = true }
+      onLoaded()
+    })
+  }
 
   useFrame((_, dt) => {
     const g = group.current
@@ -55,38 +65,47 @@ function DiscMesh({ d, i, index, flipped, flipPhase, drag, onPick, mobile, onLoa
     const rel = i - index
     const dist = Math.abs(rel)
     const active = rel === 0
-    const sp = mobile ? SPACING * 0.92 : SPACING
+    const sp = mobile ? SPACING_MOBILE : SPACING
     const tx = rel * sp + drag
-    const tz = active ? 0 : -0.6 - dist * 0.3
-    const ty = active ? 0 : -0.06 * dist
-    const scale = active ? 1 : 0.78
-    const flipY = flipPhase * Math.PI + (active && flipped ? Math.PI : 0)
-    const yaw = active ? pointer.x * 0.16 : THREE.MathUtils.clamp(-rel * 0.38, -0.7, 0.7)
-    const tilt = active ? -0.12 + pointer.y * -0.08 : -0.18
+    const tz = active ? 0 : -0.22 * dist - 0.15
+    const ty = active ? 0 : -0.04 * dist
+    const scale = active ? 1 : 0.92
+    const side = rel === 0 ? 0 : (rel > 0 ? -1 : 1)
+    const parity = flipTick % 2
+    const yaw = active ? -0.08 + pointer.x * 0.14 : side * 0.62
+    const tilt = active ? -0.1 + pointer.y * -0.06 : -0.14
+    // наклон задаётся в мировых осях: пол-оборота его не зеркалит, знак один для любой чётности
+    const target = yaw + flipTick * Math.PI + (active && flipped ? Math.PI : 0)
+
     g.position.x = damp(g.position.x, tx, dt)
     g.position.y = damp(g.position.y, ty, dt)
     g.position.z = damp(g.position.z, tz, dt)
-    g.rotation.y = damp(g.rotation.y, yaw + flipY, dt, 6)
+    g.rotation.y = damp(g.rotation.y, target, dt, 6)
     g.rotation.x = damp(g.rotation.x, tilt, dt)
-    const s = damp(g.scale.x, scale, dt)
-    g.scale.setScalar(s)
-    g.visible = dist <= 3
+    g.scale.setScalar(damp(g.scale.x, scale, dt))
+    g.visible = disc !== null && dist <= 3
+
+    // Подмена обложек: ждём, пока до цели останется меньше четверти оборота
+    // (то есть диск прошёл положение «ребром»), а без переворота — сразу
+    const p = pending.current
+    if (p && p !== shown.current) {
+      const remaining = Math.abs(target - g.rotation.y)
+      if (remaining < Math.PI / 2) apply(p, parity)
+    } else if (p && p === shown.current) {
+      pending.current = null
+    }
   })
 
-  const fallback = useMemo(() => new THREE.Color(d.hue), [d.hue])
+  const fallback = disc?.hue ?? '#d9d9d4'
 
   return (
     <group ref={group} onClick={e => { e.stopPropagation(); onPick(i) }}>
-      {/* лицо */}
       <mesh geometry={geo} position={[0, 0, 0.011]}>
-        {/* key: при появлении текстуры материал пересоздаётся — иначе three не перекомпилирует шейдер */}
-        <meshPhysicalMaterial key={front ? 'f-tex' : 'f-plain'} map={front ?? undefined} color={front ? '#ffffff' : fallback} roughness={0.42} metalness={0.05} clearcoat={0.55} clearcoatRoughness={0.3} transparent side={THREE.FrontSide} />
+        <meshPhysicalMaterial ref={frontMat} color={fallback} roughness={0.42} metalness={0.05} clearcoat={0.55} clearcoatRoughness={0.3} transparent side={THREE.FrontSide} />
       </mesh>
-      {/* оборот */}
       <mesh geometry={geo} position={[0, 0, -0.011]} rotation={[0, Math.PI, 0]}>
-        <meshPhysicalMaterial key={back ? 'b-tex' : 'b-plain'} map={back ?? undefined} color={back ? '#ffffff' : '#ece9df'} roughness={0.7} metalness={0.02} clearcoat={0.15} transparent side={THREE.FrontSide} />
+        <meshPhysicalMaterial ref={backMat} color="#ece9df" roughness={0.7} metalness={0.02} clearcoat={0.15} transparent side={THREE.FrontSide} />
       </mesh>
-      {/* ребро и отверстие */}
       <mesh geometry={rim} rotation={[Math.PI / 2, 0, 0]}>
         <meshStandardMaterial color="#d9d9d4" roughness={0.35} metalness={0.2} side={THREE.DoubleSide} />
       </mesh>
@@ -109,30 +128,12 @@ function Rig({ mobile }: { mobile: boolean }) {
 
 function Discs(props: SceneProps) {
   const { discs, index, flipped, flipTick, drag, onPick, onReady, mobile } = props
-  // Общий переворот: фаза 0 → 1 за ~0.9 с; на середине родитель подменяет список дисков
-  const phase = useRef(0)
-  const [phaseState, setPhaseState] = useState(0)
-  const lastTick = useRef(flipTick)
-  useEffect(() => {
-    if (flipTick !== lastTick.current) { lastTick.current = flipTick; phase.current = 0 }
-  }, [flipTick])
-  useFrame((_, dt) => {
-    if (flipTick === 0) return
-    if (phase.current < 1) {
-      phase.current = Math.min(1, phase.current + dt / 0.9)
-      setPhaseState(phase.current)
-    }
-  })
-  // вторая половина переворота: диски уже новые, крутим от -0.5π к 0
-  const flipPhase = flipTick === 0 ? 0 : (phaseState < 0.5 ? phaseState : phaseState - 1)
-
-  const loaded = useRef(0)
-  const onLoaded = useMemo(() => () => { loaded.current += 1; if (loaded.current >= 1) onReady() }, [onReady])
-
+  const loaded = useRef(false)
+  const onLoaded = useMemo(() => () => { if (!loaded.current) { loaded.current = true; onReady() } }, [onReady])
   return (
     <>
-      {discs.map((d, i) => (
-        <DiscMesh key={d.project.id} d={d} i={i} index={index} flipped={flipped} flipPhase={flipPhase} drag={drag} onPick={onPick} mobile={mobile} onLoaded={onLoaded} />
+      {Array.from({ length: SLOTS }, (_, i) => (
+        <Slot key={i} i={i} disc={discs[i] ?? null} index={index} flipped={flipped} flipTick={flipTick} drag={drag} onPick={onPick} mobile={mobile} onLoaded={onLoaded} />
       ))}
     </>
   )
