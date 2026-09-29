@@ -67,9 +67,11 @@ function Slot({ i, disc, index, flipped, flipTick, drag, onPick, mobile, onLoade
     const active = rel === 0
     const sp = mobile ? SPACING_MOBILE : SPACING
     const tx = rel * sp + drag
-    const tz = active ? 0 : -0.22 * dist - 0.15
+    // левые соседи уходят глубже и мельче: там стоит карточка проекта
+    const left = rel < 0
+    const tz = active ? 0 : (left ? -0.4 * dist - 0.25 : -0.22 * dist - 0.15)
     const ty = active ? 0 : -0.04 * dist
-    const scale = active ? 1 : 0.92
+    const scale = active ? 1 : (left ? 0.86 : 0.92)
     const side = rel === 0 ? 0 : (rel > 0 ? -1 : 1)
     const parity = flipTick % 2
     const yaw = active ? -0.08 + pointer.x * 0.14 : side * 0.62

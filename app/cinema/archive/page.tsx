@@ -15,7 +15,7 @@ export default function CinemaArchive() {
   return (
     <>
       <Smooth />
-      <DesignBar />
+      <DesignBar active="cinema" />
       <Nav archive />
       <main id="top" className="cn-arch">
         <header className="cn-arch__head">

@@ -135,6 +135,11 @@
     repeating-linear-gradient(to right, #1b1a17 0 1.5px, transparent 1.5px 3.5px) bottom / 100% 1.6px no-repeat,
     #f3efe4;
 }
+.ds-glyph-discs {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: radial-gradient(circle, #f3f3ef 0 2px, #7a1d1d 2.5px 4.5px, #c9b8a0 5px 6.5px);
+  box-shadow: 0 0 0 1px #1b1a17;
+}
 .ds-opt[data-pending] .ds-glyph { animation: ds-pulse 0.8s ease-in-out infinite; }
 @keyframes ds-pulse { 50% { opacity: 0.25; transform: scale(0.8); } }
 

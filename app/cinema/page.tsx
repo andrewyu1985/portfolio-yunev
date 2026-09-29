@@ -14,7 +14,7 @@ export default function CinemaHome() {
   return (
     <>
       <Smooth />
-      <DesignBar />
+      <DesignBar active="cinema" />
       <Nav />
       <main id="top">
         <Hero />

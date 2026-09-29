@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { DESIGN_COUNT, SWITCHER_ITEMS, type DesignId } from './registry'
+import { DESIGN_COUNT, SWITCHER_ITEMS, captionCount, captionMobile, captionOthers, type DesignId } from './registry'
 
 interface Props {
   active: DesignId
@@ -9,10 +9,6 @@ interface Props {
   onSelect: (id: DesignId, origin?: { x: number; y: number }) => void
   onIntent: (id: DesignId) => void
 }
-
-const quote = (s: string) => `«${s}»`
-const listOf = (labels: string[]) =>
-  labels.length <= 1 ? labels.join('') : `${labels.slice(0, -1).map(quote).join(', ')} и ${quote(labels[labels.length - 1])}`
 
 export default function DesignSwitcher({ active, pending, onSelect, onIntent }: Props) {
   const optRefs = useRef<Partial<Record<DesignId, HTMLLabelElement | null>>>({})
@@ -30,12 +26,12 @@ export default function DesignSwitcher({ active, pending, onSelect, onIntent }: 
     <div className="ds-bar" data-active={active}>
       <div className="ds-bar-in">
         <p className="ds-caption">
-          <span className="ds-caption-k">{DESIGN_COUNT} варианта дизайна этой страницы</span>
+          <span className="ds-caption-k">{captionCount()}</span>
           <span className="ds-caption-v">
-            Та же страница ещё в трёх стилях — {listOf(others)}
+            {captionOthers(others)}
             <span className="ds-arrow" aria-hidden> →</span>
           </span>
-          <span className="ds-caption-m">Эта страница в {DESIGN_COUNT} вариантах дизайна — переключите:</span>
+          <span className="ds-caption-m">{captionMobile()}</span>
         </p>
 
         <fieldset className="ds-seg" style={{ ['--i' as string]: activeIdx, ['--n' as string]: DESIGN_COUNT }}>

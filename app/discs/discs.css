@@ -24,7 +24,8 @@
   font-size: 15px;
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
-  min-height: 100svh;
+  height: 100svh; height: 100dvh;
+  display: flex; flex-direction: column;
   overflow: hidden;
   position: relative;
   /* зерно бумаги */
@@ -35,7 +36,8 @@
 .dk-root button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 .dk-root :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
-.dk { position: relative; height: 100svh; height: 100dvh; }
+.dk { position: relative; flex: 1 1 auto; min-height: 0; }
+.dk-root > .ds-bar { flex: 0 0 auto; }
 
 /* ── Прелоадер ── */
 .dk-preload {
@@ -77,8 +79,13 @@
 
 /* ── Карточка проекта ── */
 .dk-meta {
-  position: absolute; left: var(--gutter); top: clamp(88px, 12vh, 132px); z-index: 10;
-  width: min(330px, 34vw); pointer-events: none;
+  position: absolute; left: calc(var(--gutter) - 16px); top: clamp(76px, 11vh, 120px); z-index: 10;
+  width: min(362px, calc(34vw + 32px)); pointer-events: none;
+  padding: 14px 16px 18px;
+  /* бумажная подложка: в покое сливается с фоном, а когда под карточку заходит диск — держит текст читаемым */
+  background: rgba(241, 240, 236, 0.86);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: 6px;
   animation: dk-in .6s cubic-bezier(.2,.8,.2,1) both;
 }
 .dk-meta a { pointer-events: auto; }
@@ -154,7 +161,7 @@
   .dk-cat { flex: 0 0 auto; padding: 10px 12px; min-height: 44px; border: 1px solid var(--line); border-radius: 999px; font-size: 0.85rem; background: var(--paper); }
   .dk-cat[data-on] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
   .dk-cat::after { display: none; }
-  .dk-meta { position: absolute; left: var(--gutter); right: var(--gutter); top: 64px; width: auto; }
+  .dk-meta { position: absolute; left: calc(var(--gutter) - 12px); right: calc(var(--gutter) - 12px); top: 60px; width: auto; padding: 10px 12px 14px; }
   .dk-meta__title { font-size: 1.5rem; margin-bottom: 8px; }
   .dk-meta__rows > div:nth-child(3) { display: none; }
   .dk-meta__rows dd { font-size: 0.85rem; }
