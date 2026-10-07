@@ -287,7 +287,7 @@ export const projects: Project[] = [
   },
   {
     id: 'forum-video',
-    title: 'Ролик для стенда на форуме',
+    title: 'Ролик для стенда на форуме по микроэлектронике 2026',
     description: 'Имиджевый ролик на 102 секунды для стенда технологического холдинга в микроэлектронике: крутится в цикле и понятен без звука. Вся графика — титры, схемы, переходы — нарисована кодом на Python кадр за кадром в фирменном стиле заказчика. Пять версий меньше чем за сутки — от немой до финальной с голосом и музыкой.',
     icon: '🎬',
     stack: ['Python', 'Pillow · NumPy', 'ffmpeg · NVENC', 'ElevenLabs v3', 'Claude Code'],
@@ -353,8 +353,8 @@ export const projects: Project[] = [
       'Кастомные промпты под нишу и аудиторию; поддержка OpenAI, Claude, Gemini, DeepSeek, Qwen, Ollama и др.',
     ],
     tags: ['AI Creator', 'Автоматизация', 'AI-агенты'],
-    link: 'https://drive.google.com/file/d/1v6D9zaHTpPaSiteopPb91fn_K8w6LCw2/view?usp=sharing',
-    linkLabel: 'Пример Reels',
+    link: '/reels-generator.html',
+    linkLabel: 'Примеры рилсов',
     status: 'live',
   },
   {

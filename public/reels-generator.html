@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Генератор рилсов — три примера в трёх стилях</title>
+<meta name="description" content="Примеры вертикальных роликов: три рилса, опубликованных на YouTube, каждый в своём стиле оформления — «Аура», «Стекло» и «Акварель».">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/presentation.css">
+<style>
+:root{
+  --bg:#fef7f9; --bg2:#fceef2; --bg3:#ffffff;
+  --accent:#db2777; --accent-d:#9d174d; --accent-l:#f9a8d4; --accent-2:#ea580c;
+  --accent-dim:rgba(219,39,119,0.08); --accent-border:rgba(219,39,119,0.26);
+  --shadow-accent:0 12px 34px rgba(219,39,119,0.24);
+  --nav-bg:rgba(254,247,249,0.78); --nav-bg-scrolled:rgba(254,247,249,0.94);
+  --hero-glow:radial-gradient(ellipse 60% 50% at 50% 10%, rgba(219,39,119,0.12), transparent 60%),
+              radial-gradient(ellipse 50% 40% at 85% 80%, rgba(234,88,12,0.11), transparent 55%),
+              radial-gradient(ellipse 45% 40% at 12% 75%, rgba(249,168,212,0.18), transparent 55%);
+}
+/* у Space Grotesk нет кириллицы — русские заголовки берут Inter, а не шрифт браузера по умолчанию */
+.nav-mark,.card h3,.card h4,.cta h2,.reel h3{font-family:'Space Grotesk','Inter',system-ui,sans-serif}
+
+/* три рилса */
+.reels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3vw,34px);margin-top:8px}
+.reel{display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.reel-ph{position:relative;display:block;aspect-ratio:9/16;border-radius:28px;border:7px solid #fff;box-shadow:var(--shadow2);overflow:hidden;background:var(--bg2);transition:transform .3s,box-shadow .3s}
+.reel:hover .reel-ph{transform:translateY(-6px)}
+.reel-ph img{width:100%;height:100%;object-fit:cover}
+.reel-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.92);box-shadow:0 8px 24px rgba(40,20,40,0.22);transition:transform .3s}
+.reel:hover .reel-play{transform:translate(-50%,-50%) scale(1.1)}
+.reel-play svg{width:26px;height:26px;fill:var(--accent);margin-left:4px}
+.reel-style{align-self:flex-start;margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent-d);background:var(--accent-dim);border-radius:100px;padding:5px 12px}
+.reel h3{font-size:19px;font-weight:600;color:var(--ink);line-height:1.3;margin:12px 0 8px}
+.reel p{font-size:15px;color:var(--text2);line-height:1.6;flex:1}
+.reel-go{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--accent-d)}
+@media(max-width:760px){
+  .reels{grid-template-columns:minmax(0,1fr);max-width:320px;margin-left:auto;margin-right:auto;gap:40px}
+}
+</style>
+<script src="/ru-mirror.js" async></script>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/#projects"><span class="nav-mark">Р</span> Генератор рилсов</a>
+  <div class="nav-links">
+    <a href="#primery">Примеры</a>
+  </div>
+  <a class="nav-back" href="/#projects">← к проектам</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 9.5v5l4-2.5z"/></svg>
+    </div>
+    <div class="hero-badge"><span class="dot"></span>примеры опубликованы</div>
+    <h1>Генератор <span class="grad">рилсов</span></h1>
+    <div class="hero-tag">Три рилса · три стиля оформления</div>
+    <p class="hero-sub">Вертикальные ролики для Reels, Shorts и клипов. Ниже три готовых рилса с YouTube: тема у каждого своя, и оформление тоже своё — чтобы лента не выглядела как один и тот же ролик.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#primery">Смотреть примеры →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>3</strong><span>примера</span></div>
+      <div class="hero-stat"><strong>3</strong><span>стиля</span></div>
+      <div class="hero-stat"><strong>9:16</strong><span>вертикаль</span></div>
+      <div class="hero-stat"><strong>43–62 с</strong><span>длина рилса</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРИМЕРЫ -->
+<section class="tinted" id="primery">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="kicker">Примеры</div>
+      <h2>Три рилса с YouTube</h2>
+      <p class="section-intro">Нажмите на любой — ролик откроется на YouTube. Кадры ниже взяты из самих рилсов.</p>
+    </div>
+    <div class="reels">
+      <a class="reel reveal" href="https://youtube.com/shorts/dwRj7qjNdJI" target="_blank" rel="noopener">
+        <span class="reel-ph"><img src="/reels/aura.jpg" alt="Кадр рилса: спикер на светлом фоне, над ним 3D-иллюстрация с кольцами и подпись «Главная причина»" width="540" height="960" loading="lazy"><span class="reel-play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span></span>
+        <span class="reel-style">стиль «Аура» · 43 с</span>
+        <h3>Главная причина, почему разваливаются браки</h3>
+        <p>Спикер вырезан на светлый фон со свечением. Ключевая мысль показана 3D-иллюстрацией, произносимое слово подсвечено в субтитрах.</p>
+        <span class="reel-go">Смотреть на YouTube →</span>
+      </a>
+      <a class="reel reveal" href="https://youtube.com/shorts/C50MFJtoen0" target="_blank" rel="noopener">
+        <span class="reel-ph"><img src="/reels/glass.jpg" alt="Кадр рилса: спикер в стеклянной карточке, над ним плитки «стул», «будильник», «практика благодарности»" width="540" height="960" loading="lazy"><span class="reel-play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span></span>
+        <span class="reel-style">стиль «Стекло» · 49 с</span>
+        <h3>Как начать работать над собой, если нет времени</h3>
+        <p>Спикер в полупрозрачной карточке. Вместо иллюстраций — счётчик минут, переключатели и плитки с предметами, как на экране телефона.</p>
+        <span class="reel-go">Смотреть на YouTube →</span>
+      </a>
+      <a class="reel reveal" href="https://youtube.com/shorts/GzTtkvu0yrM" target="_blank" rel="noopener">
+        <span class="reel-ph"><img src="/reels/akvarel.jpg" alt="Кадр рилса: акварельная колба с сердцем на бумажном фоне, спикер в маленьком окне сверху" width="540" height="960" loading="lazy"><span class="reel-play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span></span>
+        <span class="reel-style">стиль «Акварель» · 62 с</span>
+        <h3>Она выбрала его или его успех?</h3>
+        <p>Рилс из разбора фильма. Акварельные сцены на бумажном фоне, спикер в маленьком окне, заголовки набраны как титры.</p>
+        <span class="reel-go">Смотреть на YouTube →</span>
+      </a>
+    </div>
+    <div class="demo-note reveal">Рилсы опубликованы на YouTube-канале онлайн-школы</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner reveal">
+    <h2>Один формат быстро приедается.</h2>
+    <p>Поэтому у соседних рилсов разное оформление, а подбирается оно под тему ролика.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary" href="/onv-montage.html">Как делаются рилсы из эфиров →</a>
+      <a class="btn btn-ghost" href="/#projects">← Смотреть другие проекты</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/#projects">← Все проекты</a>
+    <a href="/onv-montage.html">ИИ-монтажёр эфиров</a>
+    <a href="/mira-vs-time.html">Mira vs Time</a>
+  </div>
+  <div class="copy">Генератор рилсов · Три примера в трёх стилях · Андрей Юнев · 2026</div>
+</footer>
+
+<script src="/presentation.js"></script>
+</body>
+</html>
