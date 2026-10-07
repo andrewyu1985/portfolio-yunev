@@ -1,4 +1,4 @@
-"""Все ли файлы собранной копии реально отдаёт зеркало andrey-yunev.ru; страницы — ещё и на vercel.app.
+"""Все ли файлы собранной копии реально отдаёт сайт andrey-yunev.ru.
 Запуск: python3 -I -X utf8 live_assets.py <корень репозитория>
 """
 import subprocess, sys
@@ -31,21 +31,6 @@ with ThreadPoolExecutor(6) as ex:
 bad = [(f, c) for f, c in res if c != '200']
 # повтор для сбойных — хостинг иногда режет частые запросы
 bad = [(f, c2) for f, c in bad for c2 in [head('https://andrey-yunev.ru/' + quote(f), True)] if c2 != '200']
-print(f'зеркало: файлов проверено {len(files)}, не отдаются: {len(bad)}')
+print(f'сайт: файлов проверено {len(files)}, не отдаются: {len(bad)}')
 for f, c in bad:
     print('   ', c, f)
-
-pages = [f for f in files if f.endswith('.html')]
-routes = ['', 'cinema', 'cinema/archive', 'discs'] + [f for f in pages if '/' not in f and f not in ('index.html', '404.html')]
-
-
-def vc(r):
-    return r, head('https://andrey-yunev.vercel.app/' + r, False)
-
-
-with ThreadPoolExecutor(6) as ex:
-    res = list(ex.map(vc, routes))
-badv = [(r, c) for r, c in res if c not in ('200', '308', '307')]
-print(f'vercel: страниц проверено {len(routes)}, не открываются: {len(badv)}')
-for r, c in badv:
-    print('   ', c, '/' + r)
