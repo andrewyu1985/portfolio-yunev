@@ -44,14 +44,15 @@
 .gallery img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s}
 .gallery img:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:var(--shadow2)}
 /* три стиля: кадры из готовых рилсов */
-.styles3{display:grid;grid-template-columns:repeat(3,minmax(0,250px));gap:clamp(18px,3vw,34px);justify-content:center;margin-top:8px}
+.styles3{display:grid;grid-template-columns:repeat(4,minmax(0,225px));gap:clamp(18px,3vw,34px);justify-content:center;margin-top:8px}
 .st{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:inherit;text-align:center}
 .st .phone{transition:transform .3s}
 .st:hover .phone{transform:translateY(-6px)}
 .st-name{margin-top:16px;font-family:'Space Grotesk','Inter',sans-serif;font-size:19px;font-weight:600;color:var(--ink)}
 .st-d{margin-top:6px;font-size:14.5px;color:var(--text2);line-height:1.55}
 .st-go{margin-top:10px;font-family:'JetBrains Mono';font-size:12.5px;font-weight:700;color:var(--accent-d)}
-@media(max-width:720px){.styles3{grid-template-columns:minmax(0,260px);gap:36px}}
+@media(max-width:980px){.styles3{grid-template-columns:repeat(2,minmax(0,240px));gap:34px 18px}}
+.st-note{margin-top:10px;font-family:'JetBrains Mono';font-size:12.5px;font-weight:700;color:var(--text3)}
 /* ссылки на ролики */
 .vids{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
 @media(max-width:860px){.vids{grid-template-columns:1fr}}
@@ -219,7 +220,7 @@
   <div class="section-head reveal">
     <div class="kicker">Стили</div>
     <h2>Не один формат: четыре стиля оформления</h2>
-    <p class="section-intro">Лента из рилсов в одном оформлении быстро приедается. Поэтому стиль выбирается под каждый рилс, а соседние выходят в разных: «Аура», «Акварель», «Кинопостер» и «Стекло». Три из них — на кадрах из опубликованных роликов.</p>
+    <p class="section-intro">Лента из рилсов в одном оформлении быстро приедается. Поэтому стиль выбирается под каждый рилс, а соседние выходят в разных: «Аура», «Акварель», «Кинопостер» и «Стекло». Все четыре — на кадрах из готовых рилсов.</p>
   </div>
   <div class="styles3">
     <a class="st reveal" href="https://youtube.com/shorts/dwRj7qjNdJI" target="_blank" rel="noopener">
@@ -240,8 +241,14 @@
       <span class="st-d">Акварельные сцены на бумаге и заголовки как титры. Стиль пришёл из рилса по разбору фильма.</span>
       <span class="st-go">Смотреть рилс →</span>
     </a>
+    <div class="st reveal">
+      <span class="phone"><img src="/onv/s-poster.jpg" alt="Кадр рилса в стиле «Кинопостер»: костёр на берегу и крупная надпись «Внутренний огонь»" width="540" height="960" loading="lazy"></span>
+      <span class="st-name">«Кинопостер»</span>
+      <span class="st-d">Кадры во весь экран, как в кино: костёр, дорога, рассвет. Плакатный шрифт и подводка курсивом.</span>
+      <span class="st-note">рилс к вопросу о зависти</span>
+    </div>
   </div>
-  <div class="demo-note reveal">Кадры взяты из готовых рилсов на YouTube-канале школы. Нажмите на любой, чтобы посмотреть ролик</div>
+  <div class="demo-note reveal">Кадры взяты из готовых рилсов. Три из них открываются на YouTube-канале школы по нажатию</div>
 </section>
 
 <!-- ПРОВЕРКИ -->

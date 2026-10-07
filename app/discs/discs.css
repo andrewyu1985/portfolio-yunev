@@ -106,6 +106,7 @@
   transition: color .2s, border-color .2s;
 }
 .dk-open:hover { color: var(--accent); border-color: var(--accent); }
+.dk-open--second { display: table; margin-top: 10px; font-size: 0.95rem; border-top: 0; }
 
 /* ── Края ── */
 .dk-edge { position: absolute; top: 50%; z-index: 10; margin: 0; font-size: 0.8rem; color: var(--ink-2); transform: translateY(-50%); pointer-events: none; }

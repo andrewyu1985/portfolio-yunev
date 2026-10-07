@@ -51,6 +51,7 @@ export default function DiscsApp() {
   const discs = DISCS[CATEGORIES[cat].id]
   const disc = discs[Math.min(index, discs.length - 1)]
   const href = projectHref(disc.project)
+  const demo = disc.project.link && disc.project.demoLink ? disc.project.demoLink : undefined
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 760px)')
@@ -194,6 +195,11 @@ export default function DiscsApp() {
         {href && (
           <a className="dk-open" href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}>
             {projectHrefLabel(disc.project)}
+          </a>
+        )}
+        {demo && (
+          <a className="dk-open dk-open--second" href={demo} target={demo.startsWith('http') ? '_blank' : undefined} rel={demo.startsWith('http') ? 'noopener noreferrer' : undefined}>
+            {disc.project.demoLabel ?? 'Демо'}
           </a>
         )}
       </aside>

@@ -36,6 +36,12 @@ export default function CinemaArchive() {
                     {href ? <a href={href} target={ext ? '_blank' : undefined} rel={ext ? 'noopener noreferrer' : undefined}>{p.title}</a> : p.title}
                   </h2>
                   <p className="cn-arch__desc">{p.description}</p>
+                  {(p.link || p.demoLink) && (
+                    <p className="cn-arch__links">
+                      {p.link && <a href={p.link} target={p.link.startsWith('http') ? '_blank' : undefined} rel={p.link.startsWith('http') ? 'noopener noreferrer' : undefined}>{p.linkLabel ?? 'Открыть'}</a>}
+                      {p.demoLink && <a href={p.demoLink} target={p.demoLink.startsWith('http') ? '_blank' : undefined} rel={p.demoLink.startsWith('http') ? 'noopener noreferrer' : undefined}>{p.demoLabel ?? 'Демо'}</a>}
+                    </p>
+                  )}
                 </div>
                 <div className="cn-arch__side">
                   <p className="cn-arch__tags">{p.tags.join(' · ')}</p>
