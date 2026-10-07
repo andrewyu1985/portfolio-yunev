@@ -31,7 +31,7 @@ const jsonLd = {
   name: 'Андрей Юнев',
   jobTitle: 'Архитектор AI-систем',
   email: 'andrewyunev@gmail.com',
-  url: 'https://portfolio-yunev.vercel.app',
+  url: 'https://andrey-yunev.ru',
   sameAs: [
     'https://github.com/andrewyu1985',
     'https://t.me/Andrewyunev',
@@ -43,7 +43,7 @@ const jsonLd = {
 export const metadata: Metadata = {
   title: 'Андрей Юнев — AI-агенты и автоматизация',
   description: 'Портфолио: AI-оркестрация, автоматизация бизнес-процессов, Telegram-боты. 17+ лет в операционном управлении.',
-  metadataBase: new URL('https://portfolio-yunev.vercel.app'),
+  metadataBase: new URL('https://andrey-yunev.ru'),
   openGraph: {
     title: 'Андрей Юнев — AI-агенты и автоматизация',
     description: 'AI-агенты, автоматизация, MCP-интеграции, контент-пайплайны',

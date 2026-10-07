@@ -2,7 +2,7 @@
 
 Сайт-портфолио архитектора AI-систем: 28 проектов AI-автоматизации, контент-пайплайнов и инфраструктуры.
 
-- Прод: https://andrey-yunev.vercel.app
+- Сайт: https://andrey-yunev.ru (хостинг reg.ru) — основной и единственный адрес для резюме и писем. На Vercel остаётся техническая копия: она нужна только затем, чтобы старые ссылки вида andrey-yunev.vercel.app переводили на основной адрес
 - Репозиторий: https://github.com/andrewyu1985/portfolio-yunev
 - Стек: Next.js 16.2.4 (App Router, Turbopack), React 19.2, TypeScript, Tailwind v4
 
