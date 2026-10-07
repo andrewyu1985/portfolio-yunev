@@ -109,7 +109,7 @@ export default function Featured() {
       </div>
 
       <p className="cn-deck__all">
-        <a className="cn-link" href="/cinema/archive">Все 32 проекта в архиве</a>
+        <a className="cn-link" href="/cinema/archive">Все 28 проектов в архиве</a>
       </p>
     </section>
   )

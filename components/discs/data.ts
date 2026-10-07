@@ -10,12 +10,12 @@ export interface Category {
 }
 
 export const CATEGORIES: Category[] = [
-  { id: 'agents',   label: 'Агенты',         hue: '#7a1d1d', ids: ['hermes-system', 'ecommerce-agent', 'ars-orchestrator', 'second-brain-bot', 'tg-voice-agent', 'news-digest', 'uneversum-bot'] },
-  { id: 'research', label: 'Исследования',   hue: '#22306e', ids: ['deep-research', 'tg-chat-analyzer', 'yt-radar', 'hh-parser'] },
-  { id: 'apps',     label: 'Приложения',     hue: '#155c55', ids: ['private-chat', 'navigator-training', 'quiz-funnel', 'uneversum-catalog', 'breathing-app', 'website-creation'] },
+  { id: 'agents',   label: 'Агенты',         hue: '#7a1d1d', ids: ['hermes-system', 'ecommerce-agent', 'ars-orchestrator', 'second-brain-bot', 'tg-voice-agent', 'news-digest'] },
+  { id: 'research', label: 'Исследования',   hue: '#22306e', ids: ['deep-research', 'tg-chat-analyzer', 'hh-parser'] },
+  { id: 'apps',     label: 'Приложения',     hue: '#155c55', ids: ['private-chat', 'navigator-training', 'uneversum-catalog', 'breathing-app', 'website-creation'] },
   { id: 'video',    label: 'Видео',          hue: '#a04a12', ids: ['onv-montage', 'video-update', 'forum-video', 'mira-vs-time', 'told-after-dark', 'reels-generator'] },
   { id: 'creator',  label: 'AI-креатор',     hue: '#4d2a5e', ids: ['ai-images', 'ai-presentations', 'pptx-design-system', 'handwriting-ocr', 'audio-to-book', 'verified-notes'] },
-  { id: 'infra',    label: 'Инфраструктура', hue: '#5a5f2e', ids: ['ai-vps-access', 'vpn-infra', 'chrome-downloader'] },
+  { id: 'infra',    label: 'Инфраструктура', hue: '#5a5f2e', ids: ['ai-vps-access', 'chrome-downloader'] },
 ]
 
 export interface Disc {
@@ -23,7 +23,7 @@ export interface Disc {
   art: string
   hue: string
   category: Category
-  n: number // сквозной номер 1..32
+  n: number // сквозной номер 1..28
 }
 
 const byId = new Map(projects.map(p => [p.id, p]))

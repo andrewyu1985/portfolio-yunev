@@ -216,7 +216,7 @@ export default function DiscsApp() {
 
       <p className="dk-hint" aria-hidden>← → листать · пробел — перевернуть · Enter — открыть</p>
 
-      {/* Указатель — все 32 */}
+      {/* Указатель — все 28 */}
       <div className={`dk-index${indexOpen ? ' is-open' : ''}`} role="dialog" aria-label="Все проекты">
         <div className="dk-index__in">
           {CATEGORIES.map((c, ci) => (

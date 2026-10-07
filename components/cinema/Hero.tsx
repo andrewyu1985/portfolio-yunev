@@ -79,7 +79,7 @@ export default function Hero() {
         </p>
         <div className="cn-hero__meta">
           <span>17 лет в управлении</span>
-          <span>32 проекта</span>
+          <span>28 проектов</span>
           <span>Без единой строки кода руками</span>
         </div>
       </div>

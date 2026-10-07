@@ -30,7 +30,7 @@ export default function Archive() {
       <div className="cn-wall__head">
         <p className="cn-mani__label">Архив</p>
         <h2 className="cn-h2">У каждого проекта — своя страница</h2>
-        <a className="cn-link" href="/cinema/archive">Список всех 32</a>
+        <a className="cn-link" href="/cinema/archive">Список всех 28</a>
       </div>
       <div className="cn-wall__view">
         <div className="cn-wall__plane">

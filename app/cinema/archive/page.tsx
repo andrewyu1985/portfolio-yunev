@@ -5,7 +5,7 @@ import Smooth from '@/components/cinema/Smooth'
 import { allProjects, person } from '@/components/cinema/data'
 
 export const metadata: Metadata = {
-  title: 'Архив — все 32 проекта · Андрей Юнев',
+  title: 'Архив — все 28 проектов · Андрей Юнев',
   description: 'Полный список проектов: AI-агенты, исследования, продукты школы, видео, книги, инфраструктура.',
 }
 
@@ -20,7 +20,7 @@ export default function CinemaArchive() {
       <main id="top" className="cn-arch">
         <header className="cn-arch__head">
           <p className="cn-mani__label">Архив</p>
-          <h1 className="cn-h2">Все {allProjects.length} проекта</h1>
+          <h1 className="cn-h2">Все {allProjects.length} проектов</h1>
           <p className="cn-arch__lead">По порядку тем: агенты и автоматизация, исследования, продукты школы, видео, изображения и книги, инфраструктура.</p>
         </header>
 

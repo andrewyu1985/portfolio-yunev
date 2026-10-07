@@ -57,7 +57,7 @@ export const facts = [
 export const archiveShots = [
   'private-chat', 'hermes-system', 'ars-orchestrator', 'onv-montage', 'navigator',
   'verified-notes', 'pptx-design-system', 'forum-video', 'audio-to-book', 'told-after-dark',
-  'mira-vs-time', 'quiz-funnel', 'uneversum-catalog', 'video-update', 'second-brain-bot',
+  'mira-vs-time', 'website-creation', 'uneversum-catalog', 'video-update', 'second-brain-bot',
 ].map(id => `/cinema/archive/${id}.jpg`)
 
 export const aboutShots = [
@@ -71,7 +71,7 @@ export const timeline = [
   { year: '2015', text: '«Роботрек» — клуб робототехники, 150+ учеников в месяц, первое место на всероссийских соревнованиях' },
   { year: '2017', text: '«Юневерсум» — образовательный проект, аудитория 20 000+ человек' },
   { year: '2025', text: 'Первые AI-агенты и автоматизированные конвейеры' },
-  { year: '2026', text: '«Гермес» — автономный агент, закрытый чат для клуба, 32 проекта на витрине' },
+  { year: '2026', text: '«Гермес» — автономный агент, закрытый чат для клуба, 28 проектов на витрине' },
 ]
 
 export const allProjects = projects
